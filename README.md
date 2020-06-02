@@ -2,8 +2,13 @@
 
 ## Arbetssätt
 
-Samla era erfarenheter från Kanban, Scrum och diskussionerna av Modern Agile och kom överens i gruppen vilka delar och hur ni ska inkorporera detta i erat arbete. Dokumentera vad ni kommer överens om i README.md i erat repository.
+Vi kommer använda ett Trellobräde för att hålla koll på vad vi ska göra, gör och har gjort i ren SCRUM-anda,
+men vi kommer också plocka in lite från kanbanmetoden:
+Några scrumkolumner med user stories (backlog), to do och on going.
+Några kolumner för "features" som matchar korten i backlogen, så vi får en tydligare överblick av vad som ska göras.
 
+Alltså: En kolumn med user stories backlog som innehåller vanliga user stories-kort med egna färger.
+I kolumnen till höger om completed user stories har vi kolumner med Tasks, där det framgår tydligare med hur user storien blir klar.
 
 ## Instruktioner
 Ni ska bygga en FrontEnd till en färdig BackEnd.
