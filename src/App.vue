@@ -1,20 +1,54 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <header>
+      <button @click="toggleLogin()">Toggle Login</button>
+      <button @click="toggleCart()">Toggle ShoppingCart</button>
+    </header>
+    <Login v-if="this.$store.state.showLogin" />
+    <ShoppingCart v-if="this.$store.state.showCart" />
+    <router-view />
   </div>
 </template>
-
+<script>
+import Login from "./components/Login";
+import ShoppingCart from "./components/ShoppingCart";
+export default {
+  data() {
+    return {};
+  },
+  components: {
+    Login,
+    ShoppingCart
+  },
+  methods: {
+    toggleLogin() {
+      console.log("Pressed Login");
+      this.$store.commit("toggleLogin");
+    },
+    toggleCart() {
+      console.log("Pressed Cart");
+      this.$store.commit("toggleCart");
+    }
+  }
+};
+</script>
 <style lang="scss">
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 #app {
+  position: relative;
+
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  // text-align: center;
   color: #2c3e50;
+  background-color: lightpink;
+  height: 100vh;
+  width: 100vw;
 }
 
 #nav {
