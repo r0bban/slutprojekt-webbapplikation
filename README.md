@@ -10,6 +10,8 @@ Några kolumner för "features" som matchar korten i backlogen, så vi får en t
 Alltså: En kolumn med user stories backlog som innehåller vanliga user stories-kort med egna färger.
 I kolumnen till höger om completed user stories har vi kolumner med Tasks, där det framgår tydligare med hur user storien blir klar.
 
+Vi tänker också köra sprint-möten innan, under och efter "sprintarna" för att se till att alla är på samma nivå.
+
 ## Instruktioner
 Ni ska bygga en FrontEnd till en färdig BackEnd.
 BackEnden finns på följande länk [https://github.com/zocom-david-lundholm/webshop-rest-api](https://github.com/zocom-david-lundholm/webshop-rest-api)
