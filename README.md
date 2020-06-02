@@ -29,6 +29,13 @@ Det ska finnas en `My Account`-view med information om ditt konto och din orderh
 ### Inloggad Admin
 Det ska finnas en `Admin Area`-view med ett CRUD-gränssnitt för alla produkter
 
+### Övriga Views och Features
+* En produktlista view
+* En utchecknings view 
+* En enstaka produkt (view eller modal)
+* En kundkorg (egen view eller modal)
+* Inloggningsformulär (egen view eller modal)
+
 
 ### API Specifikation
 
