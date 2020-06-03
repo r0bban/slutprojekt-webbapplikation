@@ -1,21 +1,45 @@
 <template>
   <div class="login">
-    <label for="username">Username</label>
-    <input type="text" id="username" />
-    <label for="password">Password</label>
-    <input type="text" id="password" />
+    <form onsubmit="return false">
+      <label for="username">E-mail</label>
+      <input v-model="creds.email" type="text" id="username" placeholder="epost@snabelapunkt.com" />
+      <label for="password">Password</label>
+      <input v-model="creds.password" type="password" id="password" />
+      <button @click="submit()">Skicka</button>
+    </form>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      creds: {
+        email: "",
+        password: ""
+      }
+    };
+  },
+  methods: {
+    submit() {
+      this.$store.dispatch("loginUser", this.creds);
+    }
+  }
+};
 </script>
 <style lang='scss' scoped>
-.login {
+div {
+  background-color: lightcoral;
   position: absolute;
   left: 50%;
-  top: 60%;
-  background-color: seagreen;
-  width: 300px;
-  height: 300px;
+  top: 20%;
+  width: 200px;
+  height: 200px;
+  form {
+    display: flex;
+    flex-direction: column;
+    form > * {
+      margin: 1.2rem;
+    }
+  }
 }
 </style>
