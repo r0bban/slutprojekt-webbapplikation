@@ -1,7 +1,4 @@
 async function authorizeUser(payload) {
-    // Simple POST request with a JSON body using fetch
-
-
     const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json",
