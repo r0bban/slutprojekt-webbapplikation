@@ -24,7 +24,7 @@ export default new Vuex.Store({
       state.token = token;
       localStorage.userToken = token
     },
-    setCurrentUser(state, user){
+    setCurrentUser(state, user) {
       state.currentUser = user;
       localStorage.currentUser = user
     }
@@ -37,8 +37,11 @@ export default new Vuex.Store({
   actions: {
     async loginUser(context, payload) {
       const data = await API.authorizeUser(payload);
-      context.commit('setToken', data.token);
-      context.commit('setCurrentUser', data.user)
+      if (data) {
+        context.commit('setToken', data.token);
+        context.commit('setCurrentUser', data.user)
+        this.state.showLogin = false
+      }
     },
   },
   modules: {},
