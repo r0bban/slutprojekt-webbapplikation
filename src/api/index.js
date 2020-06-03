@@ -12,10 +12,10 @@ async function authorizeUser(payload) {
     const response = await fetch('http://localhost:5000/api/auth/', requestOptions);
     const data = await response.json();
 
-    if (response.statusText == "OK") {
+    if (response.status == 200) {
         return data;
     }
-    else(alert("no"))
+    else(alert(response.status + " " + response.statusText))
 }
 
 export { authorizeUser }
