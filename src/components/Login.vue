@@ -6,6 +6,7 @@
       <label for="password">Password</label>
       <input v-model="creds.password" type="password" id="password" />
       <button @click="submit()">Skicka</button>
+      <button @click="reobert()">Robert</button>
     </form>
   </div>
 </template>
@@ -21,7 +22,10 @@ export default {
   },
   methods: {
     submit() {
-      this.$store.dispatch("loginUser", this.creds)
+      this.$store.dispatch("loginUser", this.creds);
+    },
+    reobert(){
+      this.$store.dispatch("registerNewProduct", this.$store.state.newProduct)
     }
   }
 };

@@ -32,6 +32,9 @@ export default {
       console.log("Pressed Cart");
       this.$store.commit("toggleCart");
     }
+  },
+  async beforeMount() {
+    await this.$store.dispatch("initialProductLoad");
   }
 };
 </script>
@@ -39,5 +42,9 @@ export default {
 * {
   padding: 0;
   margin: 0;
+}
+#app {
+  display: grid;
+  grid-template-rows: 5vh minmax(95vh, auto);
 }
 </style>

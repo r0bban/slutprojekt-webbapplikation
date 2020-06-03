@@ -15,7 +15,7 @@ async function authorizeUser(payload) {
     if (response.status == 200) {
         return data;
     }
-    else(alert(response.status + " " + response.statusText))
+    else (alert(response.status + " " + response.statusText))
 }
 
 export { authorizeUser }
