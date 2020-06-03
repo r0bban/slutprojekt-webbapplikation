@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import API from "@/api/server";
-import * as API-auth from '@/api'
+import * as APIauth from '@/api';
 
 Vue.use(Vuex);
 
@@ -27,14 +27,14 @@ export default new Vuex.Store({
       "shortDesc": "Unisex",
       "longDesc": "kalle NY ipsum dolor sit amet, 50-50 Sidewalk Surfer nose bump kickflip bruised heel fakie berm soul skate. Bluntslide transition nollie hard flip bank pressure flip ho-ho. Steps rip grip nosepicker roll-in yeah 540 pump. ",
       "imgFile": "kalle NY skateboard-generic.png",
-  },
+    },
     updatedProduct: {
       "title": "uppdtaerad produkt",
       "price": 123,
       "shortDesc": "Unisex",
       "longDesc": "kalle uppdaterad ipsum dolor sit amet, 50-50 Sidewalk Surfer nose bump kickflip bruised heel fakie berm soul skate. Bluntslide transition nollie hard flip bank pressure flip ho-ho. Steps rip grip nosepicker roll-in yeah 540 pump. ",
       "imgFile": "kalle uppdaterad skateboard-generic.png",
-  },
+    },
     currentUser: "",
     userToken: "",
   },
@@ -45,9 +45,10 @@ export default new Vuex.Store({
     toggleLogin(state) {
       state.showLogin = !state.showLogin;
     },
-      setToken(state, token) {
-      state.token = token;
+    setToken(state, token) {
+      state.userToken = token;
       localStorage.userToken = token
+      console.log("userToken: " + state.userToken)
     },
     setCurrentUser(state, user) {
       state.currentUser = user;
@@ -64,7 +65,7 @@ export default new Vuex.Store({
     setStoreProducts(state, newProductList) {
       state.products = newProductList;
     },
-    addProductToStoreProducts(state, newProduct){
+    addProductToStoreProducts(state, newProduct) {
       state.products.push(newProduct)
     }
   },
@@ -83,12 +84,12 @@ export default new Vuex.Store({
       const newProductList = await API.fetchProducts(context.state.userToken);
       context.commit("setStoreProducts", newProductList);
     },
-    async registerNewProduct(context, newProduct){
+    async registerNewProduct(context, newProduct) {
       const addedProduct = await API.postProductRequest(newProduct, context.state.userToken);
       context.commit("addProductToStoreProducts", addedProduct);
     },
-      async loginUser(context, payload) {
-      const data = await API.authorizeUser(payload);
+    async loginUser(context, payload) {
+      const data = await APIauth.authorizeUser(payload);
       if (data) {
         context.commit('setToken', data.token);
         context.commit('setCurrentUser', data.user)

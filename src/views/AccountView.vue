@@ -8,6 +8,7 @@
       <h3>Mitt konto</h3>
       <h4>{{getCurrentUser.name}}</h4>
       <h4>{{getCurrentUser.email}}</h4>
+      <p>{{this.$store.state.userToken}}</p>
       <button @click="logout()">Logga ut</button>
     </div>
   </div>
