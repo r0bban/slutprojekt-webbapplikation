@@ -3,6 +3,9 @@
     <header>
       <button @click="toggleLogin()">Toggle Login</button>
       <button @click="toggleCart()">Toggle ShoppingCart</button>
+      <router-link :to="{name: 'Account'}">Go to Account</router-link>
+      <router-link :to="{name: 'Admin'}">Go to Admin</router-link>
+      <router-link :to="{name: 'Registration'}">Go to Registration</router-link>
     </header>
     <Login v-if="this.$store.state.showLogin" />
     <ShoppingCart v-if="this.$store.state.showCart" />
