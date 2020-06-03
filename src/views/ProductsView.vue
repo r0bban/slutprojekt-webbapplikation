@@ -20,7 +20,4 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-.products {
-  background-color: lightgray;
-}
 </style>
