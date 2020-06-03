@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
+
 import API from "@/api/server";
+import * as API-auth from '@/api'
 
 Vue.use(Vuex);
 
@@ -8,8 +10,6 @@ export default new Vuex.Store({
   state: {
     products: [],
     cart: [],
-    currentUser: "",
-    userToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlcyNUFZR0U0Z2MxZ1hmMGQiLCJleHAiOjE1OTExOTU4NzksImlhdCI6MTU5MTE5MjI3OX0.1hD8y3ACV8uREIn7HYgxTGkiM6xDwnDmhqGH4A229e0",
     tmpData: [
       { value: "Champinjon", id: 1 },
       { value: "Räkor", id: 2 },
@@ -20,6 +20,7 @@ export default new Vuex.Store({
     ],
     showCart: false,
     showLogin: false,
+
     newProduct: {
       "title": "Johannes produkt",
       "price": 123,
@@ -34,6 +35,8 @@ export default new Vuex.Store({
       "longDesc": "kalle uppdaterad ipsum dolor sit amet, 50-50 Sidewalk Surfer nose bump kickflip bruised heel fakie berm soul skate. Bluntslide transition nollie hard flip bank pressure flip ho-ho. Steps rip grip nosepicker roll-in yeah 540 pump. ",
       "imgFile": "kalle uppdaterad skateboard-generic.png",
   },
+    currentUser: "",
+    userToken: "",
   },
   mutations: {
     toggleCart(state) {
@@ -42,6 +45,22 @@ export default new Vuex.Store({
     toggleLogin(state) {
       state.showLogin = !state.showLogin;
     },
+      setToken(state, token) {
+      state.token = token;
+      localStorage.userToken = token
+    },
+    setCurrentUser(state, user) {
+      state.currentUser = user;
+      state.showLogin = false
+      localStorage.currentUser = user
+    },
+    logout(state) {
+      state.currentUser = "",
+        state.userToken = "",
+        localStorage.removeItem("currentUser"),
+        localStorage.removeItem("userToken")
+    },
+
     setStoreProducts(state, newProductList) {
       state.products = newProductList;
     },
@@ -49,7 +68,11 @@ export default new Vuex.Store({
       state.products.push(newProduct)
     }
   },
-  getters: {},
+  getters: {
+    getCurrentUser: (state) => {
+      return state.currentUser
+    }
+  },
   actions: {
     async initialProductLoad(context) {
       if (context.state.products.length <= 0) {
@@ -63,8 +86,20 @@ export default new Vuex.Store({
     async registerNewProduct(context, newProduct){
       const addedProduct = await API.postProductRequest(newProduct, context.state.userToken);
       context.commit("addProductToStoreProducts", addedProduct);
+    },
+      async loginUser(context, payload) {
+      const data = await API.authorizeUser(payload);
+      if (data) {
+        context.commit('setToken', data.token);
+        context.commit('setCurrentUser', data.user)
+
+      }
+    },
+    logout(context) {
+      context.commit('logout');
     }
   },
+
   modules: {},
 });
 
