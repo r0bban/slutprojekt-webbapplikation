@@ -1,5 +1,9 @@
 <template>
   <div class="accountView">
+    <div v-if="!getCurrentUser">
+      <h3>Inte inloggad</h3>
+      <button @click="toggleLogin()">Logga in då.</button>
+    </div>
     <div v-if="getCurrentUser" class="details">
       <h3>Mitt konto</h3>
       <h4>{{getCurrentUser.name}}</h4>
@@ -21,6 +25,9 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
+    },
+    toggleLogin(){
+      this.$store.commit("toggleLogin");
     }
   }
 };

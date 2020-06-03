@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     submit() {
-      this.$store.dispatch("loginUser", this.creds);
+      this.$store.dispatch("loginUser", this.creds)
     }
   }
 };
