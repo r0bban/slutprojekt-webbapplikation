@@ -1,9 +1,10 @@
 <template>
   <div class="accountView">
-    <div class="details">
+    <div v-if="getCurrentUser" class="details">
       <h3>Mitt konto</h3>
       <h4>{{getCurrentUser.name}}</h4>
       <h4>{{getCurrentUser.email}}</h4>
+      <button @click="logout()">Logga ut</button>
     </div>
   </div>
 </template>
@@ -12,6 +13,14 @@ export default {
   computed: {
     getCurrentUser() {
       return this.$store.state.currentUser;
+    },
+    getLocalStorageUser() {
+      return localStorage.getItem("currentUser");
+    }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
     }
   }
 };
