@@ -10,6 +10,14 @@ export default new Vuex.Store({
     cart: [],
     currentUser: "",
     userToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlcyNUFZR0U0Z2MxZ1hmMGQiLCJleHAiOjE1OTExOTU4NzksImlhdCI6MTU5MTE5MjI3OX0.1hD8y3ACV8uREIn7HYgxTGkiM6xDwnDmhqGH4A229e0",
+    tmpData: [
+      { value: "Champinjon", id: 1 },
+      { value: "Räkor", id: 2 },
+      { value: "Krabba", id: 3 },
+      { value: "Kräfta", id: 4 },
+      { value: "Ostron", id: 5 },
+      { value: "Musslor", id: 6 },
+    ],
     showCart: false,
     showLogin: false,
     newProduct: {

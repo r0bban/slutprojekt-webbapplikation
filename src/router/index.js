@@ -3,6 +3,9 @@ import VueRouter from "vue-router";
 import ProductsView from "../views/ProductsView.vue";
 import Product from "../components/Product.vue";
 import CheckoutView from "../views/CheckoutView.vue";
+import AdminView from "../views/AdminView.vue";
+import AccountView from "../views/AccountView.vue";
+import RegistrationView from "../views/RegistrationView.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +30,21 @@ const routes = [
     path: "/checkout",
     name: "Checkout",
     component: CheckoutView,
+  },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: AdminView,
+  },
+  {
+    path: "/account",
+    name: "Account",
+    component: AccountView,
+  },
+  {
+    path: "/registration",
+    name: "Registration",
+    component: RegistrationView,
   },
   // {
   //   path: '/about',
