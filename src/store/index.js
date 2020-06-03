@@ -26,9 +26,17 @@ export default new Vuex.Store({
     },
     setCurrentUser(state, user) {
       state.currentUser = user;
+      state.showLogin = false
       localStorage.currentUser = user
-    }
+    },
+    logout(state) {
+      state.currentUser = "",
+        state.userToken = "",
+        localStorage.removeItem("currentUser"),
+        localStorage.removeItem("userToken")
+    },
   },
+
   getters: {
     getCurrentUser: (state) => {
       return state.currentUser
@@ -40,9 +48,12 @@ export default new Vuex.Store({
       if (data) {
         context.commit('setToken', data.token);
         context.commit('setCurrentUser', data.user)
-        this.state.showLogin = false
+
       }
     },
+    logout(context) {
+      context.commit('logout');
+    }
   },
   modules: {},
 });
