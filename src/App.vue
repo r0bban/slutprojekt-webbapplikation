@@ -4,10 +4,12 @@
     <Login v-if="this.$store.state.showLogin" />
     <ShoppingCart v-if="this.$store.state.showCart" />
     <router-view />
+    <Footer />
   </div>
 </template>
 <script>
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Login from "./components/Login";
 import ShoppingCart from "./components/ShoppingCart";
 export default {
@@ -17,7 +19,8 @@ export default {
   components: {
     Login,
     ShoppingCart,
-    Header
+    Header,
+    Footer
   },
   methods: {},
   async beforeMount() {
@@ -34,6 +37,6 @@ export default {
 }
 #app {
   display: grid;
-  grid-template-rows: 8vh minmax(92vh, auto);
+  grid-template-rows: 8vh minmax(77vh, auto) 15vh;
 }
 </style>
