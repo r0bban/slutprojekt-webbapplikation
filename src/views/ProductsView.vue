@@ -1,9 +1,14 @@
 <template>
   <div class="productsView">
-    <div v-for="product in products" :key="product.id" class="listProduct">
-      <div class="imgSmall">{{product.value}} IMG</div>
-      <router-link class="title" :to="{name: 'Product', params: {id: product.id}}">{{product.value}}</router-link>
-      <span class="price">3999 kr</span>
+    <div v-for="product in products" :key="product._id" class="listProduct">
+      <div class="imgSmall">
+        <img :src="require(`../../assets/${product.imgFile}`)" alt />
+      </div>
+      <router-link
+        class="title"
+        :to="{name: 'Product', params: {id: product._id}}"
+      >{{product.title}}</router-link>
+      <span class="price">{{product.price}}</span>
     </div>
 
     <!-- <router-link :to="{name: 'Products'}">Go Back to All</router-link> -->
@@ -19,7 +24,7 @@ export default {
   },
   computed: {
     products() {
-      return this.$store.state.tmpData;
+      return this.$store.state.products;
     }
   }
 };
@@ -27,7 +32,7 @@ export default {
 <style lang='scss' scoped>
 .productsView {
   background-color: teal;
-  position: relative;
+  // position: relative;
   display: grid;
 
   grid-auto-rows: 100px;
@@ -43,7 +48,14 @@ export default {
 
 .imgSmall {
   background-color: greenyellow;
-  height: 50px;
   width: 100px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+.price {
+  min-width: 50px;
 }
 </style>

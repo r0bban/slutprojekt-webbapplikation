@@ -18,7 +18,8 @@ export default {};
 .shoppingCart {
   margin: auto;
   position: absolute;
-  left: 50%;
+  top: 20%;
+  left: 20%;
   background-color: aquamarine;
   width: 300px;
   height: 300px;

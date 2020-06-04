@@ -1,11 +1,16 @@
 <template>
-  <div class="productContainer" @click="leaveModal">
+  <div class="productContainer" @click.self="leaveModal">
     <div class="product">
       <router-link class="return" :to="{name: 'Products'}">X Symbol HERE</router-link>
 
-      <h1>{{product.value}}</h1>
-      <h2>3999 kr</h2>
-      <div class="bigPicture">BIG PIC PLACEHOLDER</div>
+      <h1>{{product.title}}</h1>
+      <h2>{{product.price}}</h2>
+      <h2>{{product.serial}}</h2>
+      <h2>{{product.shortDesc}}</h2>
+      <p>{{product.longDesc}}</p>
+      <div class="bigPicture">
+        <img :src="require(`../../assets/${product.imgFile}`)" alt />
+      </div>
       <button>Lägg till Varukorg</button>
     </div>
   </div>
@@ -14,8 +19,8 @@
 export default {
   computed: {
     product() {
-      return this.$store.state.tmpData.find(
-        value => value.id == this.$route.params.id
+      return this.$store.state.products.find(
+        value => value._id == this.$route.params.id
       );
     }
   },
@@ -49,6 +54,12 @@ export default {
 .bigPicture {
   width: 300px;
   height: 300px;
+  // display: flex;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
   background-color: darkcyan;
   border-radius: 5px;
 }
