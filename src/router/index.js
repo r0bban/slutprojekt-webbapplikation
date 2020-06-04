@@ -6,6 +6,7 @@ import CheckoutView from "../views/CheckoutView.vue";
 import AdminView from "../views/AdminView.vue";
 import AccountView from "../views/AccountView.vue";
 import RegistrationView from "../views/RegistrationView.vue";
+import TestAPIView from "@/views/TestAPIView";
 
 Vue.use(VueRouter);
 
@@ -13,6 +14,11 @@ const routes = [
   {
     path: "/",
     redirect: "/products",
+  },
+  {
+    path: "/testapi",
+    name: "TestApi",
+    component: TestAPIView,
   },
   {
     path: "/products",
