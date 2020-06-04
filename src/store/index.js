@@ -56,7 +56,7 @@ export default new Vuex.Store({
     setCurrentUser(state, user) {
       state.currentUser = user;
       state.showLogin = false;
-      localStorage.currentUser = user;
+      localStorage.currentUser = (JSON.stringify(user));
     },
     logout(state) {
       (state.currentUser = ""),

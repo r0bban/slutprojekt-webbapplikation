@@ -1,20 +1,21 @@
+import API from "@/api/server";
+
 export default ({
     state: {
         myOrders: [{
-            firstOrder: {
-                _id: 123,
-                timeStamp: Date.now(),
-                status: 'inProcess',
-                items: ['KteswkqVlvLNJdUP', 'VQCZcEEEC6U7HrHf'],
-                orderValue: 999
-            },
-            secondOrder: {
-                _id: 456,
-                timeStamp: Date.now(),
-                status: 'inProcess',
-                items: ['kMAscCs2xnmtPSqg', 'VQCZcEEEC6U7HrHf', 'kMAscCs2xnmtPSqg'],
-                orderValue: 2000
-            }
+            _id: 123,
+            timeStamp: Date.now(),
+            status: 'inProcess',
+            items: ['KteswkqVlvLNJdUP', 'VQCZcEEEC6U7HrHf'],
+            orderValue: 999
+        },
+        {
+            _id: 456,
+            timeStamp: Date.now(),
+            status: 'inProcess',
+            items: ['kMAscCs2xnmtPSqg', 'VQCZcEEEC6U7HrHf', 'kMAscCs2xnmtPSqg'],
+            orderValue: 2000
+
         }
         ],
 
@@ -60,6 +61,11 @@ export default ({
 
     },
     actions: {
+        async getProductById(context, productId) {
+            context.state.products
+            const fetchedProduct = await API.fetchProductById(productId);
+            return fetchedProduct
+        },
     },
 
     modules: {},
