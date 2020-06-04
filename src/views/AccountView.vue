@@ -11,10 +11,8 @@
       <p>{{this.$store.state.userToken}}</p>
       <button @click="logout()">Logga ut</button>
     </div>
-    <div v-if="getCurrentUser">
-      <h3>Orderhistorik:</h3>
-      <OrderHistory v-for="order in myOrders" v-bind:key="order._id" :order="order" />
-    </div>
+    <h3>Orderhistorik:</h3>
+    <OrderHistory v-for="order in myOrders" v-bind:key="order._id" :order="order" />
   </div>
 </template>
 <script>
@@ -43,7 +41,7 @@ export default {
     toggleLogin() {
       this.$store.commit("toggleLogin");
     }
-  }
+  },
 };
 </script>
 <style lang='scss' scoped>
