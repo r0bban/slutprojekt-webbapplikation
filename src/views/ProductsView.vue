@@ -2,7 +2,7 @@
   <div class="productsView">
     <div v-for="product in products" :key="product._id" class="listProduct">
       <div class="imgSmall">
-        <img :src="require(`../../assets/${product.imgFile}`)" alt />
+        <img :src="require(`@/assets/${product.imgFile}`)" alt />
       </div>
       <router-link
         class="title"
