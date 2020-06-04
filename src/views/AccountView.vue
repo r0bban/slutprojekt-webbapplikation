@@ -11,24 +11,44 @@
       <p>{{this.$store.state.userToken}}</p>
       <button @click="logout()">Logga ut</button>
     </div>
+    <div>
+      <h3>Orderhistorik:</h3>
+      <!-- <p>{{this.$store.state.account.myOrders}}</p> -->
+      <p>{{this.localUser}}</p>
+      <p></p>
+    </div>
   </div>
 </template>
 <script>
+// import OrderHistory from '@/components/OrderHistory.vue'
+
 export default {
+  data() {
+    return {
+      localUser: Object
+    };
+  },
+
   computed: {
     getCurrentUser() {
       return this.$store.state.currentUser;
     },
     getLocalStorageUser() {
       return localStorage.getItem("currentUser");
+    },
+    myOrders() {
+      return this.$store.state.account.myOrders;
     }
   },
   methods: {
     logout() {
       this.$store.dispatch("logout");
     },
-    toggleLogin(){
+    toggleLogin() {
       this.$store.commit("toggleLogin");
+    },
+    setLocalUser() {
+      this.localUser = this.getLocalStorageUser();
     }
   }
 };
