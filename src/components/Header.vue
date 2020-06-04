@@ -1,14 +1,14 @@
 <template>
   <div class="header">
     <router-link :to="{name: 'Products'}">
-      <img :src="require('../../assets/sinus-logo.svg')" alt />
+      <img :src="require('@/assets/sinus-logo.svg')" alt />
     </router-link>
     <ul class="menuItems">
       <li>
         <router-link :to="{name: 'Products'}">Products</router-link>
       </li>
       <li>
-        <img @click="toggleCart" :src="require('../../assets/icon-bag-black.svg')" alt />
+        <img @click="toggleCart" :src="require('@/assets/icon-bag-black.svg')" alt />
       </li>
       <li>
         <button @click="toggleUser">Växla Roll</button>

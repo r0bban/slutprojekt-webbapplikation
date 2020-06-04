@@ -9,7 +9,7 @@
       <h2>{{product.shortDesc}}</h2>
       <p>{{product.longDesc}}</p>
       <div class="bigPicture">
-        <img :src="require(`../../assets/${product.imgFile}`)" alt />
+        <img :src="require(`@/assets/${product.imgFile}`)" alt />
       </div>
       <button>Lägg till Varukorg</button>
     </div>
