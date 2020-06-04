@@ -10,7 +10,7 @@
           <th>Long Description</th>
           <th>Image File</th>
         </tr>
-        <tr v-for="product in products" :key="product.id">
+        <tr v-for="product in products" :key="product._id">
           <td>
             <input type="text" v-model="product.title" />
           </td>
@@ -42,7 +42,7 @@
             <button @click="updateProduct(product)">Update</button>
           </td>
           <td>
-            <button @click="deleteProduct(product.id)">Delete</button>
+            <button @click="deleteProduct(product._id)">Delete</button>
           </td>
         </tr>
       </table>
