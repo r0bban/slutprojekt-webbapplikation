@@ -10,6 +10,7 @@ export default new Vuex.Store({
   state: {
     products: [],
     cart: [],
+    orderHistory: [],
     tmpData: [
       { value: "Champinjon", id: 1 },
       { value: "Räkor", id: 2 },
@@ -22,7 +23,7 @@ export default new Vuex.Store({
     showLogin: false,
 
     newProduct: {
-      title: "Johannes produkt",
+      title: "Roberts produkt",
       price: 123,
       shortDesc: "Unisex",
       longDesc:
@@ -67,6 +68,9 @@ export default new Vuex.Store({
     setStoreProducts(state, newProductList) {
       state.products = newProductList;
     },
+    setStoreOrderHistory(state, newOrderHistory) {
+      state.orderHistory = newOrderHistory;
+    },
     addProductToStoreProducts(state, newProduct) {
       state.products.push(newProduct);
     },
@@ -92,6 +96,24 @@ export default new Vuex.Store({
         context.state.userToken
       );
       context.commit("addProductToStoreProducts", addedProduct);
+    },
+    async getProductById(context, productId){
+      context.state.products
+      const fetchedProduct = await API.fetchProductById(productId);
+      return fetchedProduct
+    },
+    async refreshOrderHistory(context){
+      // context.state.orderHistory
+      const fetchedOrderHistory = await API.fetchOrders(context.state.userToken);
+      context.commit("setStoreOrderHistory", fetchedOrderHistory);
+    },
+    async updateProduct(context, productToUpdate) {
+      console.log(productToUpdate._id)
+      const addedProduct = await API.postUpdateProductByIdRequest(
+        productToUpdate,
+        context.state.userToken
+      );
+      console.log(addedProduct)
     },
     async loginUser(context, payload) {
       const data = await APIauth.authorizeUser(payload);
