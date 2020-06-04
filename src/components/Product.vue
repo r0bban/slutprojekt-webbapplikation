@@ -11,7 +11,7 @@
       <div class="bigPicture">
         <img :src="require(`@/assets/${product.imgFile}`)" alt />
       </div>
-      <button>Lägg till Varukorg</button>
+      <button @click="addToCart">Lägg till Varukorg</button>
     </div>
   </div>
 </template>
@@ -28,6 +28,9 @@ export default {
     leaveModal() {
       console.log("Leaving Modal");
       this.$router.push({ name: "Products" });
+    },
+    addToCart() {
+      this.$store.commit("addProductToCart", this.product);
     }
   }
 };

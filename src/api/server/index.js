@@ -41,6 +41,7 @@ export default {
             return data.product
         }
     },
+
     async fetchProductById(productId) {
         let resp = await fetch(api_url + "/products/" + productId, {
             method: 'GET',
@@ -49,12 +50,15 @@ export default {
             },
         })
         if (resp.status == "404") {
-            alert("Hittade ingen produkt med ID: " + productId.id);
+
+
+            alert("Hittade ingen produkt med ID: "+ productId.id);
         } else {
             const data = await resp.json()
             return data
         }
     },
+
     async postUpdateProductByIdRequest(updatedProduct, token) {
         let productId= updatedProduct._id
         const RequestBody = JSON.stringify(updatedProduct)
@@ -77,6 +81,7 @@ export default {
             alert("Produkt har uppdaterats korrekt!");
         }
     },
+
 
 
 }

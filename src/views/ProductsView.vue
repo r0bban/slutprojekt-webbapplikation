@@ -34,7 +34,7 @@ export default {
   background-color: teal;
   // position: relative;
   display: grid;
-
+  height: 100%;
   grid-auto-rows: 100px;
 }
 .listProduct {
