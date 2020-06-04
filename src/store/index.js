@@ -10,14 +10,9 @@ export default new Vuex.Store({
   state: {
     products: [],
     cart: [],
-    tmpData: [
-      { value: "Champinjon", id: 1 },
-      { value: "Räkor", id: 2 },
-      { value: "Krabba", id: 3 },
-      { value: "Kräfta", id: 4 },
-      { value: "Ostron", id: 5 },
-      { value: "Musslor", id: 6 },
-    ],
+    totalOrderQuantity: 0,
+    totalOrderAmount: 0,
+
     showCart: false,
     showLogin: false,
 
@@ -41,6 +36,36 @@ export default new Vuex.Store({
     userToken: "",
   },
   mutations: {
+    addProductToCart(state, orderArticle) {
+      const currIndex = state.cart.findIndex(
+        (product) => product._id == orderArticle._id
+      );
+      if (currIndex == -1) {
+        orderArticle.quantity = 1;
+        state.cart.push(orderArticle);
+      } else {
+        state.cart[currIndex].quantity += 1;
+      }
+      state.totalOrderQuantity += 1;
+      state.totalOrderAmount += orderArticle.price;
+    },
+    reduceQuantOrderProd(state, orderArticle) {
+      if (orderArticle.quantity <= 1) {
+        orderArticle.quantity = 0;
+        state.cart = state.cart.filter(
+          (article) => article._id != orderArticle._id
+        );
+      } else {
+        orderArticle.quantity -= 1;
+      }
+      state.totalOrderQuantity -= 1;
+      state.totalOrderAmount -= orderArticle.price;
+    },
+    increaseQuantOrderProd(state, orderArticle) {
+      orderArticle.quantity += 1;
+      state.totalOrderQuantity += 1;
+      state.totalOrderAmount += orderArticle.price;
+    },
     toggleCart(state) {
       state.showCart = !state.showCart;
     },
@@ -63,7 +88,11 @@ export default new Vuex.Store({
         localStorage.removeItem("currentUser"),
         localStorage.removeItem("userToken");
     },
-
+    clearCart(state) {
+      state.cart = [];
+      state.totalOrderAmount = 0;
+      state.totalOrderQuantity = 0;
+    },
     setStoreProducts(state, newProductList) {
       state.products = newProductList;
     },

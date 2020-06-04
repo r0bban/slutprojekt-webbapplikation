@@ -12,24 +12,31 @@
         </tr>
         <tr v-for="product in products" :key="product.id">
           <td>
-            <input type="text" v-model="product.value" />
+            <input type="text" v-model="product.title" />
           </td>
           <td>
-            <input type="number" />
+            <input type="number" v-model="product.price" />
           </td>
           <td>
-            <input type="text" maxlength="15" />
+            <input type="text" maxlength="15" v-model="product.shortDesc" />
           </td>
           <td>
-            <input type="text" />
+            <input type="text" v-model="product.longDesc" />
           </td>
           <td>
-            <select>
-              <option value>Pic1</option>
-              <option value>Pic2</option>
-              <option value>Pic3</option>
-              <option value>Pic4</option>
+            <select v-model="product.imgFile">
+              <option value="skateboard-generic.png">Pic1</option>
+              <option value="skateboard-greta.png">Pic2</option>
+              <option value="wheel-rocket.png">Pic3</option>
+              <option value="wheel-spinner.png">Pic4</option>
+              <option value="wheel-wave.png">Pic5</option>
+              <option value="hoodie-ash.png">Pic6</option>
+              <option value="hoodie-fire.png">Pic7</option>
+              <option value="hoodie-ocean.png">Pic8</option>
             </select>
+          </td>
+          <td>
+            <img :src="require(`@/assets/${product.imgFile}`)" alt />
           </td>
           <td>
             <button @click="updateProduct(product)">Update</button>
@@ -62,12 +69,21 @@
           <td>
             <input type="text" v-model="newProduct.longDesc" />
           </td>
-          <select v-model="newProduct.imgUrl">
-            <option value="pic1.url">Pic1</option>
-            <option value="pic2.url">Pic2</option>
-            <option value="pic3.url">Pic3</option>
-            <option value="pic4.url">Pic4</option>
-          </select>
+          <td>
+            <select v-model="newProduct.imgFile">
+              <option value="skateboard-generic.png">Pic1</option>
+              <option value="skateboard-greta.png">Pic2</option>
+              <option value="wheel-rocket.png">Pic3</option>
+              <option value="wheel-spinner.png">Pic4</option>
+              <option value="wheel-wave.png">Pic5</option>
+              <option value="hoodie-ash.png">Pic6</option>
+              <option value="hoodie-fire.png">Pic7</option>
+              <option value="hoodie-ocean.png">Pic8</option>
+            </select>
+          </td>
+          <td>
+            <img :src="require(`@/assets/${newProduct.imgFile}`)" alt />
+          </td>
         </tr>
       </table>
       <button @click="addNewProduct">Add Article</button>
@@ -79,12 +95,13 @@
 export default {
   data() {
     return {
+      colorFlag: false,
       newProduct: {
         title: "",
         price: 0,
         shortDesc: "",
         longDesc: "",
-        imgUrl: ""
+        imgFile: "skateboard-generic.png"
       }
     };
   },
@@ -93,10 +110,18 @@ export default {
   },
   computed: {
     products() {
-      return this.$store.state.tmpData;
+      return this.$store.state.products;
     }
   },
   methods: {
+    test(event) {
+      console.log("Test");
+      console.log(event.target.value);
+    },
+
+    test2() {
+      console.log("Focus");
+    },
     addNewProduct() {
       console.log("Creating product");
       console.log(this.newProduct);
@@ -119,6 +144,11 @@ export default {
 .tableProperties {
   width: 100%;
   text-align: left;
+  img {
+    max-height: 100px;
+    // height: 10px;
+    object-fit: contain;
+  }
 }
 .productslist {
   background-color: lightskyblue;

@@ -1,18 +1,29 @@
 <template>
   <div class="shoppingCart">
-    <ul>
-      <li>Champinjon 1st</li>
-      <li>Räkor 5st</li>
-      <li>Krabba 6st</li>
-      <li>Kräfta 10st</li>
-      <li>Ostron 15st</li>
-      <li>Musslor 1st</li>
-    </ul>
-    <router-link :to="{name: 'Checkout'}">To Checkout</router-link>
+    <OrderArticle v-for="product in cart" :key="product._id" :product="product" />
+
+    <button @click="checkout">To Checkout</button>
+    <!-- <router-link :to="{name: 'Checkout'}">To Checkout</router-link> -->
   </div>
 </template>
 <script>
-export default {};
+import OrderArticle from "../components/OrderArticle";
+export default {
+  components: {
+    OrderArticle
+  },
+  computed: {
+    cart() {
+      return this.$store.state.cart;
+    }
+  },
+  methods: {
+    checkout() {
+      this.$store.commit("toggleCart");
+      this.$router.push({ name: "Checkout" });
+    }
+  }
+};
 </script>
 <style lang='scss' scoped>
 .shoppingCart {

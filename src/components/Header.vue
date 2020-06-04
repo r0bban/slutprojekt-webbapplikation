@@ -15,8 +15,8 @@
       </li>
     </ul>
     <div class="login">
-      <router-link v-if="user=='Customer'" :to="{name: 'Account'}">My Account</router-link>
-      <router-link v-else-if="user=='Admin'" :to="{name: 'Admin'}">Admin View</router-link>
+      <router-link v-if="user.role=='customer'" :to="{name: 'Account'}">My Account</router-link>
+      <router-link v-else-if="user.role=='admin'" :to="{name: 'Admin'}">Admin View</router-link>
       <div class="loginContainer" v-else>
         <span @click="toggleLogin">Sign In</span>
         <span>
@@ -38,9 +38,7 @@
 <script>
 export default {
   data() {
-    return {
-      user: undefined
-    };
+    return {};
   },
   methods: {
     toggleUser() {
@@ -59,6 +57,11 @@ export default {
     toggleCart() {
       console.log("Pressed Cart");
       this.$store.commit("toggleCart");
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.currentUser;
     }
   }
 };
