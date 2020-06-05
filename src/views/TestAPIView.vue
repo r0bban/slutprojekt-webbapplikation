@@ -15,6 +15,8 @@
     </div>
     <button v-on:click="updateProduct">Uppdatera hämtad produkt</button>
     <button v-on:click="refreshOrderHistory">Refresh Order History</button>
+    <input v-model="productIdToDelete" type="text" placeholder="ProduktId att radera" />
+    <button v-on:click="deleteProductById">Radera produkt</button>
   </div>
 </template>
 
@@ -34,7 +36,8 @@ export default {
         imgFile: "skateboard-generic.png"
       },
       productIdToFind: "",
-      foundProduct: ""
+      foundProduct: "",
+      productIdToDelete: ""
 
       //   {
       //     title: "",
@@ -58,6 +61,9 @@ export default {
     },
     async refreshOrderHistory() {
       await this.$store.dispatch("refreshOrderHistory");
+    },
+    async deleteProductById() {
+      await this.$store.dispatch("deleteProductById", this.productIdToDelete);
     },
     async getProductById() {
       //   let id = JSON.stringify(this.productIdToFind);

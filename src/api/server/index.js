@@ -35,13 +35,29 @@ export default {
             body: RequestBody
         })
         if (resp.status == "401") {
-            alert("Du är intre inloggad som admin");
+            alert("Du är inte inloggad som admin");
         } else {
             const data = await resp.json()
             return data.product
         }
     },
 
+    async deleteProductById(productId, token) {
+        let resp = await fetch(api_url + "/products/" + productId, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+        })
+        if (resp.status == "401") {
+            alert("Du är inte inloggad som admin");
+        } else if (resp.status != "200") {
+            alert("Något gick fel, kunde inte ta bort produkt.");
+        } else {
+            alert("Produkt raderad!");
+        }
+    },
     async fetchProductById(productId) {
         let resp = await fetch(api_url + "/products/" + productId, {
             method: 'GET',
@@ -49,10 +65,11 @@ export default {
                 'Content-Type': 'application/json'
             },
         })
+        console.log(await resp.error)
         if (resp.status == "404") {
 
 
-            alert("Hittade ingen produkt med ID: "+ productId.id);
+            alert("Hittade ingen produkt med ID: " + productId);
         } else {
             const data = await resp.json()
             return data
@@ -60,7 +77,7 @@ export default {
     },
 
     async postUpdateProductByIdRequest(updatedProduct, token) {
-        let productId= updatedProduct._id
+        let productId = updatedProduct._id
         const RequestBody = JSON.stringify(updatedProduct)
         console.log(RequestBody)
         let resp = await fetch(api_url + "/products/" + productId, {
@@ -76,7 +93,7 @@ export default {
         } else if (resp.status == "400") {
             alert("Formatfel i inskickad order.");
         } else if (resp.status != "200") {
-            alert("Tyvärr kunde inte produkten uppdateras. Varför? Se här: " +resp.status);
+            alert("Tyvärr kunde inte produkten uppdateras. Varför? Se här: " + resp.status);
         } else {
             alert("Produkt har uppdaterats korrekt!");
         }

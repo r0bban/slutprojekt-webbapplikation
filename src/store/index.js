@@ -100,6 +100,9 @@ export default new Vuex.Store({
     setStoreProducts(state, newProductList) {
       state.products = newProductList;
     },
+    removeProductFromStateProductsById(state, productId){
+      state.products = state.products.filter(product => product._id != productId)
+    },
     setStoreOrderHistory(state, newOrderHistory) {
       state.orderHistory = newOrderHistory;
     },
@@ -127,18 +130,28 @@ export default new Vuex.Store({
         newProduct,
         context.state.userToken
       );
+      if(addedProduct){
       context.commit("addProductToStoreProducts", addedProduct);
+      }
     },
-    async getProductById(context, productId) {
-      context.state.products;
+
+    async getProductById(context, productId){
+      // context.state.products
+
       const fetchedProduct = await API.fetchProductById(productId);
       return fetchedProduct;
     },
-    async refreshOrderHistory(context) {
-      // context.state.orderHistory
-      const fetchedOrderHistory = await API.fetchOrders(
+
+    async deleteProductById(context, productId){
+      await API.deleteProductById(
+        productId,
         context.state.userToken
-      );
+        );
+      context.commit("removeProductFromStateProductsById", productId);
+    },
+    async refreshOrderHistory(context){
+      const fetchedOrderHistory = await API.fetchOrders(context.state.userToken);
+
       context.commit("setStoreOrderHistory", fetchedOrderHistory);
     },
     async updateProduct(context, productToUpdate) {
