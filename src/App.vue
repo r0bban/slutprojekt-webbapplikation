@@ -2,8 +2,9 @@
   <div id="app">
     <Header />
     <Login v-if="this.$store.state.showLogin" />
+    <!-- <ShoppingCart  /> -->
     <ShoppingCart v-if="this.$store.state.showCart" />
-    <router-view />
+    <router-view class="mainContainer" />
     <Footer />
   </div>
 </template>
@@ -33,10 +34,29 @@ export default {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  border: 1px solid black;
+  // border: 1px solid black;
 }
 #app {
+  position: relative;
+  // width: 100vw;
+  background-color: beige;
   display: grid;
   grid-template-rows: 8vh minmax(77vh, auto) 15vh;
+}
+.mainContainer {
+  margin: 0 auto;
+  width: 80%;
+  max-width: 1440px;
+}
+
+.fade-enter-active {
+  transition: all 0.5s ease;
+}
+.fade-leave-active {
+  transition: all 0.5s ease;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

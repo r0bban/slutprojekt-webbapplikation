@@ -1,7 +1,9 @@
 <template>
   <div class="productContainer" @click.self="leaveModal">
     <div class="product">
-      <router-link class="return" :to="{name: 'Products'}">X Symbol HERE</router-link>
+      <router-link class="closeButton" :to="{name: 'Products'}">
+        <img :src="require(`@/assets/closeIcon.svg`)" alt />
+      </router-link>
 
       <h1>{{product.title}}</h1>
       <h2>{{product.price}}</h2>
@@ -38,21 +40,22 @@ export default {
 <style lang='scss' scoped>
 .productContainer {
   position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  // left: 20%;
+
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   background-color: rgba(46, 42, 40, 0.8);
 }
 .product {
   position: relative;
+  margin-top: 10%;
   padding: 1rem;
   background-color: white;
   border-radius: 5px;
-  width: 80%;
-  height: 80%;
+  // width: 80%;
+  // height: 50%;
 }
 .bigPicture {
   width: 300px;
@@ -66,12 +69,12 @@ export default {
   background-color: darkcyan;
   border-radius: 5px;
 }
-.return {
-  margin: 1rem;
-  top: 0;
-  right: 0;
-  position: absolute;
-  color: green;
-  background-color: magenta;
+.closeButton {
+  img {
+    max-width: 2%;
+    position: absolute;
+    right: 0;
+    margin: 1rem;
+  }
 }
 </style>
