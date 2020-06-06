@@ -1,4 +1,3 @@
-import API from "@/api/server";
 
 export default ({
     state: {
@@ -61,11 +60,11 @@ export default ({
 
     },
     actions: {
-        async getProductById(context, productId) {
-            context.state.products
-            const fetchedProduct = await API.fetchProductById(productId);
-            return fetchedProduct
-        },
+        // async getProductById(context, productId) {
+        //     context.state.products
+        //     const fetchedProduct = await API.fetchProductById(productId);
+        //     return fetchedProduct
+        // },
     },
 
     modules: {},

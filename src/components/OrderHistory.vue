@@ -8,7 +8,6 @@
       <!-- <p class="items">{{order.items}}</p> -->
       <p>Artiklar:</p>
       <div @click="lookupItem(item)" v-for="(item) in order.items" v-bind:key="item">{{item}}</div>
-      
       <p class="ordersum">Summa: {{order.orderValue}} kr</p>
     </div>
   </article>
@@ -17,18 +16,24 @@
 <script>
 export default {
   props: {
-    order: Object,
+    order: Object
+  },
+  computed: {
+    products() {
+      return this.$store.state.products;
+    }
   },
   methods: {
     getProducts() {
       this.$store.dispatch("getProductById", this.order.items);
     },
     lookupItem(item) {
-      let retrievedItem = this.$store.dispatch("getProductById", item);
-      console.log(retrievedItem)
+      return { retrievedItem: this.$store.dispatch("getProductById", item) };
     }
   },
-  mounted(){
+  mounted() {
+    // Just nu skickas ett get med [id1, id2, id3] osv (från rad 28), behöver göra ett separat anrop för varje ID alternativt hämta direkt från storen
+    this.getProducts();
   }
 };
 </script>
