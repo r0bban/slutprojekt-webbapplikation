@@ -27,13 +27,13 @@ export default {
     }
   },
   methods: {
-    createNewOrder() {
-      console.log("Send the API a new order based on the current CART");
+    async createNewOrder() {
+      // console.log("Send the API a new order based on the current CART");
       if (this.$store.state.currentUser) {
-        //Make order
-        this.$router.push({ name: "Products" });
-        this.$store.commit("clearCart");
-      } else {
+      await this.$store.dispatch("registerNewOrder");
+      // this.$store.commit("clearCart");
+      this.$router.push({ name: "Products" });
+      }else {
         this.$store.commit("toggleLogin");
       }
       //RESET THE CURRENT CART AND RETURN TO PRODUCTS OR PURCHASE COMPLETE SCREEN

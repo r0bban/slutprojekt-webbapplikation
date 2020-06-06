@@ -100,11 +100,14 @@ export default new Vuex.Store({
     setStoreProducts(state, newProductList) {
       state.products = newProductList;
     },
-    removeProductFromStateProductsById(state, productId){
+    removeProductFromStateProductsById(state, productId) {
       state.products = state.products.filter(product => product._id != productId)
     },
     setStoreOrderHistory(state, newOrderHistory) {
       state.orderHistory = newOrderHistory;
+    },
+    addOrderToStoreOrderHistory(state, newOrder) {
+      state.orderHistory.push(newOrder);
     },
     addProductToStoreProducts(state, newProduct) {
       state.products.push(newProduct);
@@ -130,26 +133,40 @@ export default new Vuex.Store({
         newProduct,
         context.state.userToken
       );
-      if(addedProduct){
-      context.commit("addProductToStoreProducts", addedProduct);
+      if (addedProduct) {
+        context.commit("addProductToStoreProducts", addedProduct);
       }
     },
-
-    async getProductById(context, productId){
-      // context.state.products
+    async getProductById(context, productId) {
 
       const fetchedProduct = await API.fetchProductById(productId);
       return fetchedProduct;
     },
-
-    async deleteProductById(context, productId){
+    async deleteProductById(context, productId) {
       await API.deleteProductById(
         productId,
         context.state.userToken
-        );
+      );
       context.commit("removeProductFromStateProductsById", productId);
     },
-    async refreshOrderHistory(context){
+    async registerNewOrder(context) {
+      if (context.state.cart.length > 0) {
+        let orderRequestBody = {
+          items: []
+        };
+        context.state.cart.forEach(cartArticle => {
+          let orderItem = {}
+          orderItem.id = cartArticle._id;
+          orderItem.quantity = cartArticle.quantity;
+          orderRequestBody.items.push(orderItem);
+        });
+        await API.postOrderRequest(orderRequestBody, context.state.userToken);
+        context.commit("clearCart");
+        await context.dispatch("refreshOrderHistory")
+
+      } else { console.log("Attempt to place order, but cart is empty") }
+    },
+    async refreshOrderHistory(context) {
       const fetchedOrderHistory = await API.fetchOrders(context.state.userToken);
 
       context.commit("setStoreOrderHistory", fetchedOrderHistory);

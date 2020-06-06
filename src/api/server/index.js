@@ -24,6 +24,28 @@ export default {
         let data = await resp.json()
         return data
     },
+    async postOrderRequest(orderRequestBody, token) {
+        const RequestBody = JSON.stringify(orderRequestBody)
+        console.log(RequestBody)
+        let resp = await fetch(api_url + "/orders", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: RequestBody
+        })
+        if (resp.status == "401") {
+            alert("Du måste vara inloggad för att lägeg en order.");
+        } else if (resp.status == "400") {
+            alert("Formatfel i inskickad order.");
+        } else if (resp.status != "200") {
+            alert("Tyvärr kunde inte ordern läggas");
+        } else {
+            alert("Order har lagts korrekt!");
+        }
+
+    },
     async postProductRequest(newProduct, token) {
         const RequestBody = JSON.stringify(newProduct)
         let resp = await fetch(api_url + "/products", {
