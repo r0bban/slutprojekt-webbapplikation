@@ -2,8 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import API from "@/api/server";
-import * as APIauth from "@/api";
-import account from "@/store/modules/account.js"
+import * as APIauth from "@/api/server/auth";
+import account from "@/store/modules/account.js";
 
 Vue.use(Vuex);
 
@@ -16,7 +16,6 @@ export default new Vuex.Store({
 
     totalOrderQuantity: 0,
     totalOrderAmount: 0,
-
 
     showCart: false,
     showLogin: false,
@@ -85,7 +84,7 @@ export default new Vuex.Store({
     setCurrentUser(state, user) {
       state.currentUser = user;
       state.showLogin = false;
-      localStorage.currentUser = (JSON.stringify(user));
+      localStorage.currentUser = JSON.stringify(user);
     },
     logout(state) {
       (state.currentUser = ""),
@@ -139,8 +138,9 @@ export default new Vuex.Store({
       }
     },
     async getProductById(context, productId) {
+
       const fetchedProduct = await API.fetchProductById(productId);
-      return fetchedProduct
+      return fetchedProduct;
     },
     async deleteProductById(context, productId) {
       await API.deleteProductById(
@@ -168,21 +168,33 @@ export default new Vuex.Store({
     },
     async refreshOrderHistory(context) {
       const fetchedOrderHistory = await API.fetchOrders(context.state.userToken);
+
       context.commit("setStoreOrderHistory", fetchedOrderHistory);
     },
     async updateProduct(context, productToUpdate) {
-      console.log(productToUpdate._id)
+      console.log(productToUpdate._id);
       const addedProduct = await API.postUpdateProductByIdRequest(
         productToUpdate,
         context.state.userToken
       );
-      console.log(addedProduct)
+      console.log(addedProduct);
     },
     async loginUser(context, payload) {
       const data = await APIauth.authorizeUser(payload);
       if (data) {
         context.commit("setToken", data.token);
         context.commit("setCurrentUser", data.user);
+      }
+    },
+    async createNewUser(context, payload) {
+      const data = await APIauth.createNewUser(payload);
+      if (data) {
+        context.dispatch("loginUser", {
+          email: payload.email,
+          password: payload.password,
+        });
+        // context.commit("setToken", data.token);
+        // context.commit("setCurrentUser", data.user);
       }
     },
     logout(context) {
