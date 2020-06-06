@@ -14,9 +14,10 @@
       <input v-model="foundProduct.imgFile" type="text" placeholder="filnamn bild" />
     </div>
     <button v-on:click="updateProduct">Uppdatera hämtad produkt</button>
-    <button v-on:click="refreshOrderHistory">Refresh Order History</button>
     <input v-model="productIdToDelete" type="text" placeholder="ProduktId att radera" />
     <button v-on:click="deleteProductById">Radera produkt</button>
+    <button v-on:click="refreshOrderHistory">Refresh Order History</button>
+
   </div>
 </template>
 
