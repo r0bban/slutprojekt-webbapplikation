@@ -27,9 +27,10 @@ export default {
     }
   },
   methods: {
-    createNewOrder() {
-      console.log("Send the API a new order based on the current CART");
-      this.$store.commit("clearCart");
+    async createNewOrder() {
+      // console.log("Send the API a new order based on the current CART");
+      await this.$store.dispatch("registerNewOrder");
+      // this.$store.commit("clearCart");
       this.$router.push({ name: "Products" });
       //RESET THE CURRENT CART AND RETURN TO PRODUCTS OR PURCHASE COMPLETE SCREEN
     }
