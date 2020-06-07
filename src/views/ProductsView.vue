@@ -1,17 +1,21 @@
 <template>
   <div class="productsView">
     <aside>
-      <select name="category" v-model="category">
+      <select name="category" v-model="category" class="filterOption">
         <option value>All</option>
         <option value="board">Boards</option>
         <option value="wheels">Wheels</option>
         <option value="clothes">Clothes</option>
       </select>
-      <div class="priceContainer">
-        <label for>Min Price</label>
-        <input type="number" v-model="minPrice" />
-        <label for>Max Price</label>
-        <input type="number" v-model="maxPrice" />
+      <div class="priceContainer filterOption">
+        <div>
+          <label for>Min Price</label>
+          <input type="number" v-model="minPrice" />
+        </div>
+        <div>
+          <label for>Max Price</label>
+          <input type="number" v-model="maxPrice" />
+        </div>
       </div>
     </aside>
     <section class="articles">
@@ -76,28 +80,55 @@ export default {
 </script>
 <style lang='scss' scoped>
 .productsView {
+  // margin: 0 auto;
   // max-width: 1200px;
   // background-color: teal;
   // position: relative;
-  display: grid;
-  grid-template-rows: 5%;
+  // display: grid;
+  // grid-template-rows: 5%;
   // height: 100%;
   // grid-auto-rows: 100px;
+  overflow: auto;
 }
 aside {
+  display: flex;
   padding: 1rem;
-  background-color: maroon;
+  background-color: rgb(206, 248, 241);
+  align-items: flex-start;
+
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+  }
+
+  & > * {
+    margin-right: 1rem;
+  }
+}
+.filterOption {
+  // border: solid 1px blueviolet;
+}
+.priceContainer {
+  display: flex;
+  label,
+  input {
+    max-width: 100%;
+    margin-right: 0.5rem;
+  }
+}
+.category {
 }
 .articles {
   padding: 1rem;
   background-color: #e0ffdb;
   gap: 1rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 30%;
+  display: flex;
+  flex-flow: row wrap;
+  // grid-template-columns: repeat(3, 1fr);
+  // grid-auto-rows: 30%;
   overflow: auto;
 }
 .listProduct {
+  margin: 0.5rem;
   display: grid;
   grid-template-rows: 4fr 1fr;
   // background-color: rosybrown;
@@ -112,6 +143,7 @@ aside {
   justify-content: center;
   align-items: center;
   background-color: #fff4f4;
+  margin-bottom: 1rem;
   // width: 100px;
   width: 100%;
   img {

@@ -8,6 +8,6 @@ export default {};
 </script>
 <style lang='scss' scoped>
 .footer {
-  background-color: darkred;
+  background-color: rgb(216, 109, 109);
 }
 </style>

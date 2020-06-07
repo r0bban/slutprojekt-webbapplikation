@@ -130,11 +130,17 @@ export default {
   padding: 1rem;
   background-color: lightyellow;
   width: 30%;
-  height: 40%;
+  min-height: 40%;
   display: flex;
   flex-direction: column;
+  transition: width 1s;
+
+  @media screen and (max-width: 1024px) {
+    width: 80%;
+  }
 
   input {
+    width: 50%;
     font-size: 1.5rem;
     height: 2rem;
   }
@@ -149,6 +155,7 @@ export default {
     border-radius: 10px;
   }
   .formRow {
+    max-width: 100%;
     display: flex;
     justify-content: space-between;
   }
