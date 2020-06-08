@@ -242,6 +242,7 @@ export default new Vuex.Store({
       }
     },
     async loginUser(context, payload) {
+<<<<<<< HEAD
       try {
         const data = await APIauth.authorizeUser(payload);
         if (data) {
@@ -251,6 +252,13 @@ export default new Vuex.Store({
       } catch (error) {
         console.log(error);
         context.commit("setError", error);
+=======
+      const data = await APIauth.authorizeUser(payload);
+      if (data) {
+        context.commit("setToken", data.token);
+        context.commit("setCurrentUser", data.user);
+        console.log(data.user)
+>>>>>>> 7d33660cf1f90e0828ddc0bd7ca0f9f43e364f9a
       }
     },
     async createNewUser(context, payload) {

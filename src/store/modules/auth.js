@@ -17,8 +17,7 @@ export default {
         logout(state) {
             state.currentUser = "",
                 state.userToken = "",
-                localStorage.removeItem("currentUser"),
-                localStorage.removeItem("userToken")
+                localStorage.clear
         },
     },
 
