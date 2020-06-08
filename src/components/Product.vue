@@ -52,11 +52,11 @@ export default {
 </script>
 <style lang='scss' scoped>
 .productContainer {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   // display: flex;
   // justify-content: center;
   // align-items: flex-start;

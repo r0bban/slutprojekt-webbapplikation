@@ -53,7 +53,7 @@ export default {
   // width: 100vw;
   background-color: beige;
   display: grid;
-  grid-template-rows: 8vh 82vh 10vh;
+  grid-template-rows: 8vh minmax(82vh, auto) 10vh;//8vh 82vh 10vh;
 }
 .mainContainer {
   margin: 0 auto;
