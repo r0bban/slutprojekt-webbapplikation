@@ -199,6 +199,7 @@ export default new Vuex.Store({
       if (data) {
         context.commit("setToken", data.token);
         context.commit("setCurrentUser", data.user);
+        console.log(data.user)
       }
     },
     async createNewUser(context, payload) {

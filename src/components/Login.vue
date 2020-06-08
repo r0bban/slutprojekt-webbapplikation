@@ -37,15 +37,15 @@
       </div>
       <div class="formRow">
         <label for>Street</label>
-        <input type="text" v-model="newAccount.address.street" />
+        <input type="text" v-model="newAccount.adress.street" />
       </div>
       <div class="formRow">
         <label for>Zip</label>
-        <input type="number" v-model="newAccount.address.zip" />
+        <input type="number" v-model="newAccount.adress.zip" />
       </div>
       <div class="formRow">
         <label for>City</label>
-        <input type="text" v-model="newAccount.address.city" />
+        <input type="text" v-model="newAccount.adress.city" />
       </div>
       <div class="formRow">
         <label for>Cardowner</label>
@@ -75,7 +75,7 @@ export default {
         email: "",
         password: "",
         repeatPassword: "",
-        address: {
+        adress: {
           street: "",
           city: "",
           zip: 0
