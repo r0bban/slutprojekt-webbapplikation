@@ -15,7 +15,7 @@
             <input type="text" v-model="product.title" />
           </td>
           <td>
-            <input type="number" v-model="product.price" />
+            <input type="number" v-model.number="product.price" />
           </td>
           <td>
             <input type="text" maxlength="15" v-model="product.shortDesc" />
@@ -61,7 +61,7 @@
             <input type="text" v-model="newProduct.title" />
           </td>
           <td>
-            <input type="number" v-model="newProduct.price" />
+            <input type="number" v-model.number="newProduct.price" />
           </td>
           <td>
             <input type="text" v-model="newProduct.shortDesc" />

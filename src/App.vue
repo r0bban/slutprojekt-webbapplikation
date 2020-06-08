@@ -40,18 +40,33 @@ export default {
 };
 </script>
 <style lang="scss">
-html, body{
-  margin:0;
-  height:100%
+html,
+body {
+  margin: 0;
+  height: 100%;
 }
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-size: 16px;
+  // font-size: 16px;
   line-height: 1.6;
 }
+
+p {
+  font-size: 1rem;
+}
+h1 {
+  font-size: 2.2rem;
+}
+h2 {
+  font-size: 1.9rem;
+}
+h3 {
+  font-size: 1.2rem;
+}
+
 #app {
   position: relative;
   background-color: beige;
