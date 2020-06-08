@@ -30,9 +30,6 @@
             <span>{{product.price}}</span>
           </div>
           <div class="navigation">
-            <button>
-              <img :src="require('@/assets/heartIcon.svg')" alt />
-            </button>
             <button @click="addToCart(product)">
               <img :src="require('@/assets/cartIcon.svg')" alt />
             </button>
