@@ -148,6 +148,7 @@ export default new Vuex.Store({
       }
       catch (error) {
         console.error(error);
+        // Reflect changes to GUI??? INJECT THIS TO THE GLOBAL ERROR MACHINERY
       }
 
     },
