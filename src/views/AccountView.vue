@@ -15,14 +15,12 @@
       <div class="orderWrapper" v-if="this.showingHistory">
         <OrderHistory />
       </div>
-
     </div>
   </div>
 </template>
 <script>
 import OrderHistory from "@/components/OrderHistory.vue";
 import User from "@/components/User.vue";
-
 export default {
   components: {
     OrderHistory,
@@ -31,7 +29,6 @@ export default {
   data() {
     return { showingHistory: false };
   },
-
   computed: {
     getCurrentUser() {
       return this.$store.state.currentUser;
@@ -68,7 +65,8 @@ export default {
   background-color: green;
 }
 
-.history{
+.history {
+
   align-self: flex-start;
   justify-content: flex-end;
   width: 100%;

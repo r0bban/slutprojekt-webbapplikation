@@ -49,10 +49,17 @@ export default {
 
 <style lang="scss" scoped>
 .order-item {
-  margin-bottom: 12px;
-}
 
-h5 {
-  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  padding: 0 1rem;
+  background: lightpink;
+}
+.label {
+  font-weight: 700;
+}
+.data {
+  margin-left: 1rem;
+
 }
 </style>

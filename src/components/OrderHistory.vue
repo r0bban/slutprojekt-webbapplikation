@@ -1,6 +1,8 @@
 <template>
   <div class="orders-list-wrapper">
-    <Order v-for="order in orderHistory" :key="order._id" :order="order" />
+
+    <Order v-for="order in orderHistory" :key="order._id" :order="order" :expandMode="expandMode" />
+
   </div>
 </template>
 
@@ -12,7 +14,12 @@ export default {
     Order
   },
 
-  props: {},
+
+  props: {
+    expandMode: Boolean
+    // order: Object,
+    // orders: Array
+  },
 
   computed: {
     orderHistory() {
@@ -23,21 +30,28 @@ export default {
       return this.$store.state.products;
     }
   },
-  methods: {},
+
+  methods: {
+    getProducts() {
+      this.$store.dispatch("getProductById", this.order.items);
+    },
+    lookupItem(item) {
+      return { retrievedItem: this.$store.dispatch("getProductById", item) };
+    }
+  },
 
   beforeMount() {
     this.$store.dispatch("refreshOrderHistory");
-  },
-  mounted(){
-    this.orderedProducts
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .orders-list-wrapper {
+
   background: cadetblue;
   border: 2px dotted black;
+
 }
 
 article p:nth-child(n) {
