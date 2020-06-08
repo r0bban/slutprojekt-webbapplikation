@@ -26,7 +26,7 @@ export default {
       this.$router.push({ name: "Checkout" });
     },
     close() {
-      this.$store.commit("toggleCart");
+      this.$store.commit("closeModal");
     }
   }
 };

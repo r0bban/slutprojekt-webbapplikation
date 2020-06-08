@@ -42,16 +42,6 @@ const routes = [
     path: "/admin",
     name: "Admin",
     component: AdminView,
-<<<<<<< HEAD
-    beforeEnter: (to, from, next) => {
-      if (store.state.currentUser.role != "admin") {
-        store.commit("toggleLogin");
-        next({ path: "/" });
-      } else {
-        next();
-      }
-    },
-=======
     // beforeEnter: (to, from, next) => {
     //   console.log(to);
     //   console.log(from);
@@ -64,22 +54,11 @@ const routes = [
     //     next();
     //   }
     // },
->>>>>>> 7d33660cf1f90e0828ddc0bd7ca0f9f43e364f9a
   },
   {
     path: "/account",
     name: "Account",
     component: AccountView,
-<<<<<<< HEAD
-    beforeEnter: (to, from, next) => {
-      if (store.state.currentUser.role != "customer") {
-        store.commit("toggleLogin");
-        next({ path: "/" });
-      } else {
-        next();
-      }
-    },
-=======
     // beforeEnter: (to, from, next) => {
     //   console.log(to);
     //   console.log(from);
@@ -92,22 +71,11 @@ const routes = [
     //     next();
     //   }
     // },
->>>>>>> 7d33660cf1f90e0828ddc0bd7ca0f9f43e364f9a
   },
   {
     path: "/registration",
     name: "Registration",
     component: RegistrationView,
-<<<<<<< HEAD
-    beforeEnter: (to, from, next) => {
-      if (store.state.currentUser.role != "") {
-        store.commit("toggleLogin");
-        next({ path: "/" });
-      } else {
-        next();
-      }
-    },
-=======
     // beforeEnter: (to, from, next) => {
     //   console.log(to);
     //   console.log(from);
@@ -120,7 +88,6 @@ const routes = [
     //     next();
     //   }
     // },
->>>>>>> 7d33660cf1f90e0828ddc0bd7ca0f9f43e364f9a
   },
   // {
   //   path: '/about',

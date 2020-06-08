@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     close() {
-      this.$store.commit("toggleLogin");
+      this.$store.commit("closeModal");
     },
     loginIn() {
       this.$store.dispatch("loginUser", this.creds);
