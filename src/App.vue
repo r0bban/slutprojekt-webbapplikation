@@ -24,7 +24,7 @@ export default {
     Footer
   },
   methods: {},
-  async beforeMount() {
+  async beforeCreate() {
     await this.$store.dispatch("initialProductLoad");
   },
   created() {

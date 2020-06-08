@@ -78,7 +78,7 @@ export default new Vuex.Store({
     },
     setToken(state, token) {
       state.userToken = token;
-      localStorage.userToken = token;
+      localStorage.userToken = JSON.stringify(token);
       console.log("userToken: " + state.userToken);
     },
     setCurrentUser(state, user) {
@@ -113,6 +113,12 @@ export default new Vuex.Store({
     },
     addProductToStoreProducts(state, newProduct) {
       state.products.push(newProduct);
+    },
+    updateProductInStoreProducts(state, updatedProduct) {
+      let index = state.products.findIndex(product => product._id == updatedProduct._id);
+      if (index != -1) {
+        state.products[index] = updatedProduct
+      }
     },
   },
   getters: {
@@ -179,6 +185,7 @@ export default new Vuex.Store({
         context.state.userToken
       );
       console.log(updatedProduct);
+      context.commit("updateProductInStoreProducts", productToUpdate)
     },
     async loginUser(context, payload) {
       const data = await APIauth.authorizeUser(payload);
