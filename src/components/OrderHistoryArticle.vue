@@ -1,10 +1,16 @@
 <template>
   <article class="order-item">
     <div class="wrapper name">
-      <p
-        v-for="myItem in filteredProducts"
-        v-bind:key="myItem._id"
-      >Produkt: {{myItem.title}}, Kategori: {{myItem.category}}</p>
+      <div class="item" v-for="myItem in filteredProducts" v-bind:key="myItem._id">
+        <div class>
+          <span>Produkt:</span>
+          <span>{{myItem.title}}</span>
+        </div>
+        <div>
+          <span>Kategori:</span>
+          <span>{{myItem.category}}</span>
+        </div>
+      </div>
     </div>
     <div class="wrapper quantity">
       <p class="label quantity">Antal:</p>
@@ -12,7 +18,6 @@
     </div>
     <div class="wrapper id">
       <p class="label id">id:</p>
-      <!-- <p class="data id">{{item.id}}</p> -->
       <p class="data id">{{item.id}}</p>
     </div>
   </article>
@@ -29,12 +34,12 @@ export default {
   props: {
     orderItem: Object,
     expandMode: Boolean
+    // filteredProducts: Object
   },
   computed: {
     filteredProducts() {
       let tmp = this.$store.state.products.filter(
         item => item._id == this.orderItem.id
-        // item => item._id == "VQCZcEEEC6U7HrHf"
       );
       return tmp;
     }
@@ -45,10 +50,14 @@ export default {
 
 <style lang="scss" scoped>
 .order-item {
-  background: coral;
   margin-bottom: 12px;
-  p {
-    display: inline;
-  }
+}
+
+.order-item {
+  background-color: red;
+}
+
+h5 {
+  font-size: 0.8rem;
 }
 </style>

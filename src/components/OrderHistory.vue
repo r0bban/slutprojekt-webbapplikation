@@ -38,7 +38,6 @@ export default {
 .orders-list-wrapper {
   background: cadetblue;
   border: 2px dotted black;
-  width: 100%;
 }
 
 article p:nth-child(n) {

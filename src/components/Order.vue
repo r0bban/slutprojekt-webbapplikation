@@ -16,10 +16,9 @@
       <p class="label status">Status:</p>
       <p class="data status">{{orderObject.status}}</p>
     </div>
-    <div class="items-list-wrapper">
-      <h3>Artiklar:</h3>
+    <button @click="toggleExpand()">Artiklar</button>
+    <div v-if="this.isExpanded" class="items-list-wrapper">
       <OrderHistoryArticle v-for="item in orderObject.items" :key="item.id" :orderItem="item" />
-      
     </div>
   </article>
 </template>
@@ -46,18 +45,21 @@ export default {
     findItem(id) {
       let tmp = this.$store.state.products.filter(item => item._id == id);
       return tmp;
+    },
+    toggleExpand() {
+      this.isExpanded = !this.isExpanded;
     }
   },
-  mounted(){
-    console.log(this.order.items)
+  mounted() {
+    console.log(this.order.items);
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .order-card {
-  background: burlywood;
   border: 2px solid black;
+  margin: 0 auto;
   p {
     display: inline;
   }
