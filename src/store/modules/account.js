@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 // import API from "@/api/server";
+=======
+>>>>>>> cd4d273cb1815b9d9eb3bc06085652de714268f0
 
 export default ({
     state: {
