@@ -5,28 +5,34 @@
       <button @click="toggleLogin()">Logga in då.</button>
     </div>
     <div v-if="getCurrentUser" class="details">
-      <h3>Mitt konto</h3>
-      <h4>{{getCurrentUser.name}}</h4>
-      <h4>{{getCurrentUser.email}}</h4>
-      <p>{{this.$store.state.userToken}}</p>
+      <User v-bind:user="getCurrentUser" />
       <button @click="logout()">Logga ut</button>
     </div>
-    <h3 class="showHistory" @click="toggleShowHistory()">Visa min orderhistorik</h3>
-    <div class="orderWrapper" v-if="this.showingHistory">
-    <OrderHistory v-for="order in myOrders" v-bind:key="order._id" :order="order" />
+
+    <div v-if="getCurrentUser.role == 'customer'">
+      <h3 class="showHistory" @click="toggleShowHistory()">Visa min orderhistorik</h3>
+
+      <div class="orderWrapper" v-if="this.showingHistory">
+        <!-- <OrderHistory v-for="order in myOrders" v-bind:key="order._id" :order="order" /> -->
+        <OrderHistory />
+      </div>
+
     </div>
   </div>
 </template>
 <script>
 import OrderHistory from "@/components/OrderHistory.vue";
+import User from "@/components/User.vue";
 
 export default {
   components: {
-    OrderHistory
+    OrderHistory,
+    User
   },
   data() {
     return { showingHistory: false };
   },
+
   computed: {
     getCurrentUser() {
       return this.$store.state.currentUser;
@@ -60,6 +66,6 @@ div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: lightblue;
+  background-color: green;
 }
 </style>
