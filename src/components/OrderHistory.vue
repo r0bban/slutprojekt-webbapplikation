@@ -28,6 +28,7 @@ export default {
   },
 
   props: {
+
     // order: Object,
     // orders: Array
   },
@@ -35,6 +36,7 @@ export default {
     orderHistory() {
       return this.$store.state.orderHistory;
     },
+
     products() {
       return this.$store.state.products;
     }
@@ -47,8 +49,10 @@ export default {
       return { retrievedItem: this.$store.dispatch("getProductById", item) };
     }
   },
+
   beforeMount(){
     this.$store.dispatch("refreshOrderHistory")
+
   }
   // mounted() {
   //   // Just nu skickas ett get med [id1, id2, id3] osv (från rad 28), behöver göra ett separat anrop för varje ID alternativt hämta direkt från storen

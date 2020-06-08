@@ -8,6 +8,7 @@
       <User v-bind:user="getCurrentUser" />
       <button @click="logout()">Logga ut</button>
     </div>
+
     <div v-if="getCurrentUser.role == 'customer'">
       <h3 class="showHistory" @click="toggleShowHistory()">Visa min orderhistorik</h3>
 
@@ -15,6 +16,7 @@
         <!-- <OrderHistory v-for="order in myOrders" v-bind:key="order._id" :order="order" /> -->
         <OrderHistory />
       </div>
+
     </div>
   </div>
 </template>
@@ -30,6 +32,7 @@ export default {
   data() {
     return { showingHistory: false };
   },
+
   computed: {
     getCurrentUser() {
       return this.$store.state.currentUser;
