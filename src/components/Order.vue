@@ -1,22 +1,23 @@
 <template>
   <article class="order-card">
     <div class="wrapper id">
-      <p class="label id">Ordernummer</p>
+      <p class="label id">Ordernummer:</p>
       <p class="data id">{{orderObject._id}}</p>
     </div>
     <div class="wrapper time">
-      <p class="label time">Orderdatum</p>
+      <p class="label time">Orderdatum:</p>
       <p class="data time">{{orderObject.timeStamp}}</p>
     </div>
     <div class="wrapper amount">
-      <p class="label quantity">Summa</p>
-      <p class="data quantity">{{orderObject.orderValue}}</p>
+      <p class="label quantity">Summa:</p>
+      <p class="data quantity">{{orderObject.orderValue}} kr</p>
     </div>
     <div class="wrapper status">
-      <p class="label status">Status</p>
+      <p class="label status">Status:</p>
       <p class="data status">{{orderObject.status}}</p>
     </div>
     <div class="items-list-wrapper">
+      <h3>Artiklar:</h3>
       <OrderHistoryArticle v-for="item in orderObject.items" :key="item.id" :orderItem="item" />
     </div>
   </article>
@@ -32,13 +33,24 @@ export default {
   data() {
     return {
       orderObject: this.order,
-      isExpanded: this.expandMode
+      isExpanded: this.expandMode,
+      // orderItems: this.getOrderItems()
     };
   },
   props: {
     order: Object,
     expandMode: Boolean
-  }
+  },
+  computed: {
+    getOrderItems() {
+      let tmp = this.$store.state.products.filter(
+        product =>
+          product._id == this._id
+      );
+      return tmp;
+      // else return tmp.filter(product => product.category == this.category);
+    }
+  },
 };
 </script>
 
@@ -46,5 +58,8 @@ export default {
 .order-card {
   background: burlywood;
   border: 2px solid black;
+  p {
+    display: inline;
+  }
 }
 </style>

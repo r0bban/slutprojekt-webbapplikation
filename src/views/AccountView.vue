@@ -9,11 +9,10 @@
       <button @click="logout()">Logga ut</button>
     </div>
 
-    <div v-if="getCurrentUser.role == 'customer'">
+    <div class="history" v-if="getCurrentUser.role == 'customer'">
       <h3 class="showHistory" @click="toggleShowHistory()">Visa min orderhistorik</h3>
 
       <div class="orderWrapper" v-if="this.showingHistory">
-        <!-- <OrderHistory v-for="order in myOrders" v-bind:key="order._id" :order="order" /> -->
         <OrderHistory />
       </div>
 
@@ -62,10 +61,16 @@ export default {
   padding: 0.4rem;
 }
 
-div {
+.accountView {
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: green;
+}
+
+.history{
+  align-self: flex-start;
+  justify-content: flex-end;
+  width: 100%;
 }
 </style>
