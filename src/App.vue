@@ -40,20 +40,24 @@ export default {
 };
 </script>
 <style lang="scss">
+html, body{
+  margin:0;
+  height:100%
+}
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
-  // border: 1px solid black;
 }
 #app {
   position: relative;
-  // width: 100vw;
   background-color: beige;
   display: grid;
-  grid-template-rows: 8vh minmax(82vh, auto) 10vh;//8vh 82vh 10vh;
+  min-height: 100%;
+  grid-template-rows: 6rem auto 6rem;
 }
 .mainContainer {
   margin: 0 auto;
