@@ -11,8 +11,10 @@
       <p>{{this.$store.state.userToken}}</p>
       <button @click="logout()">Logga ut</button>
     </div>
-    <h3>Orderhistorik:</h3>
+    <h3 class="showHistory" @click="toggleShowHistory()">Visa min orderhistorik</h3>
+    <div class="orderWrapper" v-if="this.showingHistory">
     <OrderHistory v-for="order in myOrders" v-bind:key="order._id" :order="order" />
+    </div>
   </div>
 </template>
 <script>
@@ -22,7 +24,9 @@ export default {
   components: {
     OrderHistory
   },
-
+  data() {
+    return { showingHistory: false };
+  },
   computed: {
     getCurrentUser() {
       return this.$store.state.currentUser;
@@ -40,8 +44,11 @@ export default {
     },
     toggleLogin() {
       this.$store.commit("toggleLogin");
+    },
+    toggleShowHistory() {
+      this.showingHistory = !this.showingHistory;
     }
-  },
+  }
 };
 </script>
 <style lang='scss' scoped>
