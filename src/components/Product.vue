@@ -4,16 +4,29 @@
       <router-link class="closeButton" :to="{name: 'Products'}">
         <img :src="require(`@/assets/closeIcon.svg`)" alt />
       </router-link>
-
-      <h1>{{product.title}}</h1>
-      <h2>{{product.price}}</h2>
-      <h2>{{product.serial}}</h2>
-      <h2>{{product.shortDesc}}</h2>
-      <p>{{product.longDesc}}</p>
+      <div class="info">
+        <h1>{{product.title}}</h1>
+        <h2>
+          <span class="label">Artikelnummber:</span>
+          {{product.serial}}
+        </h2>
+        <h2>
+          <span class="label">Type:</span>
+          {{product.shortDesc}}
+        </h2>
+        <p>{{product.longDesc}}</p>
+        <h2>
+          <span class="label">Price:</span>
+          {{product.price}}
+        </h2>
+        <button
+          v-if="this.$store.state.currentUser.role!='admin'"
+          @click="addToCart"
+        >Lägg till Varukorg</button>
+      </div>
       <div class="bigPicture">
         <img :src="require(`@/assets/${product.imgFile}`)" alt />
       </div>
-      <button @click="addToCart">Lägg till Varukorg</button>
     </div>
   </div>
 </template>
@@ -40,40 +53,54 @@ export default {
 <style lang='scss' scoped>
 .productContainer {
   position: absolute;
-
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  // display: flex;
+  // justify-content: center;
+  // align-items: flex-start;
   background-color: rgba(46, 42, 40, 0.8);
 }
 .product {
   position: relative;
+  margin: 0 auto;
   margin-top: 10%;
   padding: 1rem;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 0px 5px rgb(233, 233, 233);
   border-radius: 5px;
-  // width: 80%;
-  // height: 50%;
+  width: 80%;
+  height: 50%;
+
+  .info {
+    overflow: auto;
+  }
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 100%;
+  @media screen and (max-width: 400px) {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 50%;
+  }
 }
 .bigPicture {
-  width: 300px;
-  height: 300px;
-  // display: flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
   }
-  background-color: darkcyan;
   border-radius: 5px;
 }
 .closeButton {
+  position: absolute;
+  right: 0;
+  top: 0;
+  min-width: 50px;
   img {
-    max-width: 2%;
-    position: absolute;
-    right: 0;
     margin: 1rem;
   }
 }

@@ -141,6 +141,9 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
+.adminView {
+  overflow: auto;
+}
 .tableProperties {
   width: 100%;
   text-align: left;

@@ -1,7 +1,6 @@
 <template>
   <div class="cartContainer" @click.self="close">
     <div class="shoppingCart">
-      <div class="triangle"></div>
       <div class="productContainer" v-if="this.$store.state.cart.length>0">
         <OrderArticle v-for="product in cart" :key="product._id" :product="product" />
       </div>
@@ -40,14 +39,15 @@ export default {
   background-color: rgba($color: #000000, $alpha: 0.6);
   height: 100%;
   width: 100%;
-  // display: flex;
-  // justify-content: flex-end;
-  // align-items: flex-start;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .shoppingCart {
-  position: absolute;
-  right: 12%;
-  top: 8%;
+  // position: absolute;
+  // right: 12%;
+  // top: 8%;
   font-size: 2rem;
   border-radius: 10px;
   padding: 1rem;
@@ -58,17 +58,5 @@ export default {
 
   // display: flex;
   // flex-direction: column;
-}
-.triangle {
-  position: absolute;
-  top: -3.5%;
-  right: 8%;
-  width: 0;
-  height: 0;
-  border: 15px solid transparent;
-  border-bottom: 25px solid lightyellow;
-
-  // border-left: transparent;
-  // border-right: transparent;
 }
 </style>

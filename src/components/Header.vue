@@ -83,6 +83,7 @@ export default {
     goToFavorites() {},
     logOff() {
       this.$store.commit("logout");
+      this.$router.push({ name: "Products" });
     },
     toggleUser() {
       if (this.user == "Customer") {
@@ -162,7 +163,7 @@ export default {
 }
 .defaultButton {
   display: flex;
-
+  margin: 0.1rem;
   background-color: white;
   border: none;
   height: 50px;

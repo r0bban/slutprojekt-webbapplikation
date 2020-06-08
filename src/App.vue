@@ -34,6 +34,8 @@ export default {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-size: 16px;
+  line-height: 1.6;
   // border: 1px solid black;
 }
 #app {
@@ -41,7 +43,7 @@ export default {
   // width: 100vw;
   background-color: beige;
   display: grid;
-  grid-template-rows: 8vh minmax(77vh, auto) 15vh;
+  grid-template-rows: 8vh 82vh 10vh;
 }
 .mainContainer {
   margin: 0 auto;
