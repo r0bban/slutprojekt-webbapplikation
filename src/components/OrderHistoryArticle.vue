@@ -1,19 +1,19 @@
 <template>
   <article class="order-item">
-    <div class="wrapper id">
-      <p class="label id">ID:</p>
-      <!-- <p class="data id">{{item.id}}</p> -->
-      <p class="data id">{{item.id}}</p>
-    </div>
     <div class="wrapper name">
       <p
         v-for="myItem in filteredProducts"
-        v-bind:key="myItem"
-      >MyItem: {{myItem.title}}, Category: {{myItem.category}}</p>
+        v-bind:key="myItem._id"
+      >Produkt: {{myItem.title}}, Kategori: {{myItem.category}}</p>
     </div>
     <div class="wrapper quantity">
       <p class="label quantity">Antal:</p>
       <p class="data quantity">{{item.quantity}}</p>
+    </div>
+    <div class="wrapper id">
+      <p class="label id">id:</p>
+      <!-- <p class="data id">{{item.id}}</p> -->
+      <p class="data id">{{item.id}}</p>
     </div>
   </article>
 </template>
