@@ -3,35 +3,47 @@
     <router-link class="logoType" :to="{name: 'Products'}">
       <img :src="require('@/assets/sinus-logo.svg')" alt />
     </router-link>
-    <div class="menuItems">
-      <div class="navigationButtons">
-        <div class="customerButtons" v-if="(user.role == undefined) || (user.role == 'customer')">
-          <button @click="goToAccount" class="defaultButton">
-            <img :src="require('@/assets/userIcon.svg')" alt />
+    <div class="nav-wrapper">
+      <div class="navigation-buttons">
+        <div
+          class="toolbox"
+          :class="{customer : (user.role == undefined) || (user.role == 'customer'), admin : user.role == 'admin'}"
+        >
+          <button @click="goToAccount" class="toolbox-button account">
+            <img class="icon" :src="require('@/assets/userIcon.svg')" alt />
           </button>
-          <button @click="goToFavorites" class="defaultButton">
-            <img :src="require('@/assets/heartIcon.svg')" alt />
+          <button @click="goToFavorites" class="toolbox-button favourites">
+            <img class="icon" :src="require('@/assets/heartIcon.svg')" alt />
           </button>
-          <button @click="toggleCart" class="defaultButton">
-            <img :src="require('@/assets/bagIcon.svg')" alt />
+          <button @click="toggleCart" class="toolbox-button cart">
+            <div v-if="this.$store.state.totalOrderQuantity>0" class="cart-quantity">
+              <p>{{this.$store.state.totalOrderQuantity}}</p>
+            </div>
+            <img class="icon" :src="require('@/assets/cartIcon.svg')" alt />
           </button>
-        </div>
-        <div v-else class="customerButtons">
-          <button v-if="this.$route.path != '/admin'" @click="goToAdmin" class="defaultButton">
-            <img :src="require('@/assets/wrenchIcon.svg')" alt />
+          <button
+            v-if="this.$route.path != '/admin'"
+            @click="goToAdmin"
+            class="toolbox-button admin-toggle"
+          >
+            <img class="icon" :src="require('@/assets/admin-panel.svg')" alt />
           </button>
-          <button v-else class="defaultButton">
-            <router-link :to="{name: 'Products'}">
-              <img :src="require('@/assets/homeIcon.svg')" alt />
-            </router-link>
+          <button v-else @click="goToProducts" class="toolbox-button admin-toggle">
+            <img class="icon preview" :src="require('@/assets/preview2.svg')" alt />
           </button>
         </div>
 
-        <button @click="toggleLogin" class="logInOut" v-if="!user">Sign In</button>
-        <button @click="logOff" class="logInOut" v-else>Log Off</button>
+        <button @click="toggleLogin" class="log-in-log-out" v-if="!user">Logga in</button>
+        <button @click="logOff" class="log-in-log-out" v-else>Logga ut</button>
       </div>
-      <p v-if="user.role=='customer'">Signed In as {{user.name}}</p>
-      <p v-else-if="user.role=='admin'">Signed In as Admin</p>
+      <p v-if="user.role=='customer'">
+        Inloggad som
+        <span class="user-name">{{user.name}}</span>
+      </p>
+      <p v-else-if="user.role=='admin'">
+        Inloggad som
+        <span class="user-name">{{user.name}} (admin)</span>
+      </p>
       <p v-else>Not Signed In</p>
     </div>
   </div>
@@ -48,6 +60,9 @@ export default {
     },
     goToAdmin() {
       this.$router.push({ name: "Admin" }).catch(() => {});
+    },
+    goToProducts() {
+      this.$router.push({ name: "Products" }).catch(() => {});
     },
     goToFavorites() {},
     logOff() {
@@ -87,66 +102,97 @@ export default {
   background-color: lightblue;
   display: flex;
 
-  // grid-template-columns: repeat(2, 1fr) 0.5fr;
-  // grid-auto-rows: 100%;
-  ul {
-    list-style: none;
+  .logoType {
+    background-color: #fadbff;
+    padding: 0.5rem;
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-start;
+    img {
+      height: 100%;
+    }
   }
 }
-.logoType {
-  background-color: #fadbff;
-  padding: 0.5rem;
-  flex-grow: 5;
-  display: flex;
-  justify-content: flex-start;
-  img {
-    height: 100%;
-  }
-}
-.menuItems {
-  padding: 0.5rem;
-  flex-grow: 1;
-  // display: flex;
-  // align-items: center;
-  // justify-content: space-around;
-  // a {
-  //   background-color: transparent;
-  //   text-decoration: none;
-  //   padding: 0.5rem;
-  // }
-}
-.navigationButtons {
-  display: flex;
-  justify-content: space-between;
-}
-.loginContainer {
-  display: flex;
-  flex-flow: column wrap;
-}
-.navigationButtons {
-  display: flex;
-}
-.customerButtons {
-  display: flex;
-  flex-grow: 2;
-}
-.defaultButton {
-  display: flex;
-  margin: 0.1rem;
-  background-color: white;
-  border: none;
-  height: 50px;
-  width: 50px;
-  border-radius: 100%;
 
-  padding: 0px;
-  // display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.logInOut {
-  flex-grow: 1;
-  border-radius: 25px;
-  background-color: white;
+.nav-wrapper {
+  padding: 0.5rem 2rem;
+  // flex-grow: 1;
+  margin-top: 0.5rem;
+
+  .user-name {
+    font-weight: 600;
+  }
+
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+
+    .toolbox {
+      display: flex;
+      flex-grow: 1;
+      background: none;
+      margin-right: 1rem;
+
+      &.admin {
+        .toolbox-button.favourites,
+        .toolbox-button.cart {
+          display: none;
+        }
+      }
+      &.customer {
+        .toolbox-button.admin-toggle {
+          display: none;
+        }
+      }
+
+      .toolbox-button {
+        display: flex;
+        margin: 0.1rem;
+        background-color: white;
+        border: none;
+        height: 3rem;
+        width: 3rem;
+        border-radius: 100%;
+        padding: 0px;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        &.cart {
+          .cart-quantity {
+            position: absolute;
+            top: -0.6rem;
+            right: -0.5rem;
+            background: chocolate;
+            border-radius: 100%;
+            width: 1.5rem;
+            height: 1.5rem;
+
+            p {
+              margin: 0;
+              color: white;
+              font-weight: 900;
+            }
+          }
+        }
+
+        .icon {
+          width: 60%;
+          &.preview {
+            width: 75%;
+          }
+        }
+      }
+    }
+
+    .log-in-log-out {
+      white-space: nowrap;
+      border: none;
+      border-radius: 15px;
+      background-color: white;
+      padding: 0.4rem 1rem;
+      align-self: center;
+    }
+  }
 }
 </style>
