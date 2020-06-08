@@ -13,6 +13,7 @@ export default {
   },
 
   props: {},
+
   computed: {
     orderHistory() {
       return this.$store.state.orderHistory;
@@ -22,17 +23,13 @@ export default {
       return this.$store.state.products;
     }
   },
-  methods: {
-    getProducts() {
-      this.$store.dispatch("getProductById", this.order.items);
-    },
-    lookupItem(item) {
-      return { retrievedItem: this.$store.dispatch("getProductById", item) };
-    }
-  },
+  methods: {},
 
   beforeMount() {
     this.$store.dispatch("refreshOrderHistory");
+  },
+  mounted(){
+    this.orderedProducts
   }
 };
 </script>

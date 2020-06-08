@@ -19,6 +19,7 @@
     <div class="items-list-wrapper">
       <h3>Artiklar:</h3>
       <OrderHistoryArticle v-for="item in orderObject.items" :key="item.id" :orderItem="item" />
+      
     </div>
   </article>
 </template>
@@ -33,24 +34,23 @@ export default {
   data() {
     return {
       orderObject: this.order,
-      isExpanded: this.expandMode,
-      // orderItems: this.getOrderItems()
+      isExpanded: this.expandMode
     };
   },
   props: {
     order: Object,
     expandMode: Boolean
   },
-  computed: {
-    getOrderItems() {
-      let tmp = this.$store.state.products.filter(
-        product =>
-          product._id == this._id
-      );
+
+  methods: {
+    findItem(id) {
+      let tmp = this.$store.state.products.filter(item => item._id == id);
       return tmp;
-      // else return tmp.filter(product => product.category == this.category);
     }
   },
+  mounted(){
+    console.log(this.order.items)
+  }
 };
 </script>
 
