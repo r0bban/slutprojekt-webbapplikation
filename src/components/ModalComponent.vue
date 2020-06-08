@@ -26,10 +26,12 @@ export default {
 .modalComponent {
   position: fixed;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  // height: min-content;
   background-color: rgba($color: #000000, $alpha: 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 </style>
