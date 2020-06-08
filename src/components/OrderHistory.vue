@@ -13,9 +13,7 @@
   </article>-->
 
   <div class="orders-list-wrapper">
-    <Order v-for="order in orderHistory"
-    :key="order._id"
-    :order="order"/>
+    <Order v-for="order in orderHistory" :key="order._id" :order="order" :expandMode="expandMode" />
   </div>
 </template>
 
@@ -28,7 +26,7 @@ export default {
   },
 
   props: {
-
+    expandMode: Boolean
     // order: Object,
     // orders: Array
   },
@@ -50,9 +48,8 @@ export default {
     }
   },
 
-  beforeMount(){
-    this.$store.dispatch("refreshOrderHistory")
-
+  beforeMount() {
+    this.$store.dispatch("refreshOrderHistory");
   }
   // mounted() {
   //   // Just nu skickas ett get med [id1, id2, id3] osv (från rad 28), behöver göra ett separat anrop för varje ID alternativt hämta direkt från storen
@@ -62,10 +59,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.orders-list-wrapper {
+  box-shadow: 0 0 2px white;
+  padding: 1rem;
+  background: rgb(213, 250, 250);
 
-.orders-list-wrapper{
-    background:cadetblue;
-    border: 2px dotted black;
+  border-radius: 5px;
 }
 
 article p:nth-child(n) {

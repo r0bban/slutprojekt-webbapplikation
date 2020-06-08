@@ -28,7 +28,16 @@ export default {
 
 
 <style lang="scss" scoped>
-.order-item{
-    background: coral;
+.order-item {
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  padding: 0 1rem;
+  background: lightpink;
+}
+.label {
+  font-weight: 700;
+}
+.data {
+  margin-left: 1rem;
 }
 </style>
