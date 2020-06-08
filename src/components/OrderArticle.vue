@@ -15,7 +15,7 @@
       <button class="item-quantity increase" v-on:click="increaseQuantity">
         <img class="arrow" src="@/assets/arrow-up.svg" alt="arrow-up" />
       </button>
-      <p class="amount">{{this.quantity}}</p>
+      <p class="amount">{{quantity}}</p>
       <button class="item-quantity decrease" v-on:click="reduceQuantity">
         <img class="arrow" src="@/assets/arrow-down.svg" alt="arrow-down" />
       </button>
