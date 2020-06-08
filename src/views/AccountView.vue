@@ -57,13 +57,16 @@ export default {
 * {
   padding: 0.4rem;
 }
+
 .accountView {
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: green;
 }
+
 .history {
+
   align-self: flex-start;
   justify-content: flex-end;
   width: 100%;
