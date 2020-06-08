@@ -43,14 +43,10 @@ const routes = [
     name: "Admin",
     component: AdminView,
     beforeEnter: (to, from, next) => {
-      console.log(to);
-      console.log(from);
       if (store.state.currentUser.role != "admin") {
-        alert("Du måste vara inloggad som admin för att nå resursen");
         store.commit("toggleLogin");
         next({ path: "/" });
       } else {
-        console.log("Navigation complete");
         next();
       }
     },
@@ -60,14 +56,10 @@ const routes = [
     name: "Account",
     component: AccountView,
     beforeEnter: (to, from, next) => {
-      console.log(to);
-      console.log(from);
       if (store.state.currentUser.role != "customer") {
-        alert("Du måste vara inloggad som kund för att nå resursen");
         store.commit("toggleLogin");
         next({ path: "/" });
       } else {
-        console.log("Navigation complete");
         next();
       }
     },
@@ -77,14 +69,10 @@ const routes = [
     name: "Registration",
     component: RegistrationView,
     beforeEnter: (to, from, next) => {
-      console.log(to);
-      console.log(from);
       if (store.state.currentUser.role != "") {
-        alert("Du måste vara utloggad för att nå resursen");
         store.commit("toggleLogin");
         next({ path: "/" });
       } else {
-        console.log("Navigation complete");
         next();
       }
     },

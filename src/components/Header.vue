@@ -33,52 +33,21 @@
       <p v-if="user.role=='customer'">Signed In as {{user.name}}</p>
       <p v-else-if="user.role=='admin'">Signed In as Admin</p>
       <p v-else>Not Signed In</p>
-      <!-- <li>
-        <router-link :to="{name: 'Products'}">Products</router-link>
-      </li>
-      <li>
-        <img @click="toggleCart" :src="require('@/assets/icon-bag-black.svg')" alt />
-      </li>
-      <li>
-        <button @click="toggleUser">Växla Roll</button>
-      </li>-->
     </div>
-    <!-- <div class="login">
-      <router-link v-if="user.role=='customer'" :to="{name: 'Account'}">My Account</router-link>
-      <router-link v-else-if="user.role=='admin'" :to="{name: 'Admin'}">Admin View</router-link>
-      <div class="loginContainer" v-else>
-        <span @click="toggleLogin">Sign In</span>
-        <span>
-          <router-link :to="{name: 'Registration'}">Sign Up</router-link>
-    </span>-->
-    <!-- <label for>Email</label>
-        <input type="text" />
-        <label for>Password</label>
-    <input type="text" />-->
-    <!-- </div>
-    </div>-->
-    <!-- <button @click="toggleLogin">Toggle Login</button> -->
-    <!-- <button @click="toggleCart">Toggle ShoppingCart</button> -->
-    <!-- <router-link :to="{name: 'Account'}">Go to Account</router-link> -->
-    <!-- <router-link :to="{name: 'Admin'}">Go to Admin</router-link> -->
-    <!-- <router-link :to="{name: 'Registration'}">Go to Registration</router-link> -->
   </div>
 </template>
 <script>
-// import ShoppingCart from "./ShoppingCart";
 export default {
-  components: {
-    // ShoppingCart
-  },
+  components: {},
   data() {
     return {};
   },
   methods: {
     goToAccount() {
-      this.$router.push({ name: "Account" });
+      this.$router.push({ name: "Account" }).catch(() => {});
     },
     goToAdmin() {
-      this.$router.push({ name: "Admin" });
+      this.$router.push({ name: "Admin" }).catch(() => {});
     },
     goToFavorites() {},
     logOff() {

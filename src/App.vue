@@ -1,27 +1,25 @@
 <template>
   <div id="app">
     <Header />
-    <Login v-if="this.$store.state.showLogin" />
+
     <!-- <ShoppingCart  /> -->
-    <ShoppingCart v-if="this.$store.state.showCart" />
     <router-view class="mainContainer" />
     <Footer />
+    <ModalComponent v-if="this.$store.state.showModal" />
   </div>
 </template>
 <script>
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Login from "./components/Login";
-import ShoppingCart from "./components/ShoppingCart";
+import ModalComponent from "./components/ModalComponent";
 export default {
   data() {
     return {};
   },
   components: {
-    Login,
-    ShoppingCart,
     Header,
-    Footer
+    Footer,
+    ModalComponent
   },
   methods: {},
   async beforeCreate() {

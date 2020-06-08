@@ -1,5 +1,5 @@
 <template>
-  <div class="login" @click.self="close">
+  <div class="login">
     <form class="form" onsubmit="return false" v-if="!createAccount">
       <label for>User Credentials</label>
       <hr />
@@ -37,15 +37,15 @@
       </div>
       <div class="formRow">
         <label for>Street</label>
-        <input type="text" v-model="newAccount.address.street" />
+        <input type="text" v-model="newAccount.adress.street" />
       </div>
       <div class="formRow">
         <label for>Zip</label>
-        <input type="number" v-model="newAccount.address.zip" />
+        <input type="number" v-model="newAccount.adress.zip" />
       </div>
       <div class="formRow">
         <label for>City</label>
-        <input type="text" v-model="newAccount.address.city" />
+        <input type="text" v-model="newAccount.adress.city" />
       </div>
       <div class="formRow">
         <label for>Cardowner</label>
@@ -75,7 +75,7 @@ export default {
         email: "",
         password: "",
         repeatPassword: "",
-        address: {
+        adress: {
           street: "",
           city: "",
           zip: 0
@@ -116,21 +116,20 @@ export default {
 </script>
 <style lang='scss' scoped>
 .login {
-  background-color: rgba($color: #000000, $alpha: 0.8);
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: lightyellow;
+  min-width: 40%;
+  min-height: 40%;
+  overflow: auto;
 }
 .form {
   font-size: 2rem;
   border-radius: 10px;
   padding: 1rem;
   background-color: lightyellow;
-  width: 30%;
-  min-height: 40%;
+  // width: 30%;
+  // min-height: 40%;
   display: flex;
   flex-direction: column;
   transition: width 1s;

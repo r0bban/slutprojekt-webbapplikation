@@ -7,16 +7,22 @@ async function authorizeUser(payload) {
     },
     body: JSON.stringify({ email: payload.email, password: payload.password }),
   };
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/auth/",
+      requestOptions
+    );
 
-  const response = await fetch(
-    "http://localhost:5000/api/auth/",
-    requestOptions
-  );
-
-  const data = await response.json();
-  if (response.status == 200) {
-    return data;
-  } else alert(response.status + " " + response.statusText);
+    const data = await response.json();
+    console.log(response);
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error("Unauthorized");
+    }
+  } catch (error) {
+    throw new Error("Invalid Credentials");
+  }
 }
 
 async function createNewUser(payload) {
@@ -28,14 +34,20 @@ async function createNewUser(payload) {
     },
     body: JSON.stringify(payload),
   };
-  const response = await fetch(
-    "http://localhost:5000/api/register",
-    requestOptions
-  );
-  const data = await response.json();
-  if (response.status == 200) {
-    return data;
-  } else alert(response.status + " " + response.statusText);
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/register",
+      requestOptions
+    );
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error("Email already in use");
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export { authorizeUser, createNewUser };

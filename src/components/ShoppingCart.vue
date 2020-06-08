@@ -1,15 +1,13 @@
 <template>
-  <div class="cartContainer" @click.self="close">
-    <div class="shoppingCart">
-      <div class="productContainer" v-if="this.$store.state.cart.length>0">
-        <OrderArticle v-for="product in cart" :key="product._id" :product="product" />
-      </div>
-      <p v-else>Your shoppingcart is empty</p>
-
-      <button @click="checkout">To Checkout</button>
+  <div class="shoppingCart">
+    <div class="productContainer" v-if="this.$store.state.cart.length>0">
+      <OrderArticle v-for="product in cart" :key="product._id" :product="product" />
     </div>
-    <!-- <router-link :to="{name: 'Checkout'}">To Checkout</router-link> -->
+    <p v-else>Your shoppingcart is empty</p>
+
+    <button @click="checkout">To Checkout</button>
   </div>
+  <!-- <router-link :to="{name: 'Checkout'}">To Checkout</router-link> -->
 </template>
 <script>
 import OrderArticle from "../components/OrderArticle";

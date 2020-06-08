@@ -17,8 +17,11 @@ export default new Vuex.Store({
     totalOrderQuantity: 0,
     totalOrderAmount: 0,
 
+    showModal: false,
+    showError: false,
     showCart: false,
     showLogin: false,
+    error: undefined,
 
     newProduct: {
       title: "Roberts produkt",
@@ -70,11 +73,23 @@ export default new Vuex.Store({
       state.totalOrderQuantity += 1;
       state.totalOrderAmount += orderArticle.price;
     },
+    closeModal(state) {
+      (state.showModal = false),
+        (state.showLogin = false),
+        (state.showCart = false),
+        (state.showError = false);
+    },
     toggleCart(state) {
       state.showCart = !state.showCart;
+      state.showModal = !state.showModal;
     },
     toggleLogin(state) {
       state.showLogin = !state.showLogin;
+      state.showModal = !state.showModal;
+    },
+    toggleErrorModal(state) {
+      state.showLogin = !state.showLogin;
+      state.showModal = !state.showModal;
     },
     setToken(state, token) {
       state.userToken = token;
@@ -115,10 +130,20 @@ export default new Vuex.Store({
       state.products.push(newProduct);
     },
     updateProductInStoreProducts(state, updatedProduct) {
-      let index = state.products.findIndex(product => product._id == updatedProduct._id);
+      let index = state.products.findIndex(
+        (product) => product._id == updatedProduct._id
+      );
       if (index != -1) {
-        state.products[index] = updatedProduct
+        state.products[index] = updatedProduct;
       }
+    },
+    setError(state, error) {
+      state.error = error.message;
+      console.log(error.message);
+      setTimeout(() => {
+        state.error = undefined;
+      }, 2000);
+      // clearTimeout(timeout);
     },
   },
   getters: {
@@ -133,8 +158,13 @@ export default new Vuex.Store({
       }
     },
     async refreshProducts(context) {
-      const newProductList = await API.fetchProducts(context.state.userToken);
-      context.commit("setStoreProducts", newProductList);
+      try {
+        const newProductList = await API.fetchProducts(context.state.userToken);
+        context.commit("setStoreProducts", newProductList);
+      } catch (error) {
+        console.log(error);
+        context.commit("setError", error);
+      }
     },
     async registerNewProduct(context, newProduct) {
       try {
@@ -143,62 +173,84 @@ export default new Vuex.Store({
           context.state.userToken
         );
         context.commit("addProductToStoreProducts", addedProduct);
-
-
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
-        // Reflect changes to GUI??? INJECT THIS TO THE GLOBAL ERROR MACHINERY
+        context.commit("setError", error);
       }
-
     },
     async getProductById(context, productId) {
-      const fetchedProduct = await API.fetchProductById(productId);
-      return fetchedProduct;
+      try {
+        const fetchedProduct = await API.fetchProductById(productId);
+        return fetchedProduct;
+      } catch (error) {
+        console.log(error);
+        context.commit("setError", error);
+      }
     },
     async deleteProductById(context, productId) {
-      await API.deleteProductById(productId, context.state.userToken);
-      context.commit("removeProductFromStateProductsById", productId);
+      try {
+        await API.deleteProductById(productId, context.state.userToken);
+        context.commit("removeProductFromStateProductsById", productId);
+      } catch (error) {
+        console.log(error);
+        context.commit("setError", error);
+      }
     },
     async registerNewOrder(context) {
-      if (context.state.cart.length > 0) {
-        let orderRequestBody = {
-          items: [],
-        };
-        context.state.cart.forEach((cartArticle) => {
-          let orderItem = {};
-          orderItem.id = cartArticle._id;
-          orderItem.quantity = cartArticle.quantity;
-          orderRequestBody.items.push(orderItem);
-        });
-        await API.postOrderRequest(orderRequestBody, context.state.userToken);
-        context.commit("clearCart");
-        await context.dispatch("refreshOrderHistory");
-      } else {
-        console.log("Attempt to place order, but cart is empty");
+      try {
+        if (context.state.cart.length > 0) {
+          let orderRequestBody = {
+            items: [],
+          };
+          context.state.cart.forEach((cartArticle) => {
+            let orderItem = {};
+            orderItem.id = cartArticle._id;
+            orderItem.quantity = cartArticle.quantity;
+            orderRequestBody.items.push(orderItem);
+          });
+          await API.postOrderRequest(orderRequestBody, context.state.userToken);
+          context.commit("clearCart");
+          await context.dispatch("refreshOrderHistory");
+        } else {
+          console.log("Attempt to place order, but cart is empty");
+        }
+      } catch (error) {
+        context.commit("setError", error);
       }
     },
     async refreshOrderHistory(context) {
-      const fetchedOrderHistory = await API.fetchOrders(
-        context.state.userToken
-      );
-
-      context.commit("setStoreOrderHistory", fetchedOrderHistory);
+      try {
+        const fetchedOrderHistory = await API.fetchOrders(
+          context.state.userToken
+        );
+        context.commit("setStoreOrderHistory", fetchedOrderHistory);
+      } catch (error) {
+        console.log(error);
+      }
     },
     async updateProduct(context, productToUpdate) {
-      console.log(productToUpdate._id);
-      const updatedProduct = await API.postUpdateProductByIdRequest(
-        productToUpdate,
-        context.state.userToken
-      );
-      console.log(updatedProduct);
-      context.commit("updateProductInStoreProducts", productToUpdate)
+      try {
+        console.log(productToUpdate._id);
+        const updatedProduct = await API.postUpdateProductByIdRequest(
+          productToUpdate,
+          context.state.userToken
+        );
+        console.log(updatedProduct);
+        context.commit("updateProductInStoreProducts", productToUpdate);
+      } catch (error) {
+        console.log(error);
+      }
     },
     async loginUser(context, payload) {
-      const data = await APIauth.authorizeUser(payload);
-      if (data) {
-        context.commit("setToken", data.token);
-        context.commit("setCurrentUser", data.user);
+      try {
+        const data = await APIauth.authorizeUser(payload);
+        if (data) {
+          context.commit("setToken", data.token);
+          context.commit("setCurrentUser", data.user);
+        }
+      } catch (error) {
+        console.log(error);
+        context.commit("setError", error);
       }
     },
     async createNewUser(context, payload) {
