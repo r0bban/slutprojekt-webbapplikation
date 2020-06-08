@@ -17,7 +17,7 @@
       <p class="data quantity">{{item.quantity}}</p>
     </div>
     <div class="wrapper id">
-      <p class="label id">id:</p>
+      <p class="label id">Artikelnummer:</p>
       <p class="data id">{{item.id}}</p>
     </div>
   </article>
@@ -34,7 +34,6 @@ export default {
   props: {
     orderItem: Object,
     expandMode: Boolean
-    // filteredProducts: Object
   },
   computed: {
     filteredProducts() {
@@ -51,10 +50,6 @@ export default {
 <style lang="scss" scoped>
 .order-item {
   margin-bottom: 12px;
-}
-
-.order-item {
-  background-color: red;
 }
 
 h5 {
