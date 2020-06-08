@@ -26,6 +26,18 @@ export default {
   methods: {},
   async beforeMount() {
     await this.$store.dispatch("initialProductLoad");
+  },
+  created() {
+    if (localStorage.getItem("currentUser")) {
+      this.$store.commit(
+        "setCurrentUser",
+        JSON.parse(localStorage.getItem("currentUser"))
+      );
+      this.$store.commit(
+        "setToken",
+        JSON.parse(localStorage.getItem("userToken"))
+      );
+    }
   }
 };
 </script>
