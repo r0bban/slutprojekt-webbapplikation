@@ -137,13 +137,19 @@ export default new Vuex.Store({
       context.commit("setStoreProducts", newProductList);
     },
     async registerNewProduct(context, newProduct) {
-      const addedProduct = await API.postProductRequest(
-        newProduct,
-        context.state.userToken
-      );
-      if (addedProduct) {
+      try {
+        const addedProduct = await API.postProductRequest(
+          newProduct,
+          context.state.userToken
+        );
         context.commit("addProductToStoreProducts", addedProduct);
+
+
       }
+      catch (error) {
+        console.error(error);
+      }
+
     },
     async getProductById(context, productId) {
       const fetchedProduct = await API.fetchProductById(productId);

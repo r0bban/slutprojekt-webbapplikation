@@ -47,21 +47,34 @@ export default {
 
     },
     async postProductRequest(newProduct, token) {
-        const RequestBody = JSON.stringify(newProduct)
-        let resp = await fetch(api_url + "/products", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
-            },
-            body: RequestBody
-        })
-        if (resp.status == "401") {
-            alert("Du är inte inloggad som admin");
-        } else {
-            const data = await resp.json()
-            return data.product
+        // let result;
+        try {
+            const RequestBody = JSON.stringify(newProduct)
+            let resp = await fetch(api_url + "/products", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                },
+                body: RequestBody
+            })
+            console.log(resp)
+            if (resp.ok) {
+                // alert("Du är inte inloggad som admin");
+                const data = await resp.json()
+                return data.product
+
+            } else {
+                // console.log(resp)
+                // return { success: resp.ok, data: undefined, errorMessage: "Unauthorized" }
+                throw new Error("Kontakt men inte 200");
+            }
+        } catch (error) {
+            //WHAT WEE WANT TO DO UPON NETWORK ERROR....
+            // return { success: false, data: undefined, errorMessage: "Connection Error" }
+            throw new Error(error);
         }
+
     },
 
     async deleteProductById(productId, token) {

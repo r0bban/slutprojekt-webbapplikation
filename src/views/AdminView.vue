@@ -135,7 +135,7 @@ export default {
     deleteProduct(productId) {
       console.log("Deleting product");
       console.log(productId);
-      this.$store.dispatch("deleteProduct", productId);
+      this.$store.dispatch("deleteProductById", productId);
     }
   }
 };
