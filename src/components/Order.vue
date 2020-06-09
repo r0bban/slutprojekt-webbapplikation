@@ -59,6 +59,8 @@ export default {
 <style lang="scss" scoped>
 .order-card {
   margin: 1.2rem;
-
+  background-color: rgba($color: #c7f3f7, $alpha: 0.4);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 }
 </style>
