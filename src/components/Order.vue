@@ -21,7 +21,7 @@
     </div>
 
     <div v-if="this.isExpanded" class="items-list-wrapper">
-      <OrderHistoryArticle v-for="item in orderObject.items" :key="item.id" :orderItem="item"/>
+      <OrderHistoryArticle v-for="item in orderObject.items" :key="item.id" :orderItem="item" />
     </div>
   </article>
 </template>
@@ -52,10 +52,10 @@ export default {
     },
     toggleExpand() {
       this.isExpanded = !this.isExpanded;
-      if(this.isExpanded){
-        this.buttonText = "Dölj artiklar"
-      } else{
-        this.buttonText = "Visa artiklar"
+      if (this.isExpanded) {
+        this.buttonText = "Dölj artiklar";
+      } else {
+        this.buttonText = "Visa artiklar";
       }
     }
   }
@@ -75,12 +75,12 @@ export default {
   justify-content: space-evenly;
   align-items: flex-end;
   .wrapper {
-    .id{
+    .id {
       min-width: 15rem;
     }
   }
 }
-button{
-  padding: 0.2rem
+button {
+  padding: 0.2rem;
 }
 </style>
