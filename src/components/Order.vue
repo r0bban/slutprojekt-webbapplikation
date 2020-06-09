@@ -58,23 +58,7 @@ export default {
 
 <style lang="scss" scoped>
 .order-card {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: flex-start;
+  display: inline-block;
   margin: 1.2rem;
-}
-
-.wrapper {
-  h4 {
-    font-family: "PT Serif", serif;
-    font-weight: 200;
-    font-size: 1rem;
-  }
-
-  span {
-    font-family: "Work Sans", sans-serif;
-    font-size: 0.63rem;
-  }
 }
 </style>

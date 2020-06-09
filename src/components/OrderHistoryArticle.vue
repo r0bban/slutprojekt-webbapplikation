@@ -54,11 +54,11 @@ export default {
 
 <style lang="scss" scoped>
 .order-item {
-  display: inline-flex;
-  margin: 1rem;
+  display: inline-block;
+  margin: 0.4rem;
   background-color: rgba($color: #000000, $alpha: 0.7);
   border-radius: 1rem;
-  padding: 1rem;
+  padding: 0.6rem;
   h4 {
     color: rgb(235, 235, 235);
   }
