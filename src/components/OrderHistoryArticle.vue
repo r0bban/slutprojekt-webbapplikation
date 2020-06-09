@@ -89,6 +89,8 @@ export default {
       right: 0;
       width: 20%;
       height: 20%;
+      background-color: rgba($color: #ffbee9, $alpha: 0.6);
+      border-radius: 0.4rem;
     }
   }
 }
