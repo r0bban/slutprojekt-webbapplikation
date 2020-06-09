@@ -1,5 +1,5 @@
 <template>
-  <form class="register-card-form">
+  <form class="register-card-form" v-on:submit.prevent="updateCard">
     <div class="wrapper card-number">
       <p class="label card-number">KORTNUMMER</p>
       <input
@@ -41,7 +41,7 @@
         />
       </div>
     </div>
-    <button class="dark" v-on:click="updateCard">UPPDATERA</button>
+    <button class="dark">UPPDATERA</button>
   </form>
 </template>
 
@@ -49,7 +49,7 @@
 export default {
   data() {
     return {
-      card: { ...this.userPaymentCard}
+      card: {...this.userPaymentCard}
     };
   },
   props: {
@@ -58,7 +58,7 @@ export default {
   computed: {},
   methods: {
     updateCard() {
-      const updatedCard = { ...this.card};
+      const updatedCard = this.card;
       this.$store.commit("setNewUserPaymentCard", updatedCard);
     },
     routeToHome() {
