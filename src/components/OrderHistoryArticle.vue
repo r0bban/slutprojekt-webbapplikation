@@ -1,5 +1,8 @@
 <template>
   <article class="order-item">
+    <!-- <div class="product-list-container"> -->
+    <!-- <OrderArticle v-for="product in filteredProducts" :key="product._id" :product="product" /> -->
+    <!-- </div> -->
     <div class="wrapper name">
       <div class="item" v-for="myItem in filteredProducts" v-bind:key="myItem._id">
         <div>
@@ -10,7 +13,7 @@
           <h4>Kategori:</h4>
           <p>{{myItem.category}}</p>
         </div>
-                <div>
+        <div>
           <h4>Pris:</h4>
           <p>{{myItem.price}} kr</p>
         </div>
@@ -28,12 +31,16 @@
 </template>
 
 <script>
+// import OrderArticle from "../components/OrderArticle";
 export default {
   data() {
     return {
       item: this.orderItem,
       isExpanded: this.expandMode
     };
+  },
+  components: {
+    // OrderArticle
   },
   methods: {},
   props: {
@@ -54,11 +61,12 @@ export default {
 
 <style lang="scss" scoped>
 .order-item {
-  display: inline-block;
-  margin: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
   background-color: rgba($color: #000000, $alpha: 0.7);
   border-radius: 1rem;
-  padding: 0.6rem;
+  padding: 1rem;
   h4 {
     color: rgb(235, 235, 235);
   }

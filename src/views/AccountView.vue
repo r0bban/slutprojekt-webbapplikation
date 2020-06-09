@@ -66,7 +66,7 @@ export default {
 
 .history {
   align-self: flex-start;
-  justify-content: flex-end;
+  justify-content: center;
   width: 100%;
 }
 </style>

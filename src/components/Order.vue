@@ -58,7 +58,7 @@ export default {
 
 <style lang="scss" scoped>
 .order-card {
-  display: inline-block;
   margin: 1.2rem;
+
 }
 </style>
