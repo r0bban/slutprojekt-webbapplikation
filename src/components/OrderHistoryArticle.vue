@@ -10,6 +10,10 @@
           <h4>Kategori:</h4>
           <p>{{myItem.category}}</p>
         </div>
+                <div>
+          <h4>Pris:</h4>
+          <p>{{myItem.price}} kr</p>
+        </div>
       </div>
       <div>
         <h4>Antal:</h4>
