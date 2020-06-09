@@ -50,9 +50,6 @@ export default {
       this.isExpanded = !this.isExpanded;
     }
   },
-  mounted() {
-    console.log(this.order.items);
-  }
 };
 </script>
 
