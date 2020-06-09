@@ -58,6 +58,31 @@
       <CardForm v-if="!cardIsCollapsed" :userPaymentCard="paymentCard" />
     </section>
 
+    <section class="section-wrapper delivery-address">
+      <div class="section-top">
+        <h2 class="section-heading">Leveransaddress</h2>
+        <button @click="toggleAddressExpand" class="expand-collapse">
+          <p class="action-text">
+            <span v-if="addressIsCollapsed">Expandera</span>
+            <span v-if="!addressIsCollapsed">Minimera</span>
+          </p>
+          <img
+            v-if="addressIsCollapsed"
+            class="icon expand"
+            :src="require('@/assets/expand.svg')"
+            alt
+          />
+          <img
+            v-if="!addressIsCollapsed"
+            class="icon collapse"
+            :src="require('@/assets/collapse.svg')"
+            alt
+          />
+        </button>
+      </div>
+      <DeliveryAddress v-if="!addressIsCollapsed" :userDeliveryAddress="deliveryAddress" />
+    </section>
+
     <button @click="createNewOrder">BUY STUFF</button>
   </div>
 </template>
@@ -67,16 +92,25 @@
 <script>
 import OrderArticle from "../components/OrderArticle";
 import CardForm from "../components/CardForm";
+import DeliveryAddress from "../components/DeliveryAddress";
 export default {
   data() {
     return {
       cartIsCollapsed: true,
       cardIsCollapsed: true,
+      addressIsCollapsed: true,
+      deliveryAddress: {
+        recipient: "",
+        street: "",
+        zip: "",
+        city: ""
+      }
     };
   },
   components: {
     OrderArticle,
-    CardForm
+    CardForm,
+    DeliveryAddress
   },
   computed: {
     cart() {
@@ -88,8 +122,8 @@ export default {
     quantity() {
       return this.$store.state.totalOrderQuantity;
     },
-    paymentCard(){
-      return this.$store.state.paymentCard
+    paymentCard() {
+      return this.$store.state.paymentCard;
     }
   },
   methods: {
@@ -97,7 +131,18 @@ export default {
       this.cartIsCollapsed = !this.cartIsCollapsed;
     },
     toggleCardExpand() {
-      this.cardIsCollapsed = !this.cardIsCollapsed;
+      if (this.$store.state.currentUser.role == "customer") {
+        this.cardIsCollapsed = !this.cardIsCollapsed;
+      } else {
+        this.$store.commit("toggleLogin");
+      }
+    },
+    toggleAddressExpand() {
+      if (this.$store.state.currentUser.role == "customer") {
+        this.addressIsCollapsed = !this.addressIsCollapsed;
+      } else {
+        this.$store.commit("toggleLogin");
+      }
     },
     async createNewOrder() {
       // console.log("Send the API a new order based on the current CART");
@@ -109,7 +154,25 @@ export default {
         this.$store.commit("toggleLogin");
       }
       //RESET THE CURRENT CART AND RETURN TO PRODUCTS OR PURCHASE COMPLETE SCREEN
+    },
+    updateDeliveryAddress(name, address) {
+      let updatedAddress = { ...address };
+      updatedAddress.recipient = name;
+      this.deliveryAddress = { ...updatedAddress };
     }
+  },
+  beforeMount() {
+    this.$store.dispatch("updateUserPaymentCardFromLoggedInUser");
+    this.updateDeliveryAddress(
+      this.$store.state.currentUser.name,
+      this.$store.state.currentUser.adress
+    );
+  },
+  beforeUpdate() {
+    this.updateDeliveryAddress(
+      this.$store.state.currentUser.name,
+      this.$store.state.currentUser.adress
+    );
   }
 };
 </script>
@@ -134,7 +197,8 @@ export default {
     box-sizing: content-box;
     margin: 1rem 0;
 
-    &.payment{
+    &.payment,
+    &.delivery-address {
       background: lightgray;
     }
 

@@ -49,7 +49,7 @@
 export default {
   data() {
     return {
-      card: {...this.userPaymentCard}
+      card: this.userPaymentCard,
     };
   },
   props: {
@@ -58,11 +58,8 @@ export default {
   computed: {},
   methods: {
     updateCard() {
-      const updatedCard = this.card;
+      const updatedCard = {...this.card};
       this.$store.commit("setNewUserPaymentCard", updatedCard);
-    },
-    routeToHome() {
-      this.$router.push({ name: "Home" });
     },
     ccvCodeValidator(event) {
       const incomingValue = event.target.value;
@@ -80,7 +77,8 @@ export default {
         this.card.ValudThru = incomingValue.substring(0, 4);
       }
     }
-  }
+  },
+
 };
 </script>
 

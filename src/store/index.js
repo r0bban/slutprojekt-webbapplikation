@@ -164,8 +164,8 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    updateUserPaymentCardFromLoggedInUser(context, user){  //fake in lack of backend support
-      context.commit('setUserPaymentCard', user)
+    updateUserPaymentCardFromLoggedInUser(context){  //fake in lack of backend support
+      context.commit('setUserPaymentCard', context.state.currentUser)
     },
     async initialProductLoad(context) {
       if (context.state.products.length <= 0) {
@@ -263,7 +263,7 @@ export default new Vuex.Store({
           context.commit("setToken", data.token);
           context.commit("setCurrentUser", data.user);
           context.commit("closeModal");
-          context.dispatch("updateUserPaymentCardFromLoggedInUser", data.user);
+          context.dispatch("updateUserPaymentCardFromLoggedInUser");
         }
       } catch (error) {
         console.log(error);
