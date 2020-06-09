@@ -67,9 +67,10 @@ export default {
 }
 
 .accountView {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background-color: #e0ffdb;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
 }
 
 .history {

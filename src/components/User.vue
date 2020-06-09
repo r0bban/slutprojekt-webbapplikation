@@ -74,7 +74,7 @@ export default {
     return {
       isEditMode: this.editMode,
       currentUser: this.user,
-      newUser: {... this.user}
+      newUser: { ...this.user }
     };
   },
   props: {
@@ -89,12 +89,15 @@ export default {
     submitEdit() {},
     cancelEdit() {
       this.isEditMode = false;
-      this.newUser = {... this.currentUser}
+      this.newUser = { ...this.currentUser };
     }
   }
 };
 </script>
 
 
-<style>
+<style lang='scss' scoped>
+.user-card {
+  // background-color: red;
+}
 </style>
