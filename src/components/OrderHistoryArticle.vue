@@ -17,14 +17,18 @@
           <h4>Pris:</h4>
           <p>{{myItem.price}} kr</p>
         </div>
-      </div>
-      <div>
-        <h4>Antal:</h4>
-        <p>{{item.quantity}}</p>
-      </div>
-      <div>
-        <h4>Artikelnummer:</h4>
-        <p>{{item.id}}</p>
+
+        <div>
+          <h4>Antal:</h4>
+          <p>{{item.quantity}}</p>
+        </div>
+        <div>
+          <h4>Artikelnummer:</h4>
+          <p>{{item.id}}</p>
+        </div>
+        <div class="bigPicture">
+          <img :src="require(`@/assets/${myItem.imgFile}`)" />
+        </div>
       </div>
     </div>
   </article>
@@ -72,6 +76,20 @@ export default {
   }
   p {
     color: rgb(197, 197, 197);
+  }
+  .item {
+    display: grid;
+    grid-template-rows: repeat(5fr);
+    grid-template-columns: 4fr 4fr 4fr 4fr;
+  }
+  .bigPicture {
+    img {
+      align-self: flex-end;
+      position: relative;
+      right: 0;
+      width: 20%;
+      height: 20%;
+    }
   }
 }
 </style>
