@@ -17,11 +17,11 @@
         <h4 class="label status">Status:</h4>
         <p class="data status">{{orderObject.status}}</p>
       </div>
-      <button @click="toggleExpand()">Artiklar</button>
+      <button @click="toggleExpand()">{{buttonText}}</button>
     </div>
 
     <div v-if="this.isExpanded" class="items-list-wrapper">
-      <OrderHistoryArticle v-for="item in orderObject.items" :key="item.id" :orderItem="item" />
+      <OrderHistoryArticle v-for="item in orderObject.items" :key="item.id" :orderItem="item"/>
     </div>
   </article>
 </template>
@@ -36,7 +36,8 @@ export default {
   data() {
     return {
       orderObject: this.order,
-      isExpanded: this.expandMode
+      isExpanded: this.expandMode,
+      buttonText: "Visa artiklar"
     };
   },
   props: {
@@ -51,6 +52,11 @@ export default {
     },
     toggleExpand() {
       this.isExpanded = !this.isExpanded;
+      if(this.isExpanded){
+        this.buttonText = "Dölj artiklar"
+      } else{
+        this.buttonText = "Visa artiklar"
+      }
     }
   }
 };
@@ -68,5 +74,13 @@ export default {
   display: flex;
   justify-content: space-evenly;
   align-items: flex-end;
+  .wrapper {
+    .id{
+      min-width: 15rem;
+    }
+  }
+}
+button{
+  padding: 0.2rem
 }
 </style>

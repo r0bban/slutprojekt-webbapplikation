@@ -68,6 +68,7 @@ export default {
 
 .accountView {
   background-color: #e0ffdb;
+  box-sizing: content-box;
   // display: flex;
   // flex-direction: column;
   // align-items: center;
