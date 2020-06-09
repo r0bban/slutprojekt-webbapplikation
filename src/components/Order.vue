@@ -1,26 +1,24 @@
 <template>
   <article class="order-card">
-
     <div class="wrapper id">
-      <p class="label id">Ordernummer:</p>
-      <p class="data id">{{orderObject._id}}</p>
+      <h4 class="label id">Ordernummer:</h4>
+      <span class="data id">{{orderObject._id}}</span>
     </div>
     <div class="wrapper time">
-      <p class="label time">Orderdatum:</p>
+      <h4 class="label time">Orderdatum:</h4>
       <p class="data time">{{orderObject.timeStamp}}</p>
     </div>
     <div class="wrapper amount">
-      <p class="label quantity">Summa:</p>
+      <h4 class="label quantity">Summa:</h4>
       <p class="data quantity">{{orderObject.orderValue}} kr</p>
     </div>
     <div class="wrapper status">
-      <p class="label status">Status:</p>
+      <h4 class="label status">Status:</h4>
       <p class="data status">{{orderObject.status}}</p>
     </div>
     <button @click="toggleExpand()">Artiklar</button>
     <div v-if="this.isExpanded" class="items-list-wrapper">
       <OrderHistoryArticle v-for="item in orderObject.items" :key="item.id" :orderItem="item" />
-
     </div>
   </article>
 </template>
@@ -60,12 +58,23 @@ export default {
 
 <style lang="scss" scoped>
 .order-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  margin: 1.2rem;
+}
 
-  border: 2px solid black;
-  margin: 0 auto;
-  p {
-    display: inline;
+.wrapper {
+  h4 {
+    font-family: "PT Serif", serif;
+    font-weight: 200;
+    font-size: 1rem;
   }
 
+  span {
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.63rem;
+  }
 }
 </style>

@@ -2,23 +2,23 @@
   <article class="order-item">
     <div class="wrapper name">
       <div class="item" v-for="myItem in filteredProducts" v-bind:key="myItem._id">
-        <div class>
-          <span>Produkt:</span>
-          <span>{{myItem.title}}</span>
+        <div>
+          <h4>Produkt:</h4>
+          <p>{{myItem.title}}</p>
         </div>
         <div>
-          <span>Kategori:</span>
-          <span>{{myItem.category}}</span>
+          <h4>Kategori:</h4>
+          <p>{{myItem.category}}</p>
         </div>
       </div>
-    </div>
-    <div class="wrapper quantity">
-      <p class="label quantity">Antal:</p>
-      <p class="data quantity">{{item.quantity}}</p>
-    </div>
-    <div class="wrapper id">
-      <p class="label id">Artikelnummer:</p>
-      <p class="data id">{{item.id}}</p>
+      <div>
+        <h4>Antal:</h4>
+        <p>{{item.quantity}}</p>
+      </div>
+      <div>
+        <h4>Artikelnummer:</h4>
+        <p>{{item.id}}</p>
+      </div>
     </div>
   </article>
 </template>
@@ -31,6 +31,7 @@ export default {
       isExpanded: this.expandMode
     };
   },
+  methods: {},
   props: {
     orderItem: Object,
     expandMode: Boolean
@@ -49,17 +50,16 @@ export default {
 
 <style lang="scss" scoped>
 .order-item {
-
-  margin-bottom: 1rem;
-  border-radius: 5px;
-  padding: 0 1rem;
-  background: lightpink;
-}
-.label {
-  font-weight: 700;
-}
-.data {
-  margin-left: 1rem;
-
+  display: inline-flex;
+  margin: 1rem;
+  background-color: rgba($color: #000000, $alpha: 0.7);
+  border-radius: 1rem;
+  padding: 1rem;
+  h4 {
+    color: rgb(235, 235, 235);
+  }
+  p {
+    color: rgb(197, 197, 197);
+  }
 }
 </style>
