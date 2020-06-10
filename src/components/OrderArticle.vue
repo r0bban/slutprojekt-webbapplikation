@@ -76,17 +76,16 @@ h2 {
   &.minimized {
     padding-bottom: 1rem;
 
-  .text-wrapper {
-    // flex-grow: 1;
-    max-width: none;
-    margin-right: 2rem;
+    .text-wrapper {
+      // flex-grow: 1;
+      max-width: none;
+      margin-right: 2rem;
 
-    
-    .product-title {
-      display: flex;
-      justify-content: space-between;
+      .product-title {
+        display: flex;
+        justify-content: space-between;
+      }
     }
-  }
   }
 
   &.checkout {

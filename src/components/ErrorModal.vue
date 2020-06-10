@@ -2,7 +2,7 @@
   <div class="errorModal">
     <div class="msgContainer">
       <span class="header">Error Occurred</span>
-      <span class="label">Message:</span>
+      <span class="label">Reason</span>
       <p class="message">{{error}}</p>
     </div>
   </div>
@@ -18,6 +18,7 @@ export default {
 </script>
 <style lang='scss' scoped>
 .errorModal {
+  font-size: 1.8rem;
   position: fixed;
   width: 100%;
   height: 100vh;
@@ -30,22 +31,24 @@ export default {
     box-shadow: 0 0 5px white;
     padding: 1rem;
     width: 30%;
-    min-height: 40%;
     border-radius: 15px;
     background-color: white;
 
     .header {
       display: block;
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: 500;
+      border-bottom: solid 1px black;
     }
     .label {
+      font-size: inherit;
       display: block;
       font-weight: bold;
       margin-right: 0.5rem;
     }
     .message {
       color: red;
+      font-size: inherit;
     }
   }
 }

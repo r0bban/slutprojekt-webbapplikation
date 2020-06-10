@@ -1,6 +1,8 @@
 <template>
   <div class="adminView">
-    <router-view @updateSpecificProduct="updateSpecificProduct" />
+    <transition name="fade">
+      <router-view @updateSpecificProduct="updateSpecificProduct" />
+    </transition>
     <div class="productsArea">
       <div class="header">
         Redigera Produkter
@@ -28,7 +30,7 @@
           class="list-product"
           v-for="product in products"
           :key="product._id"
-          :product="product"
+          :product="local_product(product)"
         />
       </div>
     </div>

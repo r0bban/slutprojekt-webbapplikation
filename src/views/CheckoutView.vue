@@ -117,12 +117,10 @@
       />
     </section>
 
-
     <button @click="createNewOrder" class="place-order" :class="{loading : newOrderLoad}">
       <p v-if="!newOrderLoad">BUY STUFF</p>
       <img v-if="newOrderLoad" class="icon spinner" :src="require('@/assets/spinner.svg')" alt />
     </button>
-
   </div>
 </template>
 
@@ -230,7 +228,9 @@ export default {
         if (this.$store.state.currentUser.role == "customer") {
           this.newOrderLoad = true;
           try {
+            console.log("innan registerNewOrder");
             await this.$store.dispatch("registerNewOrder");
+            console.log("efter registerNewOrder");
 
             setTimeout(() => {
               this.newOrderLoad = false;
@@ -240,7 +240,6 @@ export default {
             console.log(error);
             setTimeout(() => {
               this.newOrderLoad = false;
-
             }, 1000);
           }
         } else {

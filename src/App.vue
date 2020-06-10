@@ -3,10 +3,16 @@
     <Header />
 
     <!-- <ShoppingCart  /> -->
+
     <router-view class="mainContainer" />
+
     <Footer />
-    <ModalComponent v-if="this.$store.state.showModal" />
-    <ErrorModal v-if="this.$store.state.error != undefined" />
+    <transition name="fade">
+      <ModalComponent v-if="this.$store.state.showModal" />
+    </transition>
+    <transition name="fade">
+      <ErrorModal v-if="this.$store.state.error != undefined" />
+    </transition>
   </div>
 </template>
 <script>
@@ -100,13 +106,23 @@ h4 {
 }
 
 .fade-enter-active {
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
 }
 .fade-leave-active {
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
 }
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+.slide-enter-active {
+  transition: all 0.5s ease;
+}
+.slide-leave-active {
+  transition: all 0.5s ease;
+}
+.slide-enter,
+.slide-leave-to {
+  transform: translateX(100%);
 }
 </style>

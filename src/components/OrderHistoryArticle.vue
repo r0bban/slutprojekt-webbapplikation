@@ -3,6 +3,7 @@
     <!-- <div class="product-list-container"> -->
     <!-- <OrderArticle v-for="product in filteredProducts" :key="product._id" :product="product" /> -->
     <!-- </div> -->
+
     <div class="wrapper name">
       <div class="item" v-for="myItem in filteredProducts" v-bind:key="myItem._id">
         <div>

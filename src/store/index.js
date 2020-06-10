@@ -146,9 +146,10 @@ export default new Vuex.Store({
       localStorage.currentUser = JSON.stringify(user);
     },
 
-    setUserPaymentCard(state, user){     //fake in lack of backend support
-      if(user) {
-      state.paymentCard.cardHolderName = user.name
+    setUserPaymentCard(state, user) {
+      //fake in lack of backend support
+      if (user) {
+        state.paymentCard.cardHolderName = user.name;
       }
     },
     setNewUserPaymentCard(state, card) {
@@ -218,10 +219,11 @@ export default new Vuex.Store({
       //fake in lack of backend support
       context.commit("setUserPaymentCard", context.state.currentUser);
     },
-    setCurrentUserAddress(context, newAddress){    //fake due to lack of backend support
-      let updatedUser = {...context.state.currentUser};
+    setCurrentUserAddress(context, newAddress) {
+      //fake due to lack of backend support
+      let updatedUser = { ...context.state.currentUser };
       updatedUser.adress = newAddress;
-      context.commit('setCurrentUser', updatedUser)
+      context.commit("setCurrentUser", updatedUser);
     },
     async initialProductLoad(context) {
       if (context.state.products.length <= 0) {
@@ -284,7 +286,9 @@ export default new Vuex.Store({
             orderItem.quantity = cartArticle.quantity;
             orderRequestBody.items.push(orderItem);
           });
+          console.log("innan postOrderRequest");
           await API.postOrderRequest(orderRequestBody, context.state.userToken);
+          console.log("efter postOrderRequest");
           context.commit("clearCart");
           // await context.dispatch("refreshOrderHistory");
         } else {

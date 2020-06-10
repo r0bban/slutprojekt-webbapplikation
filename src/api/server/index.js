@@ -47,6 +47,7 @@ export default {
         },
         body: RequestBody,
       });
+      console.log(resp);
       if (resp.ok) {
         return { status: resp.ok };
       } else {
@@ -57,6 +58,7 @@ export default {
         } else if (resp.status != "200") {
           throw new Error("Tyvärr kunde inte ordern läggas. Okänt fel.");
         }
+        throw new Error(resp.status);
       }
     } catch (error) {
       throw new Error(error);
