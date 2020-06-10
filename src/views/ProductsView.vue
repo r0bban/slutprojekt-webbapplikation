@@ -8,11 +8,11 @@
         <option value="clothes">Clothes</option>
       </select>
       <div class="priceContainer filterOption">
-        <div>
+        <div class="rowItem">
           <label for>Min Price</label>
           <input type="number" v-model="minPrice" />
         </div>
-        <div>
+        <div class="rowItem">
           <label for>Max Price</label>
           <input type="number" v-model="maxPrice" />
         </div>
@@ -30,7 +30,7 @@
             <span>{{product.price}}</span>
           </div>
           <div class="navigation">
-            <button @click="addToCart(product)">
+            <button v-if="user.role!='admin'" @click="addToCart(product)">
               <img :src="require('@/assets/cartIcon.svg')" alt />
             </button>
           </div>
@@ -55,6 +55,9 @@ export default {
     };
   },
   computed: {
+    user() {
+      return this.$store.state.currentUser;
+    },
     products() {
       let tmp = this.$store.state.products.filter(
         product =>
@@ -69,7 +72,6 @@ export default {
       this.$store.commit("addProductToCart", product);
     },
     goToSingleProduct(productId) {
-      console.log("EM");
       this.$router.push({ name: "Product", params: { id: productId } });
     }
   },
@@ -113,6 +115,14 @@ aside {
   input {
     max-width: 100%;
     margin-right: 0.5rem;
+  }
+
+  @media screen and (max-width: 430px) {
+    flex-direction: column;
+    align-items: flex-start;
+    .rowItem {
+      display: flex;
+    }
   }
 }
 .category {

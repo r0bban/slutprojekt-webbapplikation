@@ -1,5 +1,6 @@
 <template>
   <article class="order-card">
+
     <div class="order-wrapper">
       <div class="wrapper id">
         <h4 class="label id">Ordernummer:</h4>
@@ -18,6 +19,7 @@
         <p class="data status">{{orderObject.status}}</p>
       </div>
       <button @click="toggleExpand()">{{buttonText}}</button>
+
     </div>
 
     <div v-if="this.isExpanded" class="items-list-wrapper">
@@ -58,12 +60,13 @@ export default {
         this.buttonText = "Visa artiklar";
       }
     }
-  }
+
 };
 </script>
 
 <style lang="scss" scoped>
 .order-card {
+
   margin: 1.2rem;
   background-color: rgba($color: #c7f3f7, $alpha: 0.4);
   border-radius: 0.5rem;
@@ -82,5 +85,6 @@ export default {
 }
 button {
   padding: 0.2rem;
+
 }
 </style>

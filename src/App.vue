@@ -6,12 +6,14 @@
     <router-view class="mainContainer" />
     <Footer />
     <ModalComponent v-if="this.$store.state.showModal" />
+    <ErrorModal v-if="this.$store.state.error != undefined" />
   </div>
 </template>
 <script>
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ModalComponent from "./components/ModalComponent";
+import ErrorModal from "./components/ErrorModal";
 export default {
   data() {
     return {};
@@ -19,7 +21,8 @@ export default {
   components: {
     Header,
     Footer,
-    ModalComponent
+    ModalComponent,
+    ErrorModal
   },
   methods: {},
   async beforeCreate() {
