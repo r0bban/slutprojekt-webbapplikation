@@ -61,7 +61,8 @@ export default {
 .add-product {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-auto-rows: 250px;
+  // grid-auto-rows: 250px;
+  // background: crimson;
 
   @media screen and(max-width: 768px) {
     grid-template-columns: unset;
@@ -110,10 +111,10 @@ export default {
     align-items: center;
   }
   .row-component:nth-child(odd) {
-    background-color: rgb(255, 255, 255);
+    // background-color: rgb(255, 255, 255);
   }
   .row-component:nth-child(even) {
-    background-color: rgb(90, 253, 139);
+    // background-color: rgb(90, 253, 139);
   }
   .area-component {
     display: flex;

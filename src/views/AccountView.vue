@@ -38,7 +38,12 @@ export default {
     },
     getLocalStorageUser() {
       return localStorage.getItem("currentUser");
+
+    
+
+
     }
+
   },
   methods: {
     logout() {
