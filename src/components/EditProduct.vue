@@ -53,11 +53,16 @@ export default {
     closeModal() {
       this.$router.push({ name: "Admin" });
     },
-    updateProduct(updatedProduct) {
+    async updateProduct(updatedProduct) {
       console.log("Updating product");
       console.log(updatedProduct);
-      this.$store.dispatch("updateProduct", updatedProduct);
-      this.$router.push({ name: "Admin" });
+      try {
+        await this.$store.dispatch("updateProduct", updatedProduct);
+        this.$emit("updateSpecificProduct", updatedProduct._id);
+        this.$router.push({ name: "Admin" });
+      } catch (error) {
+        console.log(error);
+      }
     },
     deleteProduct(productId) {
       console.log("Deleting product");

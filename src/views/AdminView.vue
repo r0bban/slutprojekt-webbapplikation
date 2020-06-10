@@ -1,14 +1,14 @@
 <template>
   <div class="adminView">
-    <router-view />
+    <router-view @updateSpecificProduct="updateSpecificProduct" />
     <div class="productsArea">
       <span class="header">Edit Products</span>
       <div class="gridTable">
         <AdminProduct
           class="list-product"
-          v-for="product in this.products()"
+          v-for="product in products"
           :key="product._id"
-          :product="local_product(product)"
+          :product="product"
         />
       </div>
       <span class="header">New Product</span>
@@ -30,7 +30,8 @@ import AddProduct from "@/components/AddProduct.vue";
 export default {
   data() {
     return {
-      colorFlag: false
+      colorFlag: false,
+      local_products: []
     };
   },
   components: {
@@ -38,14 +39,25 @@ export default {
     AdminProduct,
     AddProduct
   },
-  computed: {},
-
-  methods: {
+  computed: {
     products() {
       return this.$store.state.products;
-    },
+    }
+  },
+  beforeMount() {
+    this.refreshProducts();
+  },
+  methods: {
     local_product(product) {
       return { ...product };
+    },
+    refreshProducts() {
+      this.local_products = this.$store.state.products;
+    },
+    updateSpecificProduct(id) {
+      let index = this.local_products.findIndex(product => product._id == id);
+      if (index != -1)
+        this.local_products[index] = this.local_product(this.products[index]);
     }
   }
 };

@@ -43,11 +43,16 @@ export default {
   grid-auto-rows: 200px;
   gap: 2rem;
 
+  .spans-fields {
+    overflow: hidden;
+  }
+
   & > * {
     height: 100%;
   }
 
   .label {
+    margin-right: 0.5rem;
     font-size: 1.2rem;
   }
 
@@ -79,6 +84,7 @@ export default {
   .area-component {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     & > span {
       overflow: auto;
       min-height: 80%;

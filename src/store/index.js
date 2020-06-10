@@ -47,10 +47,15 @@ export default new Vuex.Store({
       cardNumber: "5566478865782355",
       cardHolderName: "",
       ValudThru: "1223",
-      ccvVode: "456"
-    }
+      ccvVode: "456",
+    },
   },
   mutations: {
+    setCartObjects(state, cartObject) {
+      state.cart = cartObject.cart;
+      state.totalOrderAmount = cartObject.amount;
+      state.totalOrderQuantity = cartObject.quantity;
+    },
     setLoading(state, value) {
       state.loading = value;
     },
@@ -70,6 +75,14 @@ export default new Vuex.Store({
       }
       state.totalOrderQuantity += 1;
       state.totalOrderAmount += orderArticle.price;
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({
+          cart: state.cart,
+          quantity: state.totalOrderQuantity,
+          amount: state.totalOrderAmount,
+        })
+      );
     },
     reduceQuantOrderProd(state, orderArticle) {
       if (orderArticle.quantity <= 1) {
@@ -82,11 +95,27 @@ export default new Vuex.Store({
       }
       state.totalOrderQuantity -= 1;
       state.totalOrderAmount -= orderArticle.price;
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({
+          cart: state.cart,
+          quantity: state.totalOrderQuantity,
+          amount: state.totalOrderAmount,
+        })
+      );
     },
     increaseQuantOrderProd(state, orderArticle) {
       orderArticle.quantity += 1;
       state.totalOrderQuantity += 1;
       state.totalOrderAmount += orderArticle.price;
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({
+          cart: state.cart,
+          quantity: state.totalOrderQuantity,
+          amount: state.totalOrderAmount,
+        })
+      );
     },
     closeModal(state) {
       state.showModal = false;
@@ -116,10 +145,12 @@ export default new Vuex.Store({
       state.showLogin = false;
       localStorage.currentUser = JSON.stringify(user);
     },
-    setUserPaymentCard(state, user){     //fake in lack of backend support
-      state.paymentCard.cardHolderName = user.name
+    setUserPaymentCard(state, user) {
+      //fake in lack of backend support
+      state.paymentCard.cardHolderName = user.name;
     },
-    setNewUserPaymentCard(state, card){     //fake in lack of backend support
+    setNewUserPaymentCard(state, card) {
+      //fake in lack of backend support
       state.paymentCard = card;
     },
     logout(state) {
@@ -132,6 +163,14 @@ export default new Vuex.Store({
       state.cart = [];
       state.totalOrderAmount = 0;
       state.totalOrderQuantity = 0;
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({
+          cart: state.cart,
+          quantity: state.totalOrderQuantity,
+          amount: state.totalOrderAmount,
+        })
+      );
     },
     setStoreProducts(state, newProductList) {
       state.products = newProductList;
@@ -173,8 +212,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    updateUserPaymentCardFromLoggedInUser(context){  //fake in lack of backend support
-      context.commit('setUserPaymentCard', context.state.currentUser)
+    updateUserPaymentCardFromLoggedInUser(context) {
+      //fake in lack of backend support
+      context.commit("setUserPaymentCard", context.state.currentUser);
     },
     async initialProductLoad(context) {
       if (context.state.products.length <= 0) {
@@ -183,8 +223,10 @@ export default new Vuex.Store({
     },
     async refreshProducts(context) {
       try {
+        context.commit("setLoading", true);
         const newProductList = await API.fetchProducts(context.state.userToken);
         context.commit("setStoreProducts", newProductList);
+        context.commit("setLoading", false);
       } catch (error) {
         console.log(error);
 
@@ -264,10 +306,11 @@ export default new Vuex.Store({
         );
         console.log(updatedProduct);
         context.commit("updateProductInStoreProducts", productToUpdate);
+        // return Promise.resolve("Success");
       } catch (error) {
         console.log(error);
-
         context.commit("setError", error);
+        return Promise.reject("Nåt gick snett!");
       }
     },
     async loginUser(context, payload) {

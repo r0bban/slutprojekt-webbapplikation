@@ -119,6 +119,7 @@ export default {
     display: flex;
     flex-direction: column;
 
+    overflow: auto;
     textarea {
       height: 100%;
       resize: none;

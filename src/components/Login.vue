@@ -4,12 +4,18 @@
       <label for>User Credentials</label>
       <hr />
       <div class="formRow">
-        <label for="username">E-mail</label>
-        <input v-model="creds.email" type="text" id="username" placeholder="epost@snabelapunkt.com" />
+        <label class="label" for="username">E-mail</label>
+        <input
+          class="input"
+          v-model="creds.email"
+          type="text"
+          id="username"
+          placeholder="epost@snabelapunkt.com"
+        />
       </div>
       <div class="formRow">
-        <label for="password">Password</label>
-        <input v-model="creds.password" type="password" id="password" />
+        <label class="label" for="password">Password</label>
+        <input class="input" v-model="creds.password" type="password" id="password" />
       </div>
       <div class="navigationButtons">
         <button @click="loginIn">Sign In</button>
@@ -20,44 +26,44 @@
       <label for>New Account</label>
       <hr />
       <div class="formRow">
-        <label for>Name</label>
-        <input type="text" v-model="newAccount.name" />
+        <label class="label" for>Name</label>
+        <input class="input" type="text" v-model="newAccount.name" />
       </div>
       <div class="formRow">
-        <label for>Email</label>
-        <input type="text" v-model="newAccount.email" />
+        <label class="label" for>Email</label>
+        <input class="input" type="text" v-model="newAccount.email" />
       </div>
       <div class="formRow">
-        <label for>Password</label>
+        <label class="label" for>Password</label>
         <input type="password" v-model="newAccount.password" />
       </div>
       <div class="formRow">
-        <label for>Repeat Password</label>
-        <input type="password" v-model="newAccount.repeatPassword" />
+        <label class="label" for>Repeat Password</label>
+        <input class="input" type="password" v-model="newAccount.repeatPassword" />
       </div>
       <div class="formRow">
-        <label for>Street</label>
-        <input type="text" v-model="newAccount.adress.street" />
+        <label class="label" for>Street</label>
+        <input class="input" type="text" v-model="newAccount.adress.street" />
       </div>
       <div class="formRow">
-        <label for>Zip</label>
-        <input type="number" v-model="newAccount.adress.zip" />
+        <label class="label" for>Zip</label>
+        <input class="input" type="number" v-model="newAccount.adress.zip" />
       </div>
       <div class="formRow">
-        <label for>City</label>
-        <input type="text" v-model="newAccount.adress.city" />
+        <label class="label" for>City</label>
+        <input class="input" type="text" v-model="newAccount.adress.city" />
       </div>
       <div class="formRow">
-        <label for>Cardowner</label>
-        <input type="text" v-model="newAccount.cardOwner" />
+        <label class="label" for>Cardowner</label>
+        <input class="input" type="text" v-model="newAccount.cardOwner" />
       </div>
       <div class="formRow">
-        <label for>CardNumber</label>
-        <input type="number" v-model="newAccount.cardNumber" />
+        <label class="label" for>CardNumber</label>
+        <input class="input" type="number" v-model="newAccount.cardNumber" />
       </div>
       <div class="formRow">
-        <label for>Valid Unitl</label>
-        <input type="date" v-model="newAccount.validUntil" />
+        <label class="label" for>Valid Unitl</label>
+        <input class="input" type="date" v-model="newAccount.validUntil" />
       </div>
       <div class="navigationButtons">
         <button @click="createAccount =false">Back to login</button>
@@ -126,7 +132,7 @@ export default {
 .login {
   border-radius: 10px;
   padding: 1rem;
-  background-color: lightyellow;
+  background-color: white;
   min-width: 40%;
   min-height: 40%;
   overflow: auto;
@@ -135,7 +141,7 @@ export default {
   font-size: 2rem;
   border-radius: 10px;
   padding: 1rem;
-  background-color: lightyellow;
+  background-color: white;
   // width: 30%;
   // min-height: 40%;
   display: flex;
@@ -146,7 +152,10 @@ export default {
     width: 80%;
   }
 
-  input {
+  .input {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid black;
     width: 50%;
     font-size: 1.5rem;
     height: 2rem;
@@ -154,6 +163,7 @@ export default {
   .form > * {
     margin: 1.2rem;
   }
+
   button {
     border: none;
     background-color: none;
@@ -171,5 +181,8 @@ export default {
     display: flex;
     justify-content: space-evenly;
   }
+}
+.label:nth-child(2) {
+  background-color: red;
 }
 </style>

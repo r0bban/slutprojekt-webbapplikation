@@ -25,8 +25,8 @@ export default {
     ErrorModal
   },
   methods: {},
-  async beforeCreate() {
-    await this.$store.dispatch("initialProductLoad");
+  beforeCreate() {
+    this.$store.dispatch("initialProductLoad");
   },
   created() {
     if (localStorage.getItem("currentUser")) {
@@ -38,6 +38,10 @@ export default {
         "setToken",
         JSON.parse(localStorage.getItem("userToken"))
       );
+    }
+    let cart = localStorage.getItem("cart");
+    if (cart != null && cart != undefined) {
+      this.$store.commit("setCartObjects", JSON.parse(cart));
     }
   }
 };

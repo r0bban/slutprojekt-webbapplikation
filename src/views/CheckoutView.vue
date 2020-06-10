@@ -82,7 +82,7 @@
       </div>
       <DeliveryAddress v-if="!addressIsCollapsed" :userDeliveryAddress="deliveryAddress" />
     </section>
-
+    <div v-if="this.$store.state.loading">TESTSETSET</div>
     <button @click="createNewOrder">BUY STUFF</button>
   </div>
 </template>
@@ -145,15 +145,24 @@ export default {
       }
     },
     async createNewOrder() {
-      // console.log("Send the API a new order based on the current CART");
-      if (this.$store.state.currentUser.role == "customer") {
-        await this.$store.dispatch("registerNewOrder");
-        // this.$store.commit("clearCart");
-        this.$router.push({ name: "Products" });
-      } else {
-        this.$store.commit("toggleLogin");
+      if (!this.nonComplete) {
+        if (this.$store.state.currentUser.role == "customer") {
+          this.newOrderLoad = true;
+          try {
+            await this.$store.dispatch("registerNewOrder");
+            // this.$router.push({ name: "Products" });
+            // this.newOrderLoad = false;
+            // this.orderSuccess = true;
+          } catch (error) {
+            console.log(error);
+            setTimeout(() => {
+              // this.newOrderLoad = false;
+            }, 1000);
+          }
+        } else {
+          this.$store.commit("toggleLogin");
+        }
       }
-      //RESET THE CURRENT CART AND RETURN TO PRODUCTS OR PURCHASE COMPLETE SCREEN
     },
     updateDeliveryAddress(name, address) {
       let updatedAddress = { ...address };
