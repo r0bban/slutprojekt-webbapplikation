@@ -1,5 +1,11 @@
 <template>
-  <div class="checkout-wrapper">
+  <div class="checkout-wrapper" :class="{'non-complete' : disabled}">
+    <section v-if="orderSuccess" class="success-wrapper">
+      <article class="success-message-wrapper">
+        <h3 class="success-message">Din order har lagts!</h3>
+        <button @click="routeToMyAccount" class="to-my-account">Till ditt konto</button>
+      </article>
+    </section>
     <h1 class="heading">Utcheckning</h1>
     <section class="section-wrapper">
       <div class="section-top">
@@ -41,6 +47,18 @@
     <section class="section-wrapper payment">
       <div class="section-top">
         <h2 class="section-heading">Betalkort</h2>
+        <img
+          v-if="!paymentCardProvided"
+          class="icon valid-check"
+          :src="require('@/assets/check-not-valid.svg')"
+          alt
+        />
+        <img
+          v-if="paymentCardProvided"
+          class="icon valid-check"
+          :src="require('@/assets/check-valid.svg')"
+          alt
+        />
         <button @click="toggleCardExpand" class="expand-collapse">
           <p class="action-text">
             <span v-if="cardIsCollapsed">Expandera</span>
@@ -61,6 +79,18 @@
     <section class="section-wrapper delivery-address">
       <div class="section-top">
         <h2 class="section-heading">Leveransaddress</h2>
+        <img
+          v-if="!deliveryAddressProvided"
+          class="icon valid-check"
+          :src="require('@/assets/check-not-valid.svg')"
+          alt
+        />
+        <img
+          v-if="deliveryAddressProvided"
+          class="icon valid-check"
+          :src="require('@/assets/check-valid.svg')"
+          alt
+        />
         <button @click="toggleAddressExpand" class="expand-collapse">
           <p class="action-text">
             <span v-if="addressIsCollapsed">Expandera</span>
@@ -80,10 +110,19 @@
           />
         </button>
       </div>
-      <DeliveryAddress v-if="!addressIsCollapsed" :userDeliveryAddress="deliveryAddress" />
+      <DeliveryAddress
+        v-on:update-delivery-address="updateUserAddressToDeliveryAddress"
+        v-if="!addressIsCollapsed"
+        :userDeliveryAddress="deliveryAddress"
+      />
     </section>
-    <div v-if="this.$store.state.loading">TESTSETSET</div>
-    <button @click="createNewOrder">BUY STUFF</button>
+
+
+    <button @click="createNewOrder" class="place-order" :class="{loading : newOrderLoad}">
+      <p v-if="!newOrderLoad">BUY STUFF</p>
+      <img v-if="newOrderLoad" class="icon spinner" :src="require('@/assets/spinner.svg')" alt />
+    </button>
+
   </div>
 </template>
 
@@ -104,7 +143,9 @@ export default {
         street: "",
         zip: "",
         city: ""
-      }
+      },
+      newOrderLoad: false,
+      orderSuccess: false
     };
   },
   components: {
@@ -113,6 +154,23 @@ export default {
     DeliveryAddress
   },
   computed: {
+    currentUser() {
+      return this.$store.state.currentUser;
+    },
+    disabled() {
+      if (this.orderSuccess || this.nonComplete) {
+        return true;
+      } else return false;
+    },
+    nonComplete() {
+      if (
+        this.cart.length > 0 &&
+        this.paymentCardProvided &&
+        this.deliveryAddressProvided
+      ) {
+        return false;
+      } else return true;
+    },
     cart() {
       return this.$store.state.cart;
     },
@@ -124,9 +182,32 @@ export default {
     },
     paymentCard() {
       return this.$store.state.paymentCard;
+    },
+    paymentCardProvided() {
+      if (
+        this.paymentCard.cardNumber.length == 16 &&
+        this.paymentCard.cardHolderName.length > 1 &&
+        this.paymentCard.ValudThru.length == 4 &&
+        this.paymentCard.ccvVode.length == 3
+      ) {
+        return true;
+      } else return false;
+    },
+    deliveryAddressProvided() {
+      if (
+        this.deliveryAddress.recipient &&
+        this.deliveryAddress.street &&
+        this.deliveryAddress.zip.length >= 5 &&
+        this.deliveryAddress.city
+      ) {
+        return true;
+      } else return false;
     }
   },
   methods: {
+    routeToMyAccount() {
+      this.$router.push({ name: "Account" });
+    },
     toggleCartExpand() {
       this.cartIsCollapsed = !this.cartIsCollapsed;
     },
@@ -150,13 +231,16 @@ export default {
           this.newOrderLoad = true;
           try {
             await this.$store.dispatch("registerNewOrder");
-            // this.$router.push({ name: "Products" });
-            // this.newOrderLoad = false;
-            // this.orderSuccess = true;
+
+            setTimeout(() => {
+              this.newOrderLoad = false;
+              this.orderSuccess = true;
+            }, 1000);
           } catch (error) {
             console.log(error);
             setTimeout(() => {
-              // this.newOrderLoad = false;
+              this.newOrderLoad = false;
+
             }, 1000);
           }
         } else {
@@ -164,29 +248,31 @@ export default {
         }
       }
     },
-    updateDeliveryAddress(name, address) {
+    setDeliveryAddress(name, address) {
       let updatedAddress = { ...address };
       updatedAddress.recipient = name;
       this.deliveryAddress = { ...updatedAddress };
+    },
+    updateUserAddressToDeliveryAddress() {
+      this.$store.dispatch("setCurrentUserAddress", this.deliveryAddress);
     }
   },
   beforeMount() {
     this.$store.dispatch("updateUserPaymentCardFromLoggedInUser");
-    this.updateDeliveryAddress(
-      this.$store.state.currentUser.name,
-      this.$store.state.currentUser.adress
-    );
+    this.setDeliveryAddress(this.currentUser.name, this.currentUser.adress);
   },
-  beforeUpdate() {
-    this.updateDeliveryAddress(
-      this.$store.state.currentUser.name,
-      this.$store.state.currentUser.adress
-    );
+  watch: {
+    currentUser(newUser, oldUser) {
+      if (!oldUser && newUser) {
+        this.setDeliveryAddress(this.currentUser.name, this.currentUser.adress);
+      }
+    }
   }
 };
 </script>
 <style lang='scss' scoped>
 .checkout-wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   margin: 2rem auto;
@@ -196,6 +282,50 @@ export default {
   height: min-content;
   padding: 2rem;
   box-sizing: content-box;
+
+  &.non-complete {
+    button.place-order {
+      background-color: lightgray;
+      color: darkgrey;
+    }
+  }
+
+  .success-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.178);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .success-message-wrapper {
+      width: 50%;
+      min-width: 300px;
+      background: #e0ffdb;
+      // border: 1px solid black;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      min-height: 270px;
+      padding: 3rem;
+      border-radius: 10px;
+
+      .success-message {
+        text-align: center;
+      }
+      button.to-my-account {
+        white-space: nowrap;
+        border: none;
+        border-radius: 15px;
+        background-color: white;
+        padding: 0.4rem 1rem;
+      }
+    }
+  }
 
   .heading {
     text-align: center;
@@ -213,12 +343,13 @@ export default {
 
     .section-top {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
 
       .section-heading {
         font-size: 1.5rem;
         // border-bottom: 1px solid black;
         margin-bottom: 0.5rem;
+        flex-grow: 1;
       }
 
       .expand-collapse {
@@ -227,6 +358,8 @@ export default {
         border: 0;
         height: min-content;
         padding: 0.3rem 1rem;
+        margin-left: 2rem;
+        min-width: 10rem;
 
         .action-text {
           margin-right: 0.5rem;
@@ -251,6 +384,31 @@ export default {
       span {
         font-weight: bolder;
       }
+    }
+  }
+
+  button.place-order {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    margin-top: 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: lightblue;
+    padding: 0.4rem 1rem;
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.315);
+    font-weight: 100;
+    font-size: 1.35rem;
+    color: rgb(66, 66, 66);
+    height: 3rem;
+
+    &.loading {
+      background-color: lightgray;
+    }
+
+    img.spinner {
+      margin: 0;
     }
   }
 }

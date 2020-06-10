@@ -51,17 +51,15 @@ export default {
         return { status: resp.ok };
       } else {
         if (resp.status == "401") {
-          throw new Error("Unauthorized");
+          throw new Error("Ej aktoriserad");
         } else if (resp.status == "400") {
-          // alert("Formatfel i inskickad order.");
-          throw new Error("Bad Format");
+          throw new Error("Formatfel i inskickad order.");
         } else if (resp.status != "200") {
-          //   alert("Tyvärr kunde inte ordern läggas");
-          throw new Error("Server Issues");
+          throw new Error("Tyvärr kunde inte ordern läggas. Okänt fel.");
         }
       }
     } catch (error) {
-      throw new Error("Connection Error");
+      throw new Error(error);
     }
   },
   async postProductRequest(newProduct, token) {

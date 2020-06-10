@@ -145,9 +145,11 @@ export default new Vuex.Store({
       state.showLogin = false;
       localStorage.currentUser = JSON.stringify(user);
     },
-    setUserPaymentCard(state, user) {
-      //fake in lack of backend support
-      state.paymentCard.cardHolderName = user.name;
+
+    setUserPaymentCard(state, user){     //fake in lack of backend support
+      if(user) {
+      state.paymentCard.cardHolderName = user.name
+      }
     },
     setNewUserPaymentCard(state, card) {
       //fake in lack of backend support
@@ -216,6 +218,11 @@ export default new Vuex.Store({
       //fake in lack of backend support
       context.commit("setUserPaymentCard", context.state.currentUser);
     },
+    setCurrentUserAddress(context, newAddress){    //fake due to lack of backend support
+      let updatedUser = {...context.state.currentUser};
+      updatedUser.adress = newAddress;
+      context.commit('setCurrentUser', updatedUser)
+    },
     async initialProductLoad(context) {
       if (context.state.products.length <= 0) {
         await context.dispatch("refreshProducts");
@@ -279,12 +286,13 @@ export default new Vuex.Store({
           });
           await API.postOrderRequest(orderRequestBody, context.state.userToken);
           context.commit("clearCart");
-          await context.dispatch("refreshOrderHistory");
+          // await context.dispatch("refreshOrderHistory");
         } else {
           console.log("Attempt to place order, but cart is empty");
         }
       } catch (error) {
         context.commit("setError", error);
+        return Promise.reject("Failed to register new order! Reason:" + error);
       }
     },
     async refreshOrderHistory(context) {

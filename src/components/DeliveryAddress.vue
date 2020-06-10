@@ -1,11 +1,11 @@
 <template>
-  <form class="delivery-address-form" v-on:submit.prevent="updateDeliveryAddress">
+  <form class="delivery-address-form" v-on:submit.prevent="$emit('update-delivery-address')">
     <div class="wrapper recipient">
       <p class="label recipient">BESTÄLLARE</p>
       <input
         class="data recipient"
         type="text"
-        v-model="deliveryAddress.recipient"
+        v-model="userDeliveryAddress.recipient"
         placeholder="Förnamn Efternamn"
         maxlength="23"
       />
@@ -16,7 +16,7 @@
       <input
         class="data street"
         type="text"
-        v-model="deliveryAddress.street"
+        v-model="userDeliveryAddress.street"
         placeholder="Gatunamn + Nummer"
       />
     </div>
@@ -27,13 +27,13 @@
         <input
           class="data zip"
           type="text"
-          v-model="deliveryAddress.zip"
+          v-model="userDeliveryAddress.zip"
           @input="zipValidator"
         />
       </div>
       <div class="wrapper city">
         <p class="label city">POSTORT</p>
-        <input class="data street" type="text" v-model="deliveryAddress.city" />
+        <input class="data city" type="text" v-model="userDeliveryAddress.city" />
       </div>
     </div>
     <button class="dark">UPPDATERA</button>
@@ -44,7 +44,7 @@
 export default {
   data() {
     return {
-      deliveryAddress: this.userDeliveryAddress
+    //   deliveryAddress: this.userDeliveryAddress
     };
   },
   props: {
@@ -52,16 +52,16 @@ export default {
   },
   computed: {},
   methods: {
-    updateCard() {
-      const updatedCard = { ...this.card };
-      this.$store.commit("setNewUserPaymentCard", updatedCard);
-    },
+    // updateCard() {
+    //   const updatedCard = { ...this.card };
+    //   this.$store.commit("setNewUserPaymentCard", updatedCard);
+    // },
     zipValidator(event) {
       const incomingValue = event.target.value;
-      if (this.deliveryAddress.zip.length < 6) {
-        this.deliveryAddress.zip = incomingValue;
+      if (this.userDeliveryAddress.zip.length < 6) {
+        this.userDeliveryAddress.zip = incomingValue;
       } else {
-        this.deliveryAddress.zip = incomingValue.substring(0, 5);
+        this.userDeliveryAddress.zip = incomingValue.substring(0, 5);
       }
     }
   },
