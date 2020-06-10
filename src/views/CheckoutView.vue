@@ -1,9 +1,9 @@
 <template>
   <div class="checkout-wrapper" :class="{'non-complete' : disabled}">
-    <section v-if="orderSuccess" class="sucess-wrapper">
-      <article class="sucess-message-wrapper">
-        <h2 class="sucess-message">Din order har lagts!</h2>
-        <button :click="routeToMyAccount" class="to-my-account">Till ditt konto</button>
+    <section v-if="orderSuccess" class="success-wrapper">
+      <article class="success-message-wrapper">
+        <h3 class="success-message">Din order har lagts!</h3>
+        <button @click="routeToMyAccount" class="to-my-account">Till ditt konto</button>
       </article>
     </section>
     <h1 class="heading">Utcheckning</h1>
@@ -47,6 +47,18 @@
     <section class="section-wrapper payment">
       <div class="section-top">
         <h2 class="section-heading">Betalkort</h2>
+        <img
+          v-if="!paymentCardProvided"
+          class="icon valid-check"
+          :src="require('@/assets/check-not-valid.svg')"
+          alt
+        />
+        <img
+          v-if="paymentCardProvided"
+          class="icon valid-check"
+          :src="require('@/assets/check-valid.svg')"
+          alt
+        />
         <button @click="toggleCardExpand" class="expand-collapse">
           <p class="action-text">
             <span v-if="cardIsCollapsed">Expandera</span>
@@ -67,6 +79,18 @@
     <section class="section-wrapper delivery-address">
       <div class="section-top">
         <h2 class="section-heading">Leveransaddress</h2>
+        <img
+          v-if="!deliveryAddressProvided"
+          class="icon valid-check"
+          :src="require('@/assets/check-not-valid.svg')"
+          alt
+        />
+        <img
+          v-if="deliveryAddressProvided"
+          class="icon valid-check"
+          :src="require('@/assets/check-valid.svg')"
+          alt
+        />
         <button @click="toggleAddressExpand" class="expand-collapse">
           <p class="action-text">
             <span v-if="addressIsCollapsed">Expandera</span>
@@ -128,10 +152,13 @@ export default {
     DeliveryAddress
   },
   computed: {
-    disabled(){
-      if(this.orderSuccess || this.nonComplete) {
-        return true
-      } else return false
+    currentUser() {
+      return this.$store.state.currentUser;
+    },
+    disabled() {
+      if (this.orderSuccess || this.nonComplete) {
+        return true;
+      } else return false;
     },
     nonComplete() {
       if (
@@ -176,8 +203,8 @@ export default {
     }
   },
   methods: {
-    routeToMyAccount(){
-this.$router.push({ name: "Account" });
+    routeToMyAccount() {
+      this.$router.push({ name: "Account" });
     },
     toggleCartExpand() {
       this.cartIsCollapsed = !this.cartIsCollapsed;
@@ -202,9 +229,10 @@ this.$router.push({ name: "Account" });
           this.newOrderLoad = true;
           try {
             await this.$store.dispatch("registerNewOrder");
-            // this.$router.push({ name: "Products" });
-            this.newOrderLoad = false;
-            this.orderSuccess = true;
+            setTimeout(() => {
+              this.newOrderLoad = false;
+              this.orderSuccess = true;
+            }, 1000);
           } catch (error) {
             console.log(error);
             setTimeout(() => {
@@ -227,17 +255,15 @@ this.$router.push({ name: "Account" });
   },
   beforeMount() {
     this.$store.dispatch("updateUserPaymentCardFromLoggedInUser");
-    this.setDeliveryAddress(
-      this.$store.state.currentUser.name,
-      this.$store.state.currentUser.adress
-    );
+    this.setDeliveryAddress(this.currentUser.name, this.currentUser.adress);
+  },
+  watch: {
+    currentUser(newUser, oldUser) {
+      if (!oldUser && newUser) {
+        this.setDeliveryAddress(this.currentUser.name, this.currentUser.adress);
+      }
+    }
   }
-  // beforeUpdate() {
-  //   this.updateDeliveryAddress(
-  //     this.$store.state.currentUser.name,
-  //     this.$store.state.currentUser.adress
-  //   );
-  // }
 };
 </script>
 <style lang='scss' scoped>
@@ -253,7 +279,14 @@ this.$router.push({ name: "Account" });
   padding: 2rem;
   box-sizing: content-box;
 
-  .sucess-wrapper {
+  &.non-complete {
+    button.place-order {
+      background-color: lightgray;
+      color: darkgrey;
+    }
+  }
+
+  .success-wrapper {
     position: absolute;
     top: 0;
     left: 0;
@@ -264,27 +297,29 @@ this.$router.push({ name: "Account" });
     justify-content: center;
     align-items: center;
 
-    .sucess-message-wrapper {
-      width: 500%;
+    .success-message-wrapper {
+      width: 50%;
       min-width: 300px;
-      background: whitesmoke;
-      border: 1px solid black;
+      background: #e0ffdb;
+      // border: 1px solid black;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      min-height: 270px;
+      padding: 3rem;
+      border-radius: 10px;
 
-      .sucess-message {
-        .to-my-account {
-          white-space: nowrap;
-          border: none;
-          border-radius: 15px;
-          background-color: white;
-          padding: 0.4rem 1rem;
-        }
+      .success-message {
+        text-align: center;
       }
-    }
-  }
-  &.non-complete {
-    button.place-order {
-      background-color: lightgray;
-      color: darkgrey;
+      button.to-my-account {
+        white-space: nowrap;
+        border: none;
+        border-radius: 15px;
+        background-color: white;
+        padding: 0.4rem 1rem;
+      }
     }
   }
 
@@ -304,12 +339,13 @@ this.$router.push({ name: "Account" });
 
     .section-top {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
 
       .section-heading {
         font-size: 1.5rem;
         // border-bottom: 1px solid black;
         margin-bottom: 0.5rem;
+        flex-grow: 1;
       }
 
       .expand-collapse {
@@ -318,6 +354,8 @@ this.$router.push({ name: "Account" });
         border: 0;
         height: min-content;
         padding: 0.3rem 1rem;
+        margin-left: 2rem;
+        min-width: 10rem;
 
         .action-text {
           margin-right: 0.5rem;

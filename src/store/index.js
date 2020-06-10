@@ -108,7 +108,9 @@ export default new Vuex.Store({
       localStorage.currentUser = JSON.stringify(user);
     },
     setUserPaymentCard(state, user){     //fake in lack of backend support
+      if(user) {
       state.paymentCard.cardHolderName = user.name
+      }
     },
     setNewUserPaymentCard(state, card){     //fake in lack of backend support
       state.paymentCard = card;
@@ -230,7 +232,7 @@ export default new Vuex.Store({
           });
           await API.postOrderRequest(orderRequestBody, context.state.userToken);
           context.commit("clearCart");
-          await context.dispatch("refreshOrderHistory");
+          // await context.dispatch("refreshOrderHistory");
         } else {
           console.log("Attempt to place order, but cart is empty");
         }
