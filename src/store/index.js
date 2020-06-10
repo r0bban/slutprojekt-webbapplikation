@@ -167,6 +167,11 @@ export default new Vuex.Store({
     updateUserPaymentCardFromLoggedInUser(context){  //fake in lack of backend support
       context.commit('setUserPaymentCard', context.state.currentUser)
     },
+    setCurrentUserAddress(context, newAddress){    //fake due to lack of backend support
+      let updatedUser = {...context.state.currentUser};
+      updatedUser.adress = newAddress;
+      context.commit('setCurrentUser', updatedUser)
+    },
     async initialProductLoad(context) {
       if (context.state.products.length <= 0) {
         await context.dispatch("refreshProducts");
@@ -231,6 +236,7 @@ export default new Vuex.Store({
         }
       } catch (error) {
         context.commit("setError", error);
+        return Promise.reject("Failed to register new order! Reason:" + error);
       }
     },
     async refreshOrderHistory(context) {

@@ -1,5 +1,11 @@
 <template>
-  <div class="checkout-wrapper">
+  <div class="checkout-wrapper" :class="{'non-complete' : disabled}">
+    <section v-if="orderSuccess" class="sucess-wrapper">
+      <article class="sucess-message-wrapper">
+        <h2 class="sucess-message">Din order har lagts!</h2>
+        <button :click="routeToMyAccount" class="to-my-account">Till ditt konto</button>
+      </article>
+    </section>
     <h1 class="heading">Utcheckning</h1>
     <section class="section-wrapper">
       <div class="section-top">
@@ -80,19 +86,16 @@
           />
         </button>
       </div>
-      <DeliveryAddress v-if="!addressIsCollapsed" :userDeliveryAddress="deliveryAddress" />
+      <DeliveryAddress
+        v-on:update-delivery-address="updateUserAddressToDeliveryAddress"
+        v-if="!addressIsCollapsed"
+        :userDeliveryAddress="deliveryAddress"
+      />
     </section>
 
-    <button
-    @click="createNewOrder"
-    class="place-order">
-      BUY STUFF
-      <img
-        v-if="newOrderLoad"
-        class="icon spinner"
-        :src="require('@/assets/spinner.svg')"
-        alt
-      />
+    <button @click="createNewOrder" class="place-order" :class="{loading : newOrderLoad}">
+      <p v-if="!newOrderLoad">BUY STUFF</p>
+      <img v-if="newOrderLoad" class="icon spinner" :src="require('@/assets/spinner.svg')" alt />
     </button>
   </div>
 </template>
@@ -115,7 +118,8 @@ export default {
         zip: "",
         city: ""
       },
-      newOrderLoad: true
+      newOrderLoad: false,
+      orderSuccess: false
     };
   },
   components: {
@@ -124,6 +128,20 @@ export default {
     DeliveryAddress
   },
   computed: {
+    disabled(){
+      if(this.orderSuccess || this.nonComplete) {
+        return true
+      } else return false
+    },
+    nonComplete() {
+      if (
+        this.cart.length > 0 &&
+        this.paymentCardProvided &&
+        this.deliveryAddressProvided
+      ) {
+        return false;
+      } else return true;
+    },
     cart() {
       return this.$store.state.cart;
     },
@@ -135,9 +153,32 @@ export default {
     },
     paymentCard() {
       return this.$store.state.paymentCard;
+    },
+    paymentCardProvided() {
+      if (
+        this.paymentCard.cardNumber.length == 16 &&
+        this.paymentCard.cardHolderName.length > 1 &&
+        this.paymentCard.ValudThru.length == 4 &&
+        this.paymentCard.ccvVode.length == 3
+      ) {
+        return true;
+      } else return false;
+    },
+    deliveryAddressProvided() {
+      if (
+        this.deliveryAddress.recipient &&
+        this.deliveryAddress.street &&
+        this.deliveryAddress.zip.length >= 5 &&
+        this.deliveryAddress.city
+      ) {
+        return true;
+      } else return false;
     }
   },
   methods: {
+    routeToMyAccount(){
+this.$router.push({ name: "Account" });
+    },
     toggleCartExpand() {
       this.cartIsCollapsed = !this.cartIsCollapsed;
     },
@@ -156,39 +197,52 @@ export default {
       }
     },
     async createNewOrder() {
-      // console.log("Send the API a new order based on the current CART");
-      if (this.$store.state.currentUser.role == "customer") {
-        await this.$store.dispatch("registerNewOrder");
-        // this.$store.commit("clearCart");
-        this.$router.push({ name: "Products" });
-      } else {
-        this.$store.commit("toggleLogin");
+      if (!this.nonComplete) {
+        if (this.$store.state.currentUser.role == "customer") {
+          this.newOrderLoad = true;
+          try {
+            await this.$store.dispatch("registerNewOrder");
+            // this.$router.push({ name: "Products" });
+            this.newOrderLoad = false;
+            this.orderSuccess = true;
+          } catch (error) {
+            console.log(error);
+            setTimeout(() => {
+              this.newOrderLoad = false;
+            }, 1000);
+          }
+        } else {
+          this.$store.commit("toggleLogin");
+        }
       }
-      //RESET THE CURRENT CART AND RETURN TO PRODUCTS OR PURCHASE COMPLETE SCREEN
     },
-    updateDeliveryAddress(name, address) {
+    setDeliveryAddress(name, address) {
       let updatedAddress = { ...address };
       updatedAddress.recipient = name;
       this.deliveryAddress = { ...updatedAddress };
+    },
+    updateUserAddressToDeliveryAddress() {
+      this.$store.dispatch("setCurrentUserAddress", this.deliveryAddress);
     }
   },
   beforeMount() {
     this.$store.dispatch("updateUserPaymentCardFromLoggedInUser");
-    this.updateDeliveryAddress(
-      this.$store.state.currentUser.name,
-      this.$store.state.currentUser.adress
-    );
-  },
-  beforeUpdate() {
-    this.updateDeliveryAddress(
+    this.setDeliveryAddress(
       this.$store.state.currentUser.name,
       this.$store.state.currentUser.adress
     );
   }
+  // beforeUpdate() {
+  //   this.updateDeliveryAddress(
+  //     this.$store.state.currentUser.name,
+  //     this.$store.state.currentUser.adress
+  //   );
+  // }
 };
 </script>
 <style lang='scss' scoped>
 .checkout-wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   margin: 2rem auto;
@@ -198,6 +252,41 @@ export default {
   height: min-content;
   padding: 2rem;
   box-sizing: content-box;
+
+  .sucess-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.178);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .sucess-message-wrapper {
+      width: 500%;
+      min-width: 300px;
+      background: whitesmoke;
+      border: 1px solid black;
+
+      .sucess-message {
+        .to-my-account {
+          white-space: nowrap;
+          border: none;
+          border-radius: 15px;
+          background-color: white;
+          padding: 0.4rem 1rem;
+        }
+      }
+    }
+  }
+  &.non-complete {
+    button.place-order {
+      background-color: lightgray;
+      color: darkgrey;
+    }
+  }
 
   .heading {
     text-align: center;
@@ -256,7 +345,10 @@ export default {
     }
   }
 
-    button.place-order {
+  button.place-order {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     white-space: nowrap;
     margin-top: 10px;
     border: none;
@@ -267,6 +359,15 @@ export default {
     font-weight: 100;
     font-size: 1.35rem;
     color: rgb(66, 66, 66);
+    height: 3rem;
+
+    &.loading {
+      background-color: lightgray;
+    }
+
+    img.spinner {
+      margin: 0;
+    }
   }
 }
 </style>
