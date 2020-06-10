@@ -6,12 +6,14 @@
     <router-view class="mainContainer" />
     <Footer />
     <ModalComponent v-if="this.$store.state.showModal" />
+    <ErrorModal v-if="this.$store.state.error != undefined" />
   </div>
 </template>
 <script>
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ModalComponent from "./components/ModalComponent";
+import ErrorModal from "./components/ErrorModal";
 export default {
   data() {
     return {};
@@ -19,11 +21,12 @@ export default {
   components: {
     Header,
     Footer,
-    ModalComponent
+    ModalComponent,
+    ErrorModal
   },
   methods: {},
-  async beforeCreate() {
-    await this.$store.dispatch("initialProductLoad");
+  beforeCreate() {
+    this.$store.dispatch("initialProductLoad");
   },
   created() {
     if (localStorage.getItem("currentUser")) {
@@ -35,6 +38,10 @@ export default {
         "setToken",
         JSON.parse(localStorage.getItem("userToken"))
       );
+    }
+    let cart = localStorage.getItem("cart");
+    if (cart != null && cart != undefined) {
+      this.$store.commit("setCartObjects", JSON.parse(cart));
     }
   }
 };

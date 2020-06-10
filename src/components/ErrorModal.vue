@@ -18,9 +18,9 @@ export default {
 </script>
 <style lang='scss' scoped>
 .errorModal {
-  position: absolute;
+  position: fixed;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: rgba($color: #000000, $alpha: 0.7);
   display: flex;
   justify-content: center;

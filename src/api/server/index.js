@@ -106,7 +106,7 @@ export default {
       },
     });
     if (resp.ok) {
-      alert("Produkt raderad!");
+      return;
     } else {
       let msg = "";
       if (resp.status == "401") {
@@ -114,6 +114,8 @@ export default {
       } else {
         msg = resp.status;
       }
+      // console.log(1);
+      // console.error(msg);
       throw new Error(msg);
     }
   },
@@ -158,8 +160,8 @@ export default {
       return resp.json();
     } else if (resp.status == "401") {
       throw new Error("Unauthorized");
-    } else if (resp.status == "400") {
-      throw new Error("Bad formatting");
+    } else if (resp.status == "404") {
+      throw new Error("Bad URI");
     } else {
       throw new Error("Server Issues");
     }

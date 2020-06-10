@@ -117,10 +117,12 @@
       />
     </section>
 
+
     <button @click="createNewOrder" class="place-order" :class="{loading : newOrderLoad}">
       <p v-if="!newOrderLoad">BUY STUFF</p>
       <img v-if="newOrderLoad" class="icon spinner" :src="require('@/assets/spinner.svg')" alt />
     </button>
+
   </div>
 </template>
 
@@ -229,6 +231,7 @@ export default {
           this.newOrderLoad = true;
           try {
             await this.$store.dispatch("registerNewOrder");
+
             setTimeout(() => {
               this.newOrderLoad = false;
               this.orderSuccess = true;
@@ -237,6 +240,7 @@ export default {
             console.log(error);
             setTimeout(() => {
               this.newOrderLoad = false;
+
             }, 1000);
           }
         } else {

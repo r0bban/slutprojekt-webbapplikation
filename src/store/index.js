@@ -18,10 +18,12 @@ export default new Vuex.Store({
     totalOrderAmount: 0,
 
     showModal: false,
-    showError: false,
     showCart: false,
     showLogin: false,
     error: undefined,
+    editProduct: {},
+
+    loading: true,
 
     newProduct: {
       title: "Roberts produkt",
@@ -45,10 +47,22 @@ export default new Vuex.Store({
       cardNumber: "5566478865782355",
       cardHolderName: "",
       ValudThru: "1223",
-      ccvVode: "456"
-    }
+      ccvVode: "456",
+    },
   },
   mutations: {
+    setCartObjects(state, cartObject) {
+      state.cart = cartObject.cart;
+      state.totalOrderAmount = cartObject.amount;
+      state.totalOrderQuantity = cartObject.quantity;
+    },
+    setLoading(state, value) {
+      state.loading = value;
+    },
+    setEditProduct(state, value) {
+      state.editProduct = value;
+    },
+
     addProductToCart(state, orderArticle) {
       const currIndex = state.cart.findIndex(
         (product) => product._id == orderArticle._id
@@ -61,6 +75,14 @@ export default new Vuex.Store({
       }
       state.totalOrderQuantity += 1;
       state.totalOrderAmount += orderArticle.price;
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({
+          cart: state.cart,
+          quantity: state.totalOrderQuantity,
+          amount: state.totalOrderAmount,
+        })
+      );
     },
     reduceQuantOrderProd(state, orderArticle) {
       if (orderArticle.quantity <= 1) {
@@ -73,18 +95,34 @@ export default new Vuex.Store({
       }
       state.totalOrderQuantity -= 1;
       state.totalOrderAmount -= orderArticle.price;
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({
+          cart: state.cart,
+          quantity: state.totalOrderQuantity,
+          amount: state.totalOrderAmount,
+        })
+      );
     },
     increaseQuantOrderProd(state, orderArticle) {
       orderArticle.quantity += 1;
       state.totalOrderQuantity += 1;
       state.totalOrderAmount += orderArticle.price;
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({
+          cart: state.cart,
+          quantity: state.totalOrderQuantity,
+          amount: state.totalOrderAmount,
+        })
+      );
     },
     closeModal(state) {
-      (state.showModal = false),
-        (state.showLogin = false),
-        (state.showCart = false),
-        (state.showError = false);
+      state.showModal = false;
+      state.showLogin = false;
+      state.showCart = false;
     },
+
     toggleCart(state) {
       state.showCart = !state.showCart;
       state.showModal = !state.showModal;
@@ -93,8 +131,8 @@ export default new Vuex.Store({
       state.showLogin = !state.showLogin;
       state.showModal = !state.showModal;
     },
-    toggleErrorModal(state) {
-      state.showLogin = !state.showLogin;
+
+    toggleModal(state) {
       state.showModal = !state.showModal;
     },
     setToken(state, token) {
@@ -107,12 +145,14 @@ export default new Vuex.Store({
       state.showLogin = false;
       localStorage.currentUser = JSON.stringify(user);
     },
+
     setUserPaymentCard(state, user){     //fake in lack of backend support
       if(user) {
       state.paymentCard.cardHolderName = user.name
       }
     },
-    setNewUserPaymentCard(state, card){     //fake in lack of backend support
+    setNewUserPaymentCard(state, card) {
+      //fake in lack of backend support
       state.paymentCard = card;
     },
     logout(state) {
@@ -125,6 +165,14 @@ export default new Vuex.Store({
       state.cart = [];
       state.totalOrderAmount = 0;
       state.totalOrderQuantity = 0;
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({
+          cart: state.cart,
+          quantity: state.totalOrderQuantity,
+          amount: state.totalOrderAmount,
+        })
+      );
     },
     setStoreProducts(state, newProductList) {
       state.products = newProductList;
@@ -152,8 +200,8 @@ export default new Vuex.Store({
       }
     },
     setError(state, error) {
-      state.error = error.message;
-      console.log(error.message);
+      state.error = error;
+      // console.log(error.message);
       setTimeout(() => {
         state.error = undefined;
       }, 2000);
@@ -166,8 +214,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    updateUserPaymentCardFromLoggedInUser(context){  //fake in lack of backend support
-      context.commit('setUserPaymentCard', context.state.currentUser)
+    updateUserPaymentCardFromLoggedInUser(context) {
+      //fake in lack of backend support
+      context.commit("setUserPaymentCard", context.state.currentUser);
     },
     setCurrentUserAddress(context, newAddress){    //fake due to lack of backend support
       let updatedUser = {...context.state.currentUser};
@@ -181,10 +230,13 @@ export default new Vuex.Store({
     },
     async refreshProducts(context) {
       try {
+        context.commit("setLoading", true);
         const newProductList = await API.fetchProducts(context.state.userToken);
         context.commit("setStoreProducts", newProductList);
+        context.commit("setLoading", false);
       } catch (error) {
         console.log(error);
+
         context.commit("setError", error);
       }
     },
@@ -197,6 +249,7 @@ export default new Vuex.Store({
         context.commit("addProductToStoreProducts", addedProduct);
       } catch (error) {
         console.error(error);
+
         context.commit("setError", error);
       }
     },
@@ -214,7 +267,8 @@ export default new Vuex.Store({
         await API.deleteProductById(productId, context.state.userToken);
         context.commit("removeProductFromStateProductsById", productId);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
+
         context.commit("setError", error);
       }
     },
@@ -248,7 +302,7 @@ export default new Vuex.Store({
         );
         context.commit("setStoreOrderHistory", fetchedOrderHistory);
       } catch (error) {
-        console.log(error);
+        context.commit("setError", error);
       }
     },
     async updateProduct(context, productToUpdate) {
@@ -260,8 +314,11 @@ export default new Vuex.Store({
         );
         console.log(updatedProduct);
         context.commit("updateProductInStoreProducts", productToUpdate);
+        // return Promise.resolve("Success");
       } catch (error) {
         console.log(error);
+        context.commit("setError", error);
+        return Promise.reject("Nåt gick snett!");
       }
     },
     async loginUser(context, payload) {
@@ -274,19 +331,20 @@ export default new Vuex.Store({
           context.dispatch("updateUserPaymentCardFromLoggedInUser");
         }
       } catch (error) {
-        console.log(error);
         context.commit("setError", error);
       }
     },
     async createNewUser(context, payload) {
-      const data = await APIauth.createNewUser(payload);
-      if (data) {
-        context.dispatch("loginUser", {
-          email: payload.email,
-          password: payload.password,
-        });
-        // context.commit("setToken", data.token);
-        // context.commit("setCurrentUser", data.user);
+      try {
+        const data = await APIauth.createNewUser(payload);
+        if (data) {
+          context.dispatch("loginUser", {
+            email: payload.email,
+            password: payload.password,
+          });
+        }
+      } catch (error) {
+        context.commit("setError", error);
       }
     },
     logout(context) {

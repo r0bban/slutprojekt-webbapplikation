@@ -29,34 +29,40 @@
     </div>
     <div v-if="currentUser.adress" class="wrapper address">
       <div v-if="currentUser.adress.street" class="wrapper street">
+
         <h4 class="label street">Gatuaddress</h4>
         <p v-if="!isEditMode" class="data name">{{currentUser.adress.street}}</p>
         <input
           v-if="isEditMode"
           class="data street"
           v-model="newUser.adress.street"
+
           type="text"
           :disabled="!isEditMode"
         />
       </div>
       <div v-if="currentUser.adress.zip" class="wrapper zip">
+
         <h4 class="label zip">Postkod</h4>
         <p v-if="!isEditMode" class="data name">{{currentUser.adress.zip}}</p>
         <input
           v-if="isEditMode"
           class="data zip"
           v-model="newUser.adress.zip"
+
           type="number"
           :disabled="!isEditMode"
         />
       </div>
       <div v-if="currentUser.adress.city" class="wrapper city">
+
         <h4 class="label city">Stad</h4>
         <p v-if="!isEditMode" class="data name">{{currentUser.adress.city}}</p>
         <input
           v-if="isEditMode"
           class="data city"
           v-model="newUser.adress.city"
+
           type="text"
           :disabled="!isEditMode"
         />

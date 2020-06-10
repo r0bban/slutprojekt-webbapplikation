@@ -8,17 +8,17 @@
         <option value="clothes">Clothes</option>
       </select>
       <div class="priceContainer filterOption">
-        <div>
+        <div class="rowItem">
           <label for>Min Price</label>
           <input type="number" v-model="minPrice" />
         </div>
-        <div>
+        <div class="rowItem">
           <label for>Max Price</label>
           <input type="number" v-model="maxPrice" />
         </div>
       </div>
     </aside>
-    <section class="articles">
+    <section v-if="!this.$store.state.loading" class="articles">
       <article v-for="product in products" :key="product._id" class="listProduct">
         <div class="imgSmall" @click="goToSingleProduct(product._id)">
           <img :src="require(`@/assets/${product.imgFile}`)" alt />
@@ -30,7 +30,7 @@
             <span>{{product.price}}</span>
           </div>
           <div class="navigation">
-            <button @click="addToCart(product)">
+            <button v-if="user.role!='admin'" @click="addToCart(product)">
               <img :src="require('@/assets/cartIcon.svg')" alt />
             </button>
           </div>
@@ -55,6 +55,9 @@ export default {
     };
   },
   computed: {
+    user() {
+      return this.$store.state.currentUser;
+    },
     products() {
       let tmp = this.$store.state.products.filter(
         product =>
@@ -69,10 +72,9 @@ export default {
       this.$store.commit("addProductToCart", product);
     },
     goToSingleProduct(productId) {
-      console.log("EM");
       this.$router.push({ name: "Product", params: { id: productId } });
     }
-  },
+  }
   // created(){
   //   this.maxPrice = this.$store.state.products.reduce((acc, curr) => acc.price + curr.price, 0)
   // }
@@ -104,9 +106,7 @@ aside {
     margin-right: 1rem;
   }
 }
-.filterOption {
-  // border: solid 1px blueviolet;
-}
+
 .priceContainer {
   display: flex;
   label,
@@ -114,28 +114,38 @@ aside {
     max-width: 100%;
     margin-right: 0.5rem;
   }
+
+  @media screen and (max-width: 430px) {
+    flex-direction: column;
+    align-items: flex-start;
+    .rowItem {
+      display: flex;
+    }
+  }
 }
-.category {
-}
+
 .articles {
   padding: 1rem;
   background-color: #e0ffdb;
   gap: 1rem;
-  display: flex;
-  flex-flow: row wrap;
-  // grid-template-columns: repeat(3, 1fr);
-  // grid-auto-rows: 30%;
-  overflow: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  @media screen and(max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media screen and(max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+  overflow: hidden;
+  word-break: break-all;
 }
 .listProduct {
   margin: 0.5rem;
   display: grid;
   grid-template-rows: 4fr 1fr;
-  // background-color: rosybrown;
-  // & > *:nth-child(2) {
-  //   flex-grow: 1;
-  //   background-color: seagreen;
-  // }
+  overflow: hidden;
+  word-break: break-all;
 }
 
 .imgSmall {
@@ -144,21 +154,21 @@ aside {
   align-items: center;
   background-color: #fff4f4;
   margin-bottom: 1rem;
-  // width: 100px;
+
   width: 100%;
   img {
     max-width: 200px;
-    // height: 100%;
-    // object-fit: contain;
   }
 }
 .productInfo {
   display: flex;
   justify-content: space-between;
+  overflow: hidden;
 
   .static {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
   .navigation {
     display: flex;

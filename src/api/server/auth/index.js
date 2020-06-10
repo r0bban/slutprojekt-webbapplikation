@@ -14,7 +14,7 @@ async function authorizeUser(payload) {
     );
 
     const data = await response.json();
-    console.log(response);
+
     if (response.ok) {
       return data;
     } else {
@@ -46,7 +46,7 @@ async function createNewUser(payload) {
       throw new Error("Email already in use");
     }
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
   }
 }
 
