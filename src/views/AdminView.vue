@@ -8,7 +8,7 @@
           class="list-product"
           v-for="product in products"
           :key="product._id"
-          :product="product"
+          :product="local_product(product)"
         />
       </div>
       <span class="header">New Product</span>
