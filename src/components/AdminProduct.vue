@@ -76,10 +76,10 @@ export default {
     align-items: center;
   }
   .row-component:nth-child(odd) {
-    background-color: rgb(255, 255, 255);
+    // background-color: rgb(255, 255, 255);
   }
   .row-component:nth-child(even) {
-    background-color: rgb(90, 253, 139);
+    // background-color: rgb(90, 253, 139);
   }
   .area-component {
     display: flex;
@@ -97,10 +97,12 @@ export default {
   }
 
   .edit-button {
-    border-radius: 10px;
-    border: none;
-    padding: 0.5rem;
-    background-color: rgb(90, 253, 139);
+    white-space: nowrap;
+      border: none;
+      border-radius: 15px;
+      background-color: white;
+      padding: 0.4rem 1rem;
+      
 
     &:hover {
       background-color: rgb(189, 183, 183);

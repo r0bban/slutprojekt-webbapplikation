@@ -96,6 +96,7 @@ h4 {
   margin: 0 auto;
   width: 80%;
   max-width: 1440px;
+  min-width: min-content;
 }
 
 .fade-enter-active {

@@ -3,7 +3,7 @@ import Vuex from "vuex";
 
 import API from "@/api/server";
 import * as APIauth from "@/api/server/auth";
-import account from "@/store/modules/account.js";
+// import account from "@/store/modules/account.js";
 
 Vue.use(Vuex);
 
@@ -352,5 +352,5 @@ export default new Vuex.Store({
     },
   },
 
-  modules: { account },
+  // modules: { account },
 });
