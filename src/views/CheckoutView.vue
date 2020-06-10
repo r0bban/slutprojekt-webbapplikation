@@ -83,7 +83,17 @@
       <DeliveryAddress v-if="!addressIsCollapsed" :userDeliveryAddress="deliveryAddress" />
     </section>
 
-    <button @click="createNewOrder">BUY STUFF</button>
+    <button
+    @click="createNewOrder"
+    class="place-order">
+      BUY STUFF
+      <img
+        v-if="newOrderLoad"
+        class="icon spinner"
+        :src="require('@/assets/spinner.svg')"
+        alt
+      />
+    </button>
   </div>
 </template>
 
@@ -104,7 +114,8 @@ export default {
         street: "",
         zip: "",
         city: ""
-      }
+      },
+      newOrderLoad: true
     };
   },
   components: {
@@ -243,6 +254,19 @@ export default {
         font-weight: bolder;
       }
     }
+  }
+
+    button.place-order {
+    white-space: nowrap;
+    margin-top: 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: lightblue;
+    padding: 0.4rem 1rem;
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.315);
+    font-weight: 100;
+    font-size: 1.35rem;
+    color: rgb(66, 66, 66);
   }
 }
 </style>
