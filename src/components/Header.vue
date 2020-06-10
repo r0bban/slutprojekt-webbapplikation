@@ -37,6 +37,7 @@
         <button @click="toggleLogin" class="log-in-log-out" v-if="!user">Logga in</button>
         <button @click="logOff" class="log-in-log-out" v-else>Logga ut</button>
       </div>
+
       <p v-if="user.role=='customer'">
         Inloggad som
         <span class="user-name">{{user.name}}</span>

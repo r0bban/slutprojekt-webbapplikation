@@ -1,20 +1,23 @@
 <template>
   <div class="productsView">
     <aside>
-      <select name="category" v-model="category" class="filterOption">
-        <option value>All</option>
-        <option value="board">Boards</option>
-        <option value="wheels">Wheels</option>
-        <option value="clothes">Clothes</option>
-      </select>
-      <div class="priceContainer filterOption">
+      <div class="rowItem">
+        <label for>Category</label>
+        <select class="filterOption filterHandler" name="category" v-model="category">
+          <option value>All</option>
+          <option value="board">Boards</option>
+          <option value="wheels">Wheels</option>
+          <option value="clothes">Clothes</option>
+        </select>
+      </div>
+      <div class="priceContainer">
         <div class="rowItem">
           <label for>Min Price</label>
-          <input type="number" v-model="minPrice" />
+          <input class="filterHandler" type="number" v-model="minPrice" />
         </div>
         <div class="rowItem">
           <label for>Max Price</label>
-          <input type="number" v-model="maxPrice" />
+          <input class="filterHandler" type="number" v-model="maxPrice" />
         </div>
       </div>
     </aside>
@@ -110,7 +113,8 @@ aside {
 .priceContainer {
   display: flex;
   label,
-  input {
+  input,
+  select {
     max-width: 100%;
     margin-right: 0.5rem;
   }
@@ -118,12 +122,13 @@ aside {
   @media screen and (max-width: 430px) {
     flex-direction: column;
     align-items: flex-start;
-    .rowItem {
-      display: flex;
-    }
   }
 }
 
+.rowItem {
+  display: flex;
+  flex-direction: column;
+}
 .articles {
   padding: 1rem;
   background-color: #e0ffdb;
@@ -149,6 +154,9 @@ aside {
 }
 
 .imgSmall {
+  border-radius: 5px;
+  border: solid 1px black;
+  box-shadow: 0 0 10px gray;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -164,20 +172,20 @@ aside {
   display: flex;
   justify-content: space-between;
   overflow: hidden;
+  word-break: initial;
 
   .static {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: inherit;
   }
   .navigation {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    & > * {
-      // margin: 0.5rem;
-      min-height: 50px;
-    }
+    margin: 0.5rem;
   }
+}
+.filterHandler {
+  padding: 0.2rem;
+  border-radius: 5px;
+  border: none;
 }
 </style>

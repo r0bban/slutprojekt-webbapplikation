@@ -1,6 +1,8 @@
 <template>
   <div class="adminView">
-    <router-view @updateSpecificProduct="updateSpecificProduct" />
+    <transition name="fade">
+      <router-view @updateSpecificProduct="updateSpecificProduct" />
+    </transition>
     <div class="productsArea">
       <span class="header">Edit Products</span>
       <div class="gridTable">

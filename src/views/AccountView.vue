@@ -38,9 +38,6 @@ export default {
     },
     getLocalStorageUser() {
       return localStorage.getItem("currentUser");
-    },
-    myOrders() {
-      return this.$store.state.account.myOrders;
     }
   },
   methods: {
