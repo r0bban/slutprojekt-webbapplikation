@@ -85,7 +85,6 @@ export default new Vuex.Store({
     closeModal(state) {
       state.showModal = false;
       state.showLogin = false;
-      state.showError = false;
       state.showCart = false;
     },
 
@@ -97,9 +96,7 @@ export default new Vuex.Store({
       state.showLogin = !state.showLogin;
       state.showModal = !state.showModal;
     },
-    toggleErrorModal(state) {
-      state.showError = !state.showError;
-    },
+
     toggleModal(state) {
       state.showModal = !state.showModal;
     },

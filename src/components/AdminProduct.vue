@@ -40,6 +40,7 @@ export default {
 .adminProduct {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: 200px;
   gap: 2rem;
 
   & > * {
@@ -78,8 +79,8 @@ export default {
   .area-component {
     display: flex;
     flex-direction: column;
-
     & > span {
+      overflow: auto;
       min-height: 80%;
       background-color: white;
       border-radius: 10px;
@@ -103,7 +104,7 @@ export default {
 
   @media screen and(max-width: 768px) {
     grid-template-columns: unset;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 200px 200px;
     grid-template-columns: 1fr 1fr;
     .spans-fields {
       grid-area: 1/1/2/3;
@@ -117,9 +118,3 @@ export default {
   }
 }
 </style>
-_id: '39y7gbbZk1u4ABnv',
-    title: 'Gretas Fury',
-    price: 999,
-    shortDesc: 'Unisex',
-    longDesc: 'Skate ipsum dolor sit amet...',
-    imgFile: 'skateboard-greta.png'

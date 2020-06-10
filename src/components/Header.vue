@@ -9,16 +9,10 @@
           class="toolbox"
           :class="{customer : (user.role == undefined) || (user.role == 'customer'), admin : user.role == 'admin'}"
         >
-          <button
-            v-if="this.$route.name ==  'Products'  || this.$route.name == 'Admin' ||  this.$route.name ==  'Product'"
-            @click="goToAccount"
-            class="toolbox-button account"
-          >
+          <button @click="goToAccount" class="toolbox-button account">
             <img class="icon" :src="require('@/assets/userIcon.svg')" alt />
           </button>
-          <button v-else @click="goToProducts" class="toolbox-button admin-toggle">
-            <img class="icon preview" :src="require('@/assets/preview2.svg')" alt />
-          </button>
+
           <!-- <button @click="goToFavorites" class="toolbox-button favourites">
             <img class="icon" :src="require('@/assets/heartIcon.svg')" alt />
           </button>-->
