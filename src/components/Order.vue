@@ -1,6 +1,5 @@
 <template>
   <article class="order-card">
-
     <div class="wrapper id">
       <p class="label id">Ordernummer:</p>
       <p class="data id">{{orderObject._id}}</p>
@@ -20,7 +19,6 @@
     <button @click="toggleExpand()">Artiklar</button>
     <div v-if="this.isExpanded" class="items-list-wrapper">
       <OrderHistoryArticle v-for="item in orderObject.items" :key="item.id" :orderItem="item" />
-
     </div>
   </article>
 </template>
@@ -53,19 +51,17 @@ export default {
     }
   },
   mounted() {
-    console.log(this.order.items);
+    // console.log(this.order.items);
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .order-card {
-
   border: 2px solid black;
   margin: 0 auto;
   p {
     display: inline;
   }
-
 }
 </style>

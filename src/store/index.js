@@ -18,10 +18,12 @@ export default new Vuex.Store({
     totalOrderAmount: 0,
 
     showModal: false,
-    showError: false,
     showCart: false,
     showLogin: false,
     error: undefined,
+    editProduct: {},
+
+    loading: true,
 
     newProduct: {
       title: "Roberts produkt",
@@ -43,6 +45,13 @@ export default new Vuex.Store({
     userToken: "",
   },
   mutations: {
+    setLoading(state, value) {
+      state.loading = value;
+    },
+    setEditProduct(state, value) {
+      state.editProduct = value;
+    },
+
     addProductToCart(state, orderArticle) {
       const currIndex = state.cart.findIndex(
         (product) => product._id == orderArticle._id
@@ -74,11 +83,12 @@ export default new Vuex.Store({
       state.totalOrderAmount += orderArticle.price;
     },
     closeModal(state) {
-      (state.showModal = false),
-        (state.showLogin = false),
-        (state.showCart = false),
-        (state.showError = false);
+      state.showModal = false;
+      state.showLogin = false;
+      state.showError = false;
+      state.showCart = false;
     },
+
     toggleCart(state) {
       state.showCart = !state.showCart;
       state.showModal = !state.showModal;
@@ -88,7 +98,9 @@ export default new Vuex.Store({
       state.showModal = !state.showModal;
     },
     toggleErrorModal(state) {
-      state.showLogin = !state.showLogin;
+      state.showError = !state.showError;
+    },
+    toggleModal(state) {
       state.showModal = !state.showModal;
     },
     setToken(state, token) {
@@ -138,8 +150,8 @@ export default new Vuex.Store({
       }
     },
     setError(state, error) {
-      state.error = error.message;
-      console.log(error.message);
+      state.error = error;
+      // console.log(error.message);
       setTimeout(() => {
         state.error = undefined;
       }, 2000);
@@ -163,6 +175,7 @@ export default new Vuex.Store({
         context.commit("setStoreProducts", newProductList);
       } catch (error) {
         console.log(error);
+
         context.commit("setError", error);
       }
     },
@@ -175,6 +188,7 @@ export default new Vuex.Store({
         context.commit("addProductToStoreProducts", addedProduct);
       } catch (error) {
         console.error(error);
+
         context.commit("setError", error);
       }
     },
@@ -192,7 +206,8 @@ export default new Vuex.Store({
         await API.deleteProductById(productId, context.state.userToken);
         context.commit("removeProductFromStateProductsById", productId);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
+
         context.commit("setError", error);
       }
     },
@@ -225,7 +240,7 @@ export default new Vuex.Store({
         );
         context.commit("setStoreOrderHistory", fetchedOrderHistory);
       } catch (error) {
-        console.log(error);
+        context.commit("setError", error);
       }
     },
     async updateProduct(context, productToUpdate) {
@@ -239,6 +254,8 @@ export default new Vuex.Store({
         context.commit("updateProductInStoreProducts", productToUpdate);
       } catch (error) {
         console.log(error);
+
+        context.commit("setError", error);
       }
     },
     async loginUser(context, payload) {
@@ -250,19 +267,20 @@ export default new Vuex.Store({
           context.commit("closeModal");
         }
       } catch (error) {
-        console.log(error);
         context.commit("setError", error);
       }
     },
     async createNewUser(context, payload) {
-      const data = await APIauth.createNewUser(payload);
-      if (data) {
-        context.dispatch("loginUser", {
-          email: payload.email,
-          password: payload.password,
-        });
-        // context.commit("setToken", data.token);
-        // context.commit("setCurrentUser", data.user);
+      try {
+        const data = await APIauth.createNewUser(payload);
+        if (data) {
+          context.dispatch("loginUser", {
+            email: payload.email,
+            password: payload.password,
+          });
+        }
+      } catch (error) {
+        context.commit("setError", error);
       }
     },
     logout(context) {

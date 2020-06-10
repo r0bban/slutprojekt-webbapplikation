@@ -60,6 +60,7 @@
         <input type="date" v-model="newAccount.validUntil" />
       </div>
       <div class="navigationButtons">
+        <button @click="createAccount =false">Back to login</button>
         <button @click="createNewAccount">Create New Account</button>
       </div>
     </div>
@@ -106,9 +107,16 @@ export default {
     },
     createNewAccount() {
       console.log("Create new account");
-      if (this.newAccount.password == this.newAccount.repeatPassword)
+      if (
+        this.newAccount.password == this.newAccount.repeatPassword &&
+        this.newAccount.email.length > 0 &&
+        this.newAccount.name.length > 0 &&
+        this.newAccount.password > 0
+      )
         this.$store.dispatch("createNewUser", this.newAccount);
-      else alert("Password does not match");
+      else {
+        this.$store.commit("setError", "Name, Email and Password is required!");
+      }
       // this.$store.dispatch("registerNewProduct", this.$store.state.newProduct)
     }
   }

@@ -15,15 +15,30 @@
     <div v-if="currentUser.adress" class="wrapper address">
       <div v-if="currentUser.adress.street" class="wrapper street">
         <p class="label street">Gatuaddress</p>
-        <input class="data street" v-model="currentUser.adress.street" type="text" :disabled="!isEditMode" />
+        <input
+          class="data street"
+          v-model="currentUser.adress.street"
+          type="text"
+          :disabled="!isEditMode"
+        />
       </div>
       <div v-if="currentUser.adress.zip" class="wrapper zip">
         <p class="label zip">Postkod</p>
-        <input class="data zip" v-model="currentUser.adress.zip" type="number" :disabled="!isEditMode" />
+        <input
+          class="data zip"
+          v-model="currentUser.adress.zip"
+          type="number"
+          :disabled="!isEditMode"
+        />
       </div>
       <div v-if="currentUser.adress.city" class="wrapper city">
         <p class="label city">Stad</p>
-        <input class="data city" v-model="currentUser.adress.city" type="text" :disabled="!isEditMode" />
+        <input
+          class="data city"
+          v-model="currentUser.adress.city"
+          type="text"
+          :disabled="!isEditMode"
+        />
       </div>
     </div>
   </article>
