@@ -1,6 +1,6 @@
 # Slutprojekt - Utveckling av Webbapplikationer och Agil utveckling
 
-OBS! Använd denna backend: https://github.com/r0bban/slutprojekt-backend.git
+OBS! Använd denna backend: https://github.com/r0bban/slutprojekt-webbapplikation-backend
 
 ## Arbetssätt
 
